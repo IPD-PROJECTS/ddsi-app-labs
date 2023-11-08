@@ -1,0 +1,19 @@
+<div
+  class="layout-sidebar"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+>
+  <a [routerLink]="['/']" class="app-logo">
+    <img src="assets/layout/images/IP_DAKAR.png" height="60px" alt="" />
+
+    <button
+      class="layout-sidebar-anchor p-link"
+      type="button"
+      (click)="anchor()"
+    ></button>
+  </a>
+
+  <div class="layout-menu-container">
+    <app-menu></app-menu>
+  </div>
+</div>
