@@ -1,0 +1,12 @@
+.text-error {
+    color: red;
+  }
+.plate-preview {
+    background-color: #f0f0f0;
+    ::ng-deep .p-button {
+        padding: 0.75rem;
+        width: inherit;
+    }
+    .item {
+    }
+}
