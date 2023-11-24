@@ -1,0 +1,36 @@
+<p-toast></p-toast>
+<div class="card">
+    <!-- <span class="text-900 text-xl font-bold mb-4 block"> {{editMode ? 'Edit' : 'Add'}} Patient</span> -->
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+        <div class="col-12">
+            <div class="grid formgrid p-fluid">
+                <!-- <div *ngIf="editMode" class="field mb-4 col-12">
+                    <label for="anon_name" class="font-medium text-900">Anon Name</label>
+                    <input id="anon_name" [readOnly]="true" formControlName="anon_name" [disabled]="editMode" type="text" pInputText>
+                </div> -->
+
+
+                <div class="field mb-4 col-12">
+                    <label for="firstname" class="font-medium text-900">Firstname</label>
+                    <input id="firstname" formControlName="firstname" type="text" pInputText>
+                </div>
+                <div class="field mb-4 col-12">
+                    <label for="lastname" class="font-medium text-900">Lastname</label>
+                    <input id="lastname" formControlName="lastname" type="text" pInputText>
+                </div>
+                <div class="field mb-4 col-12">
+                    <label for="sexe" class="font-medium text-900">Genre (Masculin/Feminin)</label>
+                    <p-dropdown formControlName="sexe" [options]="sexes" placeholder="Select a genre"></p-dropdown>
+                </div>
+                <div class="field mb-4 col-12">
+                    <label for="birthdate" class="font-medium text-900">BirthDate</label>
+			        <p-calendar appendTo="body" formControlName="birthdate" [showIcon]="true" [dateFormat]="'dd-mm-yy'" styleClass="calendar"></p-calendar>
+                </div>
+
+                <div class="col-12">
+                    <button [loading]="isLoading" pButton pRipple label="Submit" class="w-auto mt-3"></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

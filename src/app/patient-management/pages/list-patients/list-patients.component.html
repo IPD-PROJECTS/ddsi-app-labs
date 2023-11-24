@@ -1,0 +1,109 @@
+<p-toast></p-toast>
+<div class="col-12">
+  <div class="card">
+    <h5>List Patients</h5>
+    <p-table
+      [resizableColumns]="true"
+      #dt1
+      [value]="listPatient"
+      dataKey="id"
+      [rows]="10"
+      [loading]="loading"
+      [rowHover]="true"
+      styleClass="p-datatable-gridlines"
+      [paginator]="true"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex justify-content-between flex-wrap">
+          <span class="p-input-icon-left mb-2">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              #filter
+              (input)="onGlobalFilter(dt1, $event)"
+              placeholder="Search"
+              class="w-full"
+            />
+          </span>
+          <button
+            pButton
+            label="Add Patient"
+            icon="pi pi-plus"
+            (click)="addPatient()"
+            class="mb-2"
+          ></button>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th pResizableColumn>
+            <div class="flex justify-content-between align-items-center">
+              ID
+            </div>
+          </th>
+          <th pResizableColumn [pSortableColumn]="TABLE_COLUMN.FIRSTNAME">
+            <div class="flex justify-content-between align-items-center">
+              Firstname
+              <p-sortIcon [field]="TABLE_COLUMN.FIRSTNAME"></p-sortIcon>
+            </div>
+          </th>
+          <th pResizableColumn [pSortableColumn]="TABLE_COLUMN.LASTNAME">
+            <div class="flex justify-content-between align-items-center">
+              Lastname <p-sortIcon [field]="TABLE_COLUMN.LASTNAME"></p-sortIcon>
+            </div>
+          </th>
+
+          <th pResizableColumn>
+            <div class="flex justify-content-between align-items-center">
+              Birthdate
+            </div>
+          </th>
+          <th pResizableColumn>
+            <div class="flex justify-content-between align-items-center">
+              Actions
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-patient>
+        <tr>
+          <td>
+            {{ patient.id }}
+          </td>
+
+          <td>
+            {{ patient.firstname }}
+          </td>
+          <td>
+            {{ patient.lastname }}
+          </td>
+          <td>
+            {{ patient.birthdate | date : 'dd/MM/yyyy' }}
+          </td>
+          <td >
+            <div class='flex gap-2'>
+                <button pButton pRipple type="button" icon="pi pi-pencil-v"
+                        class="p-button-rounded p-button-text z-3 ml-auto sm:ml-0"  (click)="onEditItem(patient)" label="Editer"></button>
+                        <p-confirmPopup defaultFocus="reject" ></p-confirmPopup>
+                        <button pButton pRipple type="button" icon="pi pi-pencil-v"
+                        class="p-button-rounded p-button-text z-3 ml-auto sm:ml-0" (click)="onDeleteItem($event, patient)" label="Supprimer"></button>
+                        <!-- <button pButton class="p-button-secondary p-button-outlined" type="button" (click)="menu.toggle($event)" icon="pi pi-cog"></button> -->
+              </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8">No customers found.</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="loadingbody">
+        <tr>
+          <td colspan="8">Loading customers data. Please wait.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

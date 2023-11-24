@@ -18,7 +18,7 @@ export class AppMenuComponent implements OnInit {
     this.model = [
       {
         label: 'Plate Workspace',
-        icon: 'pi pi-home',
+        icon: 'pi pi-cog',
         items: [
           {
             label: 'Summary',
@@ -32,62 +32,63 @@ export class AppMenuComponent implements OnInit {
               {
                 label: 'List Plate Type',
                 icon: 'pi pi-fw pi-list',
-                routerLink:[ '/plates/list-type']
+                routerLink:[ '/plates/list-plate-type']
               },
               {
                 label: 'Create Plate Type',
                 icon: 'pi pi-fw pi-plus',
-                routerLink:[ '/plates/list-type'],
+                routerLink:[ '/plates/create-plate-type'],
                 state: { type: 'ADD'}
               },
               {
                 label: 'List Plate plan',
                 icon: 'pi pi-fw pi-plus',
-                routerLink:[ '/plates/list-plan'],
+                routerLink:[ '/plates/list-plate-plan'],
               },
               {
                 label: 'Create Plate plan',
                 icon: 'pi pi-fw pi-plus',
-                routerLink:[ '/plates/list-plan'],
+                routerLink:[ '/plates/list-plate-plan'],
                 state: { type: 'ADD'}
               }
             ]
           },
           {
             label: 'Patient Management',
-            icon: 'pi pi-fw pi-list',
+            icon: 'pi pi-fw pi-user',
             routerLink: ['/plates/patients'],
             items: [
               {
-                label: 'Add patient',
-                icon: 'pi pi-fw pi-plus',
+                label: 'List patients',
+                icon: 'pi pi-fw pi-list',
+                routerLink: ['/plates/patients/list']
               }
           ]
           },
           {
             label: 'Create Plate Plan',
-            icon: 'pi pi-fw pi-list',
+            icon: 'pi pi-fw pi-building',
             routerLink: ['/plates/plates-patients']
           }
         ],
       },
 
-      {
-        label: 'User Management',
-        icon: 'pi pi-fw pi-user',
-        items: [
-          {
-            label: 'List',
-            icon: 'pi pi-fw pi-list',
-            routerLink: ['profile/list'],
-          },
-          {
-            label: 'Create',
-            icon: 'pi pi-fw pi-plus',
-            routerLink: ['profile/create'],
-          },
-        ],
-      },
+      // {
+      //   label: 'User Management',
+      //   icon: 'pi pi-fw pi-user',
+      //   items: [
+      //     {
+      //       label: 'List',
+      //       icon: 'pi pi-fw pi-list',
+      //       routerLink: ['profile/list'],
+      //     },
+      //     {
+      //       label: 'Create',
+      //       icon: 'pi pi-fw pi-plus',
+      //       routerLink: ['profile/create'],
+      //     },
+      //   ],
+      // },
     ];
   }
 }
