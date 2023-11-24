@@ -12,7 +12,15 @@ export class ApplicationRoutingService {
     this.router.navigate(['/plates/list-plate-type']);
   }
 
+  goToListPatientPage() {
+    this.router.navigate(['/plates/patients/list']);
+  }
+
   goToAddPlateTypePage() {
     this.router.navigate(['/plates/create-plate-type']);
+  }
+
+  goToAddPatientPage() {
+    this.router.navigate(['/plates/patients/list'], { state: { type: 'ADD'}});
   }
 }

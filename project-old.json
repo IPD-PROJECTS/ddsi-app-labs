@@ -7,12 +7,9 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/angular:webpack-browser",
+      "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "customWebpackConfig": {
-          "path": "src/app/webpack.config.js"
-        },
         "outputPath": "dist/ddsi-labs-apps",
         "index": "./src/index.html",
         "main": "./src/main.ts",
@@ -29,7 +26,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "2mb"
+              "maximumError": "1mb"
             },
             {
               "type": "anyComponentStyle",
@@ -51,7 +48,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nx/angular:webpack-dev-server",
+      "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
           "browserTarget": "ddsi-labs-apps:build:production"

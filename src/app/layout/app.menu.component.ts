@@ -59,8 +59,9 @@ export class AppMenuComponent implements OnInit {
             routerLink: ['/plates/patients'],
             items: [
               {
-                label: 'Add patient',
-                icon: 'pi pi-fw pi-plus',
+                label: 'List patients',
+                icon: 'pi pi-fw pi-list',
+                routerLink: ['/plates/patients/list']
               }
           ]
           },

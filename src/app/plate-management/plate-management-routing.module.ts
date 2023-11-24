@@ -11,7 +11,10 @@ const routes: Routes = [
   },
   {
     path: 'create-plate-type', data: { breadcrumb: 'Create Plate Type' } , loadComponent:() => import('./pages/create-plate-type/create-plate-type.component').then(c => c.CreatePlateTypeComponent)
-  }
+  },
+  {
+    path: 'patients', data: { breadcrumb: 'Patients' } , loadChildren: () => import('../patient-management/patient-management.module').then(m => m.PatientManagementModule)
+}
 ];
 
 @NgModule({
