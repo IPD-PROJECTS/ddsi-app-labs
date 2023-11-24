@@ -6,7 +6,7 @@ export const appRoutes: Route[] = [
         path: 'login', loadComponent: () => import('./login/login.component').then(c => c.LoginComponent)
     },
     {
-        path: '', component: LayoutComponent, children: [
+        path: 'apps', component: LayoutComponent, children: [
             {
                 path: '', redirectTo: 'plates', pathMatch: 'full'
             },
@@ -14,5 +14,8 @@ export const appRoutes: Route[] = [
                 path: 'plates', data: { breadcrumb: 'Plates' } , loadChildren: () => import('./plate-management/plate-management.module').then(m => m.PlateManagementModule)
             }
         ]
+    },
+    {
+        path: '', redirectTo: 'login', pathMatch: 'full'
     }
 ];

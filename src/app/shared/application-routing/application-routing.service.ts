@@ -9,18 +9,18 @@ export class ApplicationRoutingService {
   constructor(private router: Router) { }
 
   goToListPlateTypePage() {
-    this.router.navigate(['/plates/list-plate-type']);
+    this.router.navigate(['/apps/plates/list-plate-type']);
   }
 
   goToListPatientPage() {
-    this.router.navigate(['/plates/patients/list']);
+    this.router.navigate(['/apps/plates/patients/list']);
   }
 
   goToAddPlateTypePage() {
-    this.router.navigate(['/plates/create-plate-type']);
+    this.router.navigate(['/apps/plates/create-plate-type']);
   }
 
   goToAddPatientPage() {
-    this.router.navigate(['/plates/patients/list'], { state: { type: 'ADD'}});
+    this.router.navigate(['/apps/plates/patients/list'], { state: { type: 'ADD'}});
   }
 }

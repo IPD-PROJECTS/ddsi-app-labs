@@ -23,7 +23,7 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Summary',
             icon: 'pi pi-fw pi-home',
-            routerLink: ['/plates'],
+            routerLink: ['/apps/plates'],
           },
           {
             label: 'Plate Management',
@@ -32,23 +32,12 @@ export class AppMenuComponent implements OnInit {
               {
                 label: 'List Plate Type',
                 icon: 'pi pi-fw pi-list',
-                routerLink:[ '/plates/list-plate-type']
+                routerLink:[ '/apps/plates/list-plate-type']
               },
               {
                 label: 'Create Plate Type',
                 icon: 'pi pi-fw pi-plus',
-                routerLink:[ '/plates/create-plate-type'],
-                state: { type: 'ADD'}
-              },
-              {
-                label: 'List Plate plan',
-                icon: 'pi pi-fw pi-plus',
-                routerLink:[ '/plates/list-plate-plan'],
-              },
-              {
-                label: 'Create Plate plan',
-                icon: 'pi pi-fw pi-plus',
-                routerLink:[ '/plates/list-plate-plan'],
+                routerLink:[ '/apps/plates/create-plate-type'],
                 state: { type: 'ADD'}
               }
             ]
@@ -56,19 +45,37 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Patient Management',
             icon: 'pi pi-fw pi-user',
-            routerLink: ['/plates/patients'],
+            routerLink: ['/apps/plates/patients'],
             items: [
               {
                 label: 'List patients',
                 icon: 'pi pi-fw pi-list',
-                routerLink: ['/plates/patients/list']
+                routerLink: ['/apps/plates/patients/list']
               }
           ]
           },
           {
-            label: 'Create Plate Plan',
-            icon: 'pi pi-fw pi-building',
-            routerLink: ['/plates/plates-patients']
+            label: 'Plate plan Management',
+            icon: 'pi pi-fw pi-plus',
+            items: [
+              {
+                label: 'List Plate plan',
+                icon: 'pi pi-fw pi-plus',
+                routerLink:[ '/apps/plates/list-plate-plan'],
+              },
+              {
+                label: 'Create a Plate plan',
+                icon: 'pi pi-fw pi-plus',
+                routerLink:[ 'apps/plates/create-plate-plan'],
+                state: { type: 'ADD'}
+              },
+              {
+                label: 'Import to add Plate plan',
+                icon: 'pi pi-fw pi-plus',
+                routerLink:[ 'apps/plates/create-plate-plan'],
+                state: { type: 'ADD'}
+              }
+            ]
           }
         ],
       },
