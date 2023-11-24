@@ -9,6 +9,8 @@
 
 To start the development server run `nx serve ddsi-labs-apps`. Open your browser and navigate to http://localhost:4200/. Happy coding!
 
+## Preview the App
+A version of this app has been deployed with netlify and accessible with this link: [ddsi-labs-app-web-url](https://ddsi-apps-labs.netlify.app)
 
 ## Generate code
 
