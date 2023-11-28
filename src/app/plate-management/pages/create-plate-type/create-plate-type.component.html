@@ -98,6 +98,7 @@
                 <span class="p-float-label mt-4">
                   <p-dropdown
                     id="rowLabelType"
+                    [readonly]="true"
                     formControlName="rowLabelType"
                     [options]="anotationLabelType"
                     placeholder="Row label type"
@@ -162,6 +163,7 @@
                 <span class="p-float-label mt-4">
                   <p-dropdown
                     id="colLabelType"
+                    [readonly]="true"
                     formControlName="colLabelType"
                     [options]="anotationLabelType"
                   ></p-dropdown>
@@ -535,6 +537,7 @@
     >
       <button
       type="button"
+      (click)="goToListPage()"
         pButton
         pRipple
         class="p-button-danger flex-1 w-full p-button-outlined"
@@ -543,6 +546,7 @@
       ></button>
       <button
       type="submit"
+      [loading]="isSubmitting"
         pButton
         pRipple
         class="p-button-primary flex-1 w-full border-round"

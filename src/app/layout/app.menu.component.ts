@@ -27,7 +27,7 @@ export class AppMenuComponent implements OnInit {
           },
           {
             label: 'Plate Management',
-            icon: 'pi pi-fw pi-list',
+            icon: 'pi pi-fw pi-cog',
             items: [
               {
                 label: 'List Plate Type',
@@ -60,19 +60,19 @@ export class AppMenuComponent implements OnInit {
             items: [
               {
                 label: 'List Plate plan',
-                icon: 'pi pi-fw pi-plus',
-                routerLink:[ '/apps/plates/list-plate-plan'],
+                icon: 'pi pi-fw pi-list',
+                routerLink:[ '/apps/plates/plate-plan/list'],
               },
               {
                 label: 'Create a Plate plan',
                 icon: 'pi pi-fw pi-plus',
-                routerLink:[ 'apps/plates/create-plate-plan'],
+                routerLink:[ '/apps/plates/plate-plan/create'],
                 state: { type: 'ADD'}
               },
               {
                 label: 'Import to add Plate plan',
-                icon: 'pi pi-fw pi-plus',
-                routerLink:[ 'apps/plates/create-plate-plan'],
+                icon: 'pi pi-fw pi-cloud-upload',
+                routerLink:[ '/apps/plates/plate-plan/create'],
                 state: { type: 'ADD'}
               }
             ]

@@ -1,0 +1,106 @@
+<div class="col-12">
+  <div class="card">
+    <h5>List Plate</h5>
+    <p-table
+      [lazy]="true"
+      (onLazyLoad)="fetchListPlatePlan($event)"
+      [totalRecords]="itemCounts"
+      [rowsPerPageOptions]="[5, 10, 20, 50]"
+      [resizableColumns]="true"
+      #dt1
+      [value]="listPlatesType"
+      dataKey="id"
+      [rows]="10"
+      [loading]="loading"
+      [rowHover]="true"
+      styleClass="p-datatable-gridlines"
+      [paginator]="true"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex justify-content-between flex-wrap">
+          <span class="p-input-icon-left mb-2">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              #filter
+              (input)="onGlobalFilter(dt1, $event)"
+              placeholder="Search"
+              class="w-full"
+            />
+          </span>
+          <button
+            pButton
+            label="Add New Plate"
+            icon="pi pi-plus"
+            (click)="addNewPlatePlan()"
+            class="mb-2"
+          ></button>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th pResizableColumn style="min-width: 12rem">
+            <div class="flex justify-content-between align-items-center">
+              {{ PLATE_PLAN_LABEL.id }}
+            </div>
+          </th>
+
+          <th pResizableColumn style="min-width: 10rem">
+            <div class="flex justify-content-between align-items-center">
+              {{ PLATE_PLAN_LABEL.description }}
+            </div>
+          </th>
+
+          <th pResizableColumn style="min-width: 12rem">
+            <div class="flex justify-content-between align-items-center">
+              {{ PLATE_PLAN_LABEL.created_by }}
+            </div>
+          </th>
+          <th pResizableColumn style="min-width: 12rem">
+            <div class="flex justify-content-between align-items-center">
+              {{ PLATE_PLAN_LABEL.created_at }}
+            </div>
+          </th>
+          <th pResizableColumn style="min-width: 12rem">
+            <div class="flex justify-content-between align-items-center">
+              {{ PLATE_PLAN_LABEL.updated_at }}
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>
+            {{ item[PLATE_ATTRIBUTE.id] }}
+          </td>
+
+          <td>
+            {{ item[PLATE_ATTRIBUTE.description] }}
+          </td>
+
+          <td>
+            {{ item[PLATE_ATTRIBUTE.created_by] }}
+          </td>
+          <td>
+            {{ item[PLATE_ATTRIBUTE.created_at] | date : 'dd-MM-yyyy' }}
+          </td>
+          <td>
+            {{ item[PLATE_ATTRIBUTE.updated_at] | date : 'dd-MM-yyyy' }}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8">No Plate found.</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="loadingbody">
+        <tr>
+          <td colspan="8">Loading plate plan. Please wait.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

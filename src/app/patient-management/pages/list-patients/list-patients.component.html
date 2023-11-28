@@ -4,15 +4,19 @@
     <h5>List Patients</h5>
     <p-table
       [resizableColumns]="true"
+      [lazy]="true"
+      (onLazyLoad)="fetchListPatient($event)"
       #dt1
       [value]="listPatient"
       dataKey="id"
       [rows]="10"
       [loading]="loading"
       [rowHover]="true"
+      [totalRecords]="totalRecords"
       styleClass="p-datatable-gridlines"
       [paginator]="true"
       responsiveLayout="scroll"
+      [rowsPerPageOptions]="[5 ,10, 20, 50]"
     >
       <ng-template pTemplate="caption">
         <div class="flex justify-content-between flex-wrap">
@@ -74,13 +78,13 @@
           </td>
 
           <td>
-            {{ patient.firstname }}
+            {{ patient[TABLE_COLUMN.FIRSTNAME] }}
           </td>
           <td>
-            {{ patient.lastname }}
+            {{ patient[TABLE_COLUMN.LASTNAME] }}
           </td>
           <td>
-            {{ patient.birthdate | date : 'dd/MM/yyyy' }}
+            {{ patient[TABLE_COLUMN.BIRTHDATE] | date : 'dd/MM/yyyy' }}
           </td>
           <td >
             <div class='flex gap-2'>
@@ -96,12 +100,12 @@
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td colspan="8">No customers found.</td>
+          <td colspan="8">No Patients found.</td>
         </tr>
       </ng-template>
       <ng-template pTemplate="loadingbody">
         <tr>
-          <td colspan="8">Loading customers data. Please wait.</td>
+          <td colspan="8">Loading list data. Please wait.</td>
         </tr>
       </ng-template>
     </p-table>

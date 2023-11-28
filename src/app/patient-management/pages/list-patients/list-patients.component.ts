@@ -8,9 +8,9 @@ import { PatientService } from 'src/app/shared/service/patient/patient.service';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 enum PATIENT_ATTRIBUTE {
   ANON_NAME = 'anon_name',
-  FIRSTNAME = 'firstname',
-  LASTNAME = 'lastname',
-  BIRTHDATE = 'birthdate',
+  FIRSTNAME = 'first_name',
+  LASTNAME = 'last_name',
+  BIRTHDATE = 'birth_date',
 }
 
 @Component({
@@ -19,10 +19,10 @@ enum PATIENT_ATTRIBUTE {
   styleUrls: ['./list-patients.component.scss'],
   providers: [DialogService, MessageService, ConfirmationService],
 })
-export class ListPatientsComponent implements OnInit {
+export class ListPatientsComponent {
   TABLE_COLUMN = PATIENT_ATTRIBUTE;
   listPatient: Patient[] = [];
-
+  totalRecords = 0;
   loading: boolean = true;
 
   @ViewChild('filter') filter!: ElementRef;
@@ -30,21 +30,11 @@ export class ListPatientsComponent implements OnInit {
 
   constructor(
     private confirmService: ConfirmationService,
-    private route: ActivatedRoute,
     private messageService: MessageService,
     public dialogService: DialogService,
-    private router: Router,
     private patientService: PatientService
   ) {}
 
-  ngOnInit(): void {
-    this.fetchListPatient();
-    console.log(
-      'this.router.getCurrentNavigation()',
-      this.router.getCurrentNavigation()
-    );
-    console.log('this.route', this.route);
-  }
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
@@ -69,7 +59,6 @@ export class ListPatientsComponent implements OnInit {
       next:(data: {success: boolean}) => {
         if(data.success) {
           this.table.reset();
-          this.fetchListPatient();
           this.messageService.add({ severity: 'success' , summary: `${editMode ? 'Edit' : 'Creation'} `, detail: 'Action is fully effective' });
         }
       }
@@ -92,17 +81,21 @@ export class ListPatientsComponent implements OnInit {
       next:(resp) => {
         this.messageService.add({ severity: 'info', summary: 'Success', detail: `Item ${item.id} Deleted` });
         this.table.reset();
-        this.fetchListPatient();
       }
     })
   }
 
-  fetchListPatient() {
+  fetchListPatient(params: any) {
+    const endpoint_params = {
+      limit: params?.rows,
+      page: (params?.first / params?.rows)
+    }
     this.loading = true;
-    this.patientService.getListPatients().subscribe({
-      next: (resp) => {
+    this.patientService.getListPatients(endpoint_params).subscribe({
+      next: (resp: { count: number, results: any[]}) => {
         this.loading = false;
-        this.listPatient = resp;
+        this.totalRecords = resp.count;
+        this.listPatient = resp.results;
       },
       error: (err) => {
         this.loading = false;
