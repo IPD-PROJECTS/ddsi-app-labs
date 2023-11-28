@@ -1,8 +1,10 @@
 export interface Patient {
     id?: string;
     anon_name?: string;
-    firstname?: string;
-    lastname?:  string;
-    sexe?:       string;
-    birthdate?: string;
+    first_name?: string;
+    last_name?:  string;
+    sex?:       string;
+    birth_date?: string;
+    created_at?: string;
+    updated_at?: string;
 }

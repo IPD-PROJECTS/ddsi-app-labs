@@ -1,7 +1,7 @@
 <div class="col-12">
     <div class="card">
         <h5>List Plate Type</h5>
-        <p-table [resizableColumns]="true" #dt1 [value]="customers1" dataKey="id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']" responsiveLayout="scroll">
+        <p-table [resizableColumns]="true" #dt1 [value]="listPlatesType" dataKey="id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" responsiveLayout="scroll">
             <ng-template pTemplate="caption">
 
                 <div class="flex  justify-content-between flex-wrap">
@@ -9,58 +9,74 @@
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search" class="w-full"/>
                     </span>
-                    <button pButton label="Add Plan Type" icon="pi pi-plus" (click)="addNewPlateType()" class="mb-2" ></button>
+                    <button pButton label="Add New Plate Type" icon="pi pi-plus" (click)="addNewPlateType()" class="mb-2" ></button>
 
                 </div>
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th pResizableColumn pSortableColumn="name" style="min-width: 12rem">
+                    <th pResizableColumn style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Name <p-sortIcon field="name"></p-sortIcon>
+                            {{PLATE_TYPE_LABEL.name}}
                         </div>
                     </th>
 
 
-                    <th pResizableColumn pSortableColumn="createdDate" style="min-width: 10rem">
+                    <th pResizableColumn style="min-width: 10rem">
                         <div class="flex justify-content-between align-items-center">
-                            Date <p-sortIcon field="createdDate"></p-sortIcon>
+                            {{PLATE_TYPE_LABEL.number_rows}}
                         </div>
                     </th>
 
                     <th pResizableColumn style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Status
+                            {{PLATE_TYPE_LABEL.number_cols}}
+                        </div>
+                    </th>
+                    <th pResizableColumn style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            {{PLATE_TYPE_LABEL.created_at}}
+                        </div>
+                    </th>
+                    <th pResizableColumn style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            {{PLATE_TYPE_LABEL.updated_at}}
                         </div>
                     </th>
 
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-customer>
+            <ng-template pTemplate="body" let-item>
                 <tr>
                     <td>
-                        {{customer.name}}
+                        {{item[PLATE_TYPE_ATTRIBUTE.name]}}
                     </td>
 
 
                     <td>
-                        {{customer.date | date: 'MM/dd/yyyy'}}
+                        {{item[PLATE_TYPE_ATTRIBUTE.number_rows]}}
                     </td>
 
                     <td>
-                        <span [class]="'customer-badge status-' + customer.status">{{customer.status}}</span>
+                        {{item[PLATE_TYPE_ATTRIBUTE.number_cols]}}
+                    </td>
+                    <td>
+                        {{item[PLATE_TYPE_ATTRIBUTE.created_at] | date: 'dd-MM-yyyy' }}
+                    </td>
+                    <td>
+                        {{item[PLATE_TYPE_ATTRIBUTE.updated_at] | date: 'dd-MM-yyyy'}}
                     </td>
 
                 </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="8">No customers found.</td>
+                    <td colspan="8">No Plate type found.</td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="loadingbody">
                 <tr>
-                    <td colspan="8">Loading customers data. Please wait.</td>
+                    <td colspan="8">Loading plate type. Please wait.</td>
                 </tr>
             </ng-template>
         </p-table>

@@ -13,7 +13,26 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ApplicationRoutingService } from 'src/app/shared/application-routing/application-routing.service';
+import { PlateTypeService } from 'src/app/shared/service/plate-type/plate-type.service';
+import { PlateTypeModel } from 'src/app/models/plate-type.model';
 
+enum PLATE_TYPE_ATTRIBUTE {
+  name = 'name',
+  number_rows = 'number_rows',
+  number_cols = 'number_cols',
+  created_at = 'created_at',
+  updated_at = 'updated_at',
+  author = 'created_by'
+}
+
+enum PLATE_TYPE_ATTRIBUTE_LABEL {
+  name = 'Name',
+  number_rows = 'Number of rows',
+  number_cols = 'Number of cols',
+  created_at = 'Created at',
+  updated_at = 'Updated at',
+  author = 'Last Updated by'
+}
 interface expandedRows {
   [key: string]: boolean;
 }
@@ -33,28 +52,28 @@ interface expandedRows {
   styleUrls: ['./list-plate-type.component.scss'],
 })
 export class ListPlateTypeComponent implements OnInit {
-  customers1: Customer[] = [];
-
+  listPlatesType: PlateTypeModel[] = [];
+  PLATE_TYPE_LABEL = PLATE_TYPE_ATTRIBUTE_LABEL;
+  PLATE_TYPE_ATTRIBUTE = PLATE_TYPE_ATTRIBUTE;
   activityValues: number[] = [0, 100];
 
-  isExpanded: boolean = false;
-
-  idFrozen: boolean = false;
 
   loading: boolean = true;
 
   @ViewChild('filter') filter!: ElementRef;
 
-  constructor(private customerService: CustomerService, private appRouting: ApplicationRoutingService) {}
+  constructor(private plateTypeService: PlateTypeService, private appRouting: ApplicationRoutingService) {}
 
   ngOnInit() {
-    this.customerService.getCustomersLarge().then((customers) => {
-      this.customers1 = customers;
-      this.loading = false;
-
-      this.customers1.forEach(
-        (customer) => (customer.date = new Date(customer.date))
-      );
+    this.loading = true;
+    this.plateTypeService.getListPlateType().subscribe({
+      next:(resp: any) => {
+        this.listPlatesType = resp;
+        this.loading = false;
+      },
+      error:(err) => {
+        this.loading = false;
+      }
     });
   }
 

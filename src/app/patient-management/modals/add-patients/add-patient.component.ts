@@ -24,11 +24,11 @@ export class AddPatientComponent {
   sexes:{label: string, value: string}[] = [
     {
       label: 'Masculin',
-      value: 'male'
+      value: 'M'
     },
     {
       label: 'Feminin',
-      value: 'female'
+      value: 'F'
     }
   ]
   editMode = this.dynamicDialogConfig.data.editMode;
@@ -37,41 +37,44 @@ export class AddPatientComponent {
     const patient: Patient = dynamicDialogConfig.data.patient;
     this.formGroup = this.fb.group({
       // anon_name: [patient?.anon_name || null],
-      firstname: [patient?.firstname ||  null,[Validators.required]],
-      lastname: [ patient?.lastname || null, [Validators.required]],
-      sexe: [patient?.sexe || null, [Validators.required]],
-      birthdate:[patient?.birthdate ? new Date(`${patient.birthdate}`) : null,[Validators.required]]
+      first_name: [patient?.first_name ||  null,[Validators.required]],
+      last_name: [ patient?.last_name || null, [Validators.required]],
+      sex: [patient?.sex || null, [Validators.required]],
+      birth_date:[patient?.birth_date ? new Date(`${patient.birth_date}`) : null,[Validators.required]]
     })
   }
 
   submit() {
     const value: Patient = this.formGroup.value;
     this.isLoading = true;
-    if(this.editMode) {
-      value.id = this.dynamicDialogConfig.data.patient?.id;
+    if(this.formGroup.valid) {
+      value.birth_date = new Date(value.birth_date!).toISOString().split('T')[0];
+      if(this.editMode) {
+        value.id = this.dynamicDialogConfig.data.patient?.id;
 
-      this.patientService.updatePatient(value).subscribe({
-        next:(resp: any) => {
-          this.isLoading = false;
-          this.onSuccess(true);
-        },
-        error:(err: any) => {
-          this.isLoading = false;
-          this.onSuccess(false);
-        }
-      })
-    } else {
-      this.patientService.createPatient(value).subscribe({
-        next:(resp: any) => {
-          this.isLoading = false;
-          this.onSuccess(true);
-        },
-        error:(err: any) => {
-          this.isLoading = false;
-          this.onSuccess(false);
+        this.patientService.updatePatient(value).subscribe({
+          next:(resp: any) => {
+            this.isLoading = false;
+            this.onSuccess(true);
+          },
+          error:(err: any) => {
+            this.isLoading = false;
+            this.onSuccess(false);
+          }
+        })
+      } else {
+        this.patientService.createPatient(value).subscribe({
+          next:(resp: any) => {
+            this.isLoading = false;
+            this.onSuccess(true);
+          },
+          error:(err: any) => {
+            this.isLoading = false;
+            this.onSuccess(false);
 
-        }
-      })
+          }
+        })
+      }
     }
   }
 

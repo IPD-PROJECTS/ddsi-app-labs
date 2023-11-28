@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ENV_KEY } from '../../util';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Patient } from 'src/app/models/patient.model';
 
 const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;
-const patientsEndpoint = `${BASE_URL}/patients`
+const patientsEndpoint = `${BASE_URL}/api/v1/patients/`
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +13,8 @@ export class PatientService {
   constructor(private http: HttpClient) { }
 
   getListPatients(params?: any) {
-    return this.http.get<Patient[]>(`${patientsEndpoint}`);
+    const data: HttpParams = new HttpParams().append('p', params?.page + 1).append('size', params?.limit)
+    return this.http.get<{results: Patient[], count: number}>(`${patientsEndpoint}`, { params: data});
   }
 
 

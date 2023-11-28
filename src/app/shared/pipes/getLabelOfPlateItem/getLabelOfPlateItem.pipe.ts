@@ -9,8 +9,6 @@ import { NextCaracterPipe } from '../nextCaracter/nextCaracter.pipe';
 export class GetLabelOfPlateItemPipe implements PipeTransform {
   constructor(private caracterPipe: NextCaracterPipe){}
   transform(value: { rowLabelType: LabelType, colLabelType: LabelType, rowIndex: number, colIndex: number }, ...args: unknown[]): string {
-    console.log('called');
-
     let postion = '';
     if(value.rowLabelType === LabelType.LETTER) {
       postion += this.caracterPipe.transform(value.rowIndex)

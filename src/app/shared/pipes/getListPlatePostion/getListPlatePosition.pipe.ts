@@ -20,8 +20,6 @@ export class GetListPlatePositionPipe implements PipeTransform {
       }
 
     }
-    console.log('listPostion', listPostion);
-
     return listPostion;
   }
 }

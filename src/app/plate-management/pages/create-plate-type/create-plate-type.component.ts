@@ -6,33 +6,16 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { NextCaracterPipe } from 'src/app/pipes/nextCaracter/nextCaracter.pipe';
+import { NextCaracterPipe } from 'src/app/shared/pipes/nextCaracter/nextCaracter.pipe';
 import { TooltipModule } from 'primeng/tooltip';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { GetListPlatePositionPipe } from 'src/app/pipes/getListPlatePostion/getListPlatePosition.pipe';
-import { GetLabelOfPlateItemPipe } from 'src/app/pipes/getLabelOfPlateItem/getLabelOfPlateItem.pipe';
+import { GetListPlatePositionPipe } from 'src/app/shared/pipes/getListPlatePostion/getListPlatePosition.pipe';
+import { GetLabelOfPlateItemPipe } from 'src/app/shared/pipes/getLabelOfPlateItem/getLabelOfPlateItem.pipe';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ApplicationRoutingService } from 'src/app/shared/application-routing/application-routing.service';
-interface Product {
-  name: string;
-  price: string;
-  code: string;
-  sku: string;
-  status: string;
-  tags: string[];
-  category: string;
-  colors: string[];
-  stock: string;
-  inStock: boolean;
-  description: string;
-  images: Image[];
-}
-
-interface Image {
-  name: string;
-  objectURL: string;
-}
+import { PlateTypeService } from 'src/app/shared/service/plate-type/plate-type.service';
+import { PlateTypeModel } from 'src/app/models/plate-type.model';
 
 export enum LabelType {
   LETTER = 'Letter',
@@ -75,7 +58,8 @@ export class CreatePlateTypeComponent {
     label: 'Row by Row'
   }
 ]
-  constructor(private fb: FormBuilder, private messageService: MessageService, private appRouting: ApplicationRoutingService) {
+isSubmitting = false;
+  constructor(private fb: FormBuilder, private messageService: MessageService, private appRouting: ApplicationRoutingService, private plateTypeService: PlateTypeService) {
     this.createPlateTypeForm = fb.group({
       name: ['', Validators.required],
       plateFillingType: [null, Validators.required],
@@ -83,12 +67,12 @@ export class CreatePlateTypeComponent {
       colLength: [12, [Validators.required, Validators.min(2), Validators.max(20)]],
       rowLabelType: ['Letter', [Validators.required]],
       colLabelType: ['Number', [Validators.required]],
-      numberOfWhiteCtrl: [1, [Validators.required, Validators.min(1)]],
-      positionsOfWhiteCtrl: [null, [Validators.required]],
-      numberOfNegCtrl: [1, [Validators.required]],
-      positionsOfNegCtrl: [null, [Validators.required]],
-      numberOfPositiveCtrl: [1, [Validators.required]],
-      positionsOfPositiveCtrl: [null, [Validators.required]]
+      numberOfWhiteCtrl: [1, [Validators.min(1)]],
+      positionsOfWhiteCtrl: [null, []],
+      numberOfNegCtrl: [1, []],
+      positionsOfNegCtrl: [null, []],
+      numberOfPositiveCtrl: [1, []],
+      positionsOfPositiveCtrl: [null, []]
     })
   }
 
@@ -99,9 +83,22 @@ export class CreatePlateTypeComponent {
     this.createPlateTypeForm.markAllAsTouched();
     if(this.createPlateTypeForm.valid) {
       // Save Plate Type Infos through backEnd APIs
-      this.displayNotificationMsg('Plate successfully registered', true, 'Success');
-      this.createPlateTypeForm.disable();
-      this.reRouteToListPage();
+      const data: PlateTypeModel = {
+        number_rows: this.createPlateTypeForm.get('rowLength')?.value,
+        number_cols: this.createPlateTypeForm.get('colLength')?.value,
+      };
+      this.isSubmitting = true;
+      this.plateTypeService.createPlateType(data).subscribe({
+        next:(resp) => {
+          this.isSubmitting = false;
+          this.displayNotificationMsg('Plate successfully registered', true, 'Success');
+          this.createPlateTypeForm.disable();
+          this.reRouteToListPage();
+        },
+        error:(err) => {
+          this.isSubmitting = false;
+        }
+      })
     } else {
       this.displayNotificationMsg('Please fill the form correctly', false, 'Error');
     }
@@ -113,7 +110,11 @@ export class CreatePlateTypeComponent {
 
   reRouteToListPage() {
     setTimeout(() => {
-      this.appRouting.goToListPlateTypePage();
-    }, 2500);
+      this.goToListPage()
+    }, 1000);
+  }
+
+  goToListPage() {
+    this.appRouting.goToListPlateTypePage();
   }
 }
