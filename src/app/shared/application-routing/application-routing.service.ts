@@ -28,7 +28,8 @@ export class ApplicationRoutingService {
     this.router.navigate(['/apps/plates/patients/list'], { state: { type: 'ADD'}});
   }
 
-  goToAddPlatePlanPage() {
-    this.router.navigate(['/apps/plates/plate-plan/create'], { state: { type: 'ADD'}});
+  goToAddPlatePlanPage(id?: number) {
+    const path = id ? ['/apps/plates/plate-plan/edit', id] : ['/apps/plates/plate-plan/create']
+    this.router.navigate(path);
   }
 }

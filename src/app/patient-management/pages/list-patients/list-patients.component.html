@@ -19,7 +19,7 @@
       [rowsPerPageOptions]="[5 ,10, 20, 50]"
     >
       <ng-template pTemplate="caption">
-        <div class="flex justify-content-between flex-wrap">
+        <div class="flex justify-content-between flex-wrap align-items-center">
           <span class="p-input-icon-left mb-2">
             <i class="pi pi-search"></i>
             <input
@@ -31,13 +31,45 @@
               class="w-full"
             />
           </span>
-          <button
-            pButton
-            label="Add Patient"
-            icon="pi pi-plus"
-            (click)="addPatient()"
-            class="mb-2"
-          ></button>
+          <div class="flex flex-column">
+            <div class="flex flex-wrap align-items-center gap-2">
+              <div class="flex flex-wrap">
+                <p-fileUpload
+                #fileUploader
+                [invalidFileSizeMessageDetail]="'Max file size authorized: {0}'"
+                [invalidFileSizeMessageSummary]="'{0}: Taille de fichier invalide'"
+                mode="basic"
+                name="cvFile"
+                styleClass="p-button-success"
+                chooseIcon="pi-upload"
+                chooseLabel="Import a plate plan"
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                [maxFileSize]="PATIENT_FILE_LIST_MAX_SIZE"
+                [customUpload]="true"
+                (onSelect)="onFileSelected($event)"
+              ></p-fileUpload>
+              <button
+              *ngIf="fileUploader._files.length"
+              pButton
+              class="p-button-text mr-4"
+              icon="pi pi-times"
+              (click)="fileUploader.clear()"
+            ></button>
+              </div>
+            <button
+              pButton
+              label="Add Patient"
+              icon="pi pi-plus"
+              (click)="addPatient()"
+            ></button>
+            </div>
+            <div class="flex">
+              <small *ngIf="hasErrorUploadingPatients" class="p-error">
+                Error Occured, Please try again
+              </small>
+
+            </div>
+          </div>
         </div>
       </ng-template>
       <ng-template pTemplate="header">

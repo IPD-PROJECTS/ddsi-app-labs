@@ -1,43 +1,133 @@
+<p-toast></p-toast>
 <div class="col-12">
   <div class="card">
-    <p-splitter styleClass="mb-5 container-style" [stateStorage]="'local'" [stateKey]="'plate-plan-splitter'" [gutterSize]="5">
-      <ng-template pTemplate>
-        <p-accordion [activeIndex]="0">
+    <button
+      pButton
+      pRipple
+      class="p-button-primary p-button-outlined border-round mb-3"
+      label="Back"
+      (click)="goBack()"
+      icon="pi pi-fw pi-arrow-left"
+    ></button>
+    <div class="grid">
+      <div class="col-12 lg:col-3">
+        <p-accordion [activeIndex]="currentStepIndex" [selectOnFocus]="true">
           <p-accordionTab header="Init Plate Infos">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+            <form [formGroup]="plateFormGroup" (ngSubmit)="initializePlate()">
+              <div class="col-12">
+                <span class="block text-900 font-bold text-xl mb-4"
+                  >Initialisation of a plaque</span
+                >
+                <p class="p-0 text-600 line-height-3 mb-3">
+                  You have to initialise a plaque before going to the step plate
+                  plan
+                </p>
+                <div class="flex flex-wrap">
+                  <div class="col-12 lg:col">
+                    <div class="p-float-label">
+                      <input
+                        pInputText
+                        formControlName="description"
+                        aria-describedby="name-help"
+                        class="w-full"
+                        id="name"
+                      />
+                      <label htmlFor="name">Plate Type Name</label>
+                    </div>
+                    <ng-container
+                      *ngIf="
+                        plateFormGroup.get('description')?.dirty ||
+                        plateFormGroup.get('description')?.touched
+                      "
+                    >
+                      <small
+                        class="p-error"
+                        *ngIf="
+                          plateFormGroup.controls['description'].errors &&
+                          plateFormGroup.controls['description'].errors[
+                            'required'
+                          ]
+                        "
+                        >Ce champs est requis</small
+                      >
+                    </ng-container>
+                  </div>
+                  <div class="col-12">
+                    <button
+                      type="submit"
+                      [disabled]="!plateFormGroup.dirty"
+                      [loading]="isSubmittingInitalization"
+                      pButton
+                      pRipple
+                      class="p-button-primary border-round w-full"
+                      [label]="plaqueInfos?.id ? 'Update' : 'Save'"
+                      icon="pi pi-fw pi-check"
+                    ></button>
+                  </div>
+                </div>
+              </div>
+            </form>
           </p-accordionTab>
-          <p-accordionTab header="Set Plate Plane Infos">
+          <p-accordionTab
+            [disabled]="!plaqueInfos?.id"
+            header="Set Plate Plane Infos"
+          >
             <p>
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-              quae ab illo inventore veritatis et quasi architecto beatae vitae
-              dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-              aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
-              eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci
-              velit, sed quia non numquam eius modi.
+              This section is enabled once the plate has been initialised
+              successfully.
             </p>
+            <p>The plate plan can be filled through 3 options:</p>
+            <ul>
+              <li>Manually</li>
+              <li>Import of a file which contain a plate plan</li>
+              <li>Automatically</li>
+            </ul>
           </p-accordionTab>
         </p-accordion>
-      </ng-template>
-      <ng-template pTemplate>
-        <div class="col flex gap-2 flex-column">
-            <h5>Preview</h5>
-            <div class="col flex">
-                <span>
-                    Description Plate Plan
-                </span>
+      </div>
+      <div class="col-12 lg:col-9 flex gap-2 flex-column overflow-auto">
+        <h5>Preview</h5>
+        <div class="col flex flex-column gap-2">
+          <div
+            class="flex flex-wrap justify-content-between align-items-center"
+          >
+            <span> Description Plate Plan </span>
+            <div class="flex flex-wrap gap-2 align-items-center">
+              <div class="flex flex-column gap-2">
+                <p-fileUpload
+                #fileUploader
+                [invalidFileSizeMessageDetail]="'Max file size authorized: {0}'"
+                [invalidFileSizeMessageSummary]="'{0}: Taille de fichier invalide'"
+                mode="basic"
+                name="cvFile"
+                styleClass="p-button-success"
+                chooseIcon="pi-upload"
+                chooseLabel="Import List of Patient"
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                [maxFileSize]="PLATE_PLAN_FILE_MAX_SIZE"
+                [customUpload]="true"
+                (onSelect)="onFileSelected($event)"
+              ></p-fileUpload>
+              </div>
+              <button
+                pButton
+                [loading]="isSubmittingPlatePlan"
+                pRipple
+                class="p-button-primary border-round"
+                label="Save Plate Plan"
+                icon="pi pi-save"
+                [disabled]="!hasPlateDetailsChanged"
+                 (click)="savePlatePlan()"
+              ></button>
 
             </div>
+          </div>
+          <ddsi-labs-apps-plate-plan-preview-block
+            [plateDetails]="plaqueInfos"
+            [disabled]="!plaqueInfos"
+          ></ddsi-labs-apps-plate-plan-preview-block>
         </div>
-      </ng-template>
-    </p-splitter>
+      </div>
+    </div>
   </div>
 </div>

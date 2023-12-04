@@ -6,8 +6,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
-import { Customer } from 'src/app/models/model';
-import { CustomerService } from '../../service/customer.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';

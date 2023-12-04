@@ -1,0 +1,13 @@
+.plate-preview {
+    background-color: #f0f0f0;
+    ::ng-deep .p-button {
+        padding: 0.75rem;
+        width: inherit;
+        &.filled {
+            background-color: blue;
+        }
+    }
+    .background-control-place {
+        background-color: white;
+    }
+}

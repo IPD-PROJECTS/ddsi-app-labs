@@ -1,0 +1,15 @@
+::ng-deep .p-datatable {
+  .custom {
+    .p-datatable-tbody > tr.p-highlight {
+      background-color: cyan;
+    }
+    .p-datatable-tbody > tr:focus {
+      outline: none;
+    }
+    .p-datatable-tbody > tr {
+      &.disabled {
+        text-decoration: line-through;
+      }
+    }
+  }
+}
