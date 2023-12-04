@@ -1,0 +1,111 @@
+<p>Please select a control or patient</p>
+
+<div class="col-12">
+  <div class="card">
+    <h5>
+      List {{ item_type === ITEM_TYPE.CONTROL ? 'Controls' : 'Patients' }}
+    </h5>
+    <p-table
+      [lazy]="true"
+      selectionMode="single" [(selection)]="selectedItem"
+      (onLazyLoad)="lazyLoadTableItems($event)"
+      [totalRecords]="itemCounts"
+      [rowsPerPageOptions]="[5, 10, 20, 50]"
+      [resizableColumns]="true"
+      [alwaysShowPaginator]="false"
+      #dt1
+      [value]="list"
+      dataKey="id"
+      [rows]="10"
+      [loading]="loading"
+      [rowHover]="true"
+      styleClass="p-datatable-gridlines"
+      tableStyleClass="custom"
+      [paginator]="true"
+      responsiveLayout="scroll"
+      [rowSelectable]="isRowSelectable"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex justify-content-between flex-wrap gap-2">
+          <span class="p-input-icon-left mb-2">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              #filter
+              (input)="onGlobalFilter(dt1, $event)"
+              placeholder="Search"
+              class="w-full"
+            />
+          </span>
+          <p-button [disabled]="!selectedItem" (onClick)="submitSelection()" label="Validate choice" icon="pi pi-check"></p-button>
+
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr *ngIf="item_type === ITEM_TYPE.CONTROL">
+          <th pResizableColumn style="min-width: 10rem">
+            <div class="flex justify-content-between align-items-center">
+              Control Name
+            </div>
+          </th>
+        </tr>
+        <tr *ngIf="item_type === ITEM_TYPE.PATIENT">
+          <th pResizableColumn>
+            <div class="flex justify-content-between align-items-center">
+              ID
+            </div>
+          </th>
+          <th pResizableColumn>
+            <div class="flex justify-content-between align-items-center">
+              Firstname
+            </div>
+          </th>
+          <th pResizableColumn>
+            <div class="flex justify-content-between align-items-center">
+              Lastname
+            </div>
+          </th>
+
+          <th pResizableColumn>
+            <div class="flex justify-content-between align-items-center">
+              Birthdate
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr *ngIf="item_type === ITEM_TYPE.CONTROL" [pSelectableRow]="item">
+          <td>
+            {{ item.control_name }}
+          </td>
+        </tr>
+        <tr *ngIf="item_type === ITEM_TYPE.PATIENT" [pSelectableRow]="item" [ngClass]="{'disabled' : (item | isPatientAlreadyAdded : plateInfos?.patients)}" >
+          <td>
+            {{ item.id }}
+          </td>
+
+          <td>
+            {{ item.first_name }}
+          </td>
+          <td>
+            {{ item.last_name }}
+          </td>
+          <td>
+            {{ item.birth_date | date : 'dd/MM/yyyy' }}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8">No Item found.</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="loadingbody">
+        <tr>
+          <td colspan="4">Loading items. Please wait.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

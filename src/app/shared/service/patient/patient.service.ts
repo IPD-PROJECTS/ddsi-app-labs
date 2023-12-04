@@ -12,6 +12,12 @@ export class PatientService {
 
   constructor(private http: HttpClient) { }
 
+  uploadListPatientsWithFile(file?: any) {
+    const formData = new FormData();
+    formData.append('patients_list', file)
+    return this.http.post(`${patientsEndpoint}import/`, formData);
+  }
+
   getListPatients(params?: any) {
     const data: HttpParams = new HttpParams().append('p', params?.page + 1).append('size', params?.limit)
     return this.http.get<{results: Patient[], count: number}>(`${patientsEndpoint}`, { params: data});

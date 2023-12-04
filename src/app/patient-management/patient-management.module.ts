@@ -12,7 +12,7 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { MenuModule } from 'primeng/menu';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
-
+import { FileUploadModule } from 'primeng/fileupload';
 @NgModule({
   declarations: [ListPatientsComponent],
   imports: [
@@ -26,7 +26,8 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
     ButtonModule,
     InputTextModule,
     ToastModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    FileUploadModule
   ],
 })
 export class PatientManagementModule {}

@@ -64,17 +64,11 @@ export class AppMenuComponent implements OnInit {
                 routerLink:[ '/apps/plates/plate-plan/list'],
               },
               {
-                label: 'Create a Plate plan',
-                icon: 'pi pi-fw pi-plus',
+                label: 'Create or Import a Plate plan',
+                icon: 'pi pi-fw pi-map',
                 routerLink:[ '/apps/plates/plate-plan/create'],
                 state: { type: 'ADD'}
               },
-              {
-                label: 'Import to add Plate plan',
-                icon: 'pi pi-fw pi-cloud-upload',
-                routerLink:[ '/apps/plates/plate-plan/create'],
-                state: { type: 'ADD'}
-              }
             ]
           }
         ],

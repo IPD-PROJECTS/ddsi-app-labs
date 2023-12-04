@@ -79,7 +79,6 @@ isSubmitting = false;
 
 
   onPlateInfosSubmitted() {
-    console.log('form', this.createPlateTypeForm.value);
     this.createPlateTypeForm.markAllAsTouched();
     if(this.createPlateTypeForm.valid) {
       // Save Plate Type Infos through backEnd APIs
