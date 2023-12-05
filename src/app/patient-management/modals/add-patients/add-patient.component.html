@@ -1,36 +1,112 @@
 <p-toast></p-toast>
 <div class="card">
-    <!-- <span class="text-900 text-xl font-bold mb-4 block"> {{editMode ? 'Edit' : 'Add'}} Patient</span> -->
-    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+  <p-tabView #viewTab [(activeIndex)]="currentIndex">
+    <p-tabPanel header="Add a patient">
+      <form [formGroup]="formGroup" (ngSubmit)="submit()">
         <div class="col-12">
-            <div class="grid formgrid p-fluid">
-                <!-- <div *ngIf="editMode" class="field mb-4 col-12">
-                    <label for="anon_name" class="font-medium text-900">Anon Name</label>
-                    <input id="anon_name" [readOnly]="true" formControlName="anon_name" [disabled]="editMode" type="text" pInputText>
-                </div> -->
+          <div class="grid formgrid p-fluid">
+            <!-- <div *ngIf="editMode" class="field mb-4 col-12">
+                            <label for="anon_name" class="font-medium text-900">Anon Name</label>
+                            <input id="anon_name" [readOnly]="true" formControlName="anon_name" [disabled]="editMode" type="text" pInputText>
+                        </div> -->
 
-
-                <div class="field mb-4 col-12">
-                    <label for="first_name" class="font-medium text-900">Firstname</label>
-                    <input id="first_name" formControlName="first_name" type="text" pInputText>
-                </div>
-                <div class="field mb-4 col-12">
-                    <label for="last_name" class="font-medium text-900">Lastname</label>
-                    <input id="last_name" formControlName="last_name" type="text" pInputText>
-                </div>
-                <div class="field mb-4 col-12">
-                    <label for="sex" class="font-medium text-900">Genre (Masculin/Feminin)</label>
-                    <p-dropdown formControlName="sex" [options]="sexes" placeholder="Select a genre"></p-dropdown>
-                </div>
-                <div class="field mb-4 col-12">
-                    <label for="birth_date" class="font-medium text-900">BirthDate</label>
-			        <p-calendar appendTo="body" formControlName="birth_date" [showIcon]="true" [dateFormat]="'dd-mm-yy'" styleClass="calendar"></p-calendar>
-                </div>
-
-                <div class="col-12">
-                    <button [loading]="isLoading" pButton pRipple label="Submit" class="w-auto mt-3"></button>
-                </div>
+            <div class="field mb-4 col-12">
+              <label for="first_name" class="font-medium text-900"
+                >Firstname</label
+              >
+              <input
+                id="first_name"
+                formControlName="first_name"
+                type="text"
+                pInputText
+              />
             </div>
+            <div class="field mb-4 col-12">
+              <label for="last_name" class="font-medium text-900"
+                >Lastname</label
+              >
+              <input
+                id="last_name"
+                formControlName="last_name"
+                type="text"
+                pInputText
+              />
+            </div>
+            <div class="field mb-4 col-12">
+              <label for="sex" class="font-medium text-900"
+                >Genre (Masculin/Feminin)</label
+              >
+              <p-dropdown
+                formControlName="sex"
+                [options]="sexes"
+                placeholder="Select a genre"
+              ></p-dropdown>
+            </div>
+            <div class="field mb-4 col-12">
+              <label for="birth_date" class="font-medium text-900"
+                >BirthDate</label
+              >
+              <p-calendar
+                appendTo="body"
+                formControlName="birth_date"
+                [showIcon]="true"
+                [dateFormat]="'dd-mm-yy'"
+                styleClass="calendar"
+              ></p-calendar>
+            </div>
+
+            <div class="col-12">
+              <button
+                [loading]="isLoading"
+                pButton
+                pRipple
+                label="Submit"
+                class="w-auto mt-3"
+              ></button>
+            </div>
+          </div>
         </div>
-    </form>
+      </form>
+    </p-tabPanel>
+    <p-tabPanel header="Import list of patients">
+      <p>
+        In this section you can import a excel file to add a list of
+        patients.Here is a link of a downloadable template file
+        <a href="assets/file_template/patients_list_template.xlsx">Download</a>
+      </p>
+      <div class="flex flex-column">
+        <div class="flex flex-column">
+          <div class="flex gap-3">
+            <p-fileUpload
+              #fileUploader
+              [invalidFileSizeMessageDetail]="'Max file size authorized: {0}'"
+              [invalidFileSizeMessageSummary]="
+                '{0}: Taille de fichier invalide'
+              "
+              mode="basic"
+              name="cvFile"
+              styleClass="p-button-success"
+              chooseIcon="pi-upload"
+              chooseLabel="Import a list of patients"
+              accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+              [maxFileSize]="PATIENT_FILE_LIST_MAX_SIZE"
+              [customUpload]="true"
+              (onSelect)="onFileSelected($event)"
+            ></p-fileUpload>
+            <button
+              [loading]="uploadingPatients"
+              *ngIf="fileUploader._files.length"
+              pButton
+              class="p-button-text mr-4"
+              icon="pi pi-times"
+              (click)="fileUploader.clear()"
+            ></button>
+          </div>
+          <small *ngIf="hasErrorUploadingPatients" class="p-error my-3">
+            Error Occured, Please try again
+          </small>
+        </div>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
 </div>
