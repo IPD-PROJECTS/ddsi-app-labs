@@ -34,26 +34,12 @@
           <div class="flex flex-column">
             <div class="flex flex-wrap align-items-center gap-2">
               <div class="flex flex-wrap">
-                <p-fileUpload
-                #fileUploader
-                [invalidFileSizeMessageDetail]="'Max file size authorized: {0}'"
-                [invalidFileSizeMessageSummary]="'{0}: Taille de fichier invalide'"
-                mode="basic"
-                name="cvFile"
-                styleClass="p-button-success"
-                chooseIcon="pi-upload"
-                chooseLabel="Import a plate plan"
-                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                [maxFileSize]="PATIENT_FILE_LIST_MAX_SIZE"
-                [customUpload]="true"
-                (onSelect)="onFileSelected($event)"
-              ></p-fileUpload>
               <button
-              *ngIf="fileUploader._files.length"
               pButton
-              class="p-button-text mr-4"
-              icon="pi pi-times"
-              (click)="fileUploader.clear()"
+              class="p-button-success"
+              icon="pi pi-import"
+              label="Import list of patients"
+              (click)="opentModalImport()"
             ></button>
               </div>
             <button
@@ -63,12 +49,7 @@
               (click)="addPatient()"
             ></button>
             </div>
-            <div class="flex">
-              <small *ngIf="hasErrorUploadingPatients" class="p-error">
-                Error Occured, Please try again
-              </small>
 
-            </div>
           </div>
         </div>
       </ng-template>
