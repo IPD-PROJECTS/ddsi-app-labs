@@ -1,5 +1,12 @@
 .plate-preview {
     background-color: #f0f0f0;
+    .btn-container {
+        position: relative;
+        .row-label {
+            position: absolute;
+            left: -15px;
+        }
+    }
     ::ng-deep .p-button {
         padding: 0.75rem;
         width: inherit;
@@ -8,6 +15,6 @@
         }
     }
     .background-control-place {
-        background-color: white;
+        background-color: gainsboro;
     }
 }

@@ -14,31 +14,36 @@
         let firstCol = first
       "
     >
-      <div class="flex flex-column align-items-center col">
-        <div *ngIf="first" [ngClass]="{ 'ml-3': firstCol }">
+      <p-menu
+        #menu
+        [model]="{rowIndex, colIndex} | getActionMenuByPlateItem: {plateDetails, contentItemFilled: (plateDetails
+              | checkStatusPlateItem
+                : ({ rowLabelType, rowIndex, colLabelType, colIndex }
+                    | getLabelOfPlateItem
+                    | uppercase)).item}"
+        [popup]="true"
+      ></p-menu>
+      <div
+        class="flex flex-column align-items-center justify-content-center col" [ngClass]="{'ml\-3' : firstCol}"
+      >
+        <div *ngIf="first">
           {{
             colLabelType !== 'Letter'
               ? colIndex + 1
               : (colIndex | nextCaracter | uppercase)
           }}
         </div>
-        <div class="flex gap-2 align-items-center">
-          <span *ngIf="firstCol">
+        <div
+          class="flex align-items-center btn-container"
+        >
+          <span *ngIf="firstCol" class="row-label">
             {{
               rowLabelType !== 'Letter'
                 ? rowIndex + 1
                 : (rowIndex | nextCaracter | uppercase)
             }}
           </span>
-          <p-menu
-            #menu
-            [model]="{rowIndex, colIndex} | getActionMenuByPlateItem: {plateDetails, contentItemFilled: (plateDetails
-              | checkStatusPlateItem
-                : ({ rowLabelType, rowIndex, colLabelType, colIndex }
-                    | getLabelOfPlateItem
-                    | uppercase)).item}"
-            [popup]="true"
-          ></p-menu>
+
           <p-button
             pRipple
             [disabled]="disabled"
@@ -58,13 +63,17 @@
             "
             class="item flex justify-content-center p-2"
             [styleClass]="
-              (plateDetails
+              (
+                plateDetails
                 | checkStatusPlateItem
                   : ({ rowLabelType, rowIndex, colLabelType, colIndex }
                       | getLabelOfPlateItem
-                      | uppercase)).status
+                      | uppercase)
+              ).status
             "
-            [ngClass]="{ 'background-control-place': colIndex === COLUMN_INDEX_FOR_CONTROLS }"
+            [ngClass]="{
+              'background-control-place': colIndex === COLUMN_INDEX_FOR_CONTROLS
+            }"
             [rounded]="true"
             [outlined]="true"
           ></p-button>
