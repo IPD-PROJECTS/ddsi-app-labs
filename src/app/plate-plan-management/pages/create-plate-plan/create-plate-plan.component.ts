@@ -84,6 +84,7 @@ export class CreatePlatePlanComponent implements OnDestroy {
             this.isSubmittingInitalization = false;
             this.plaqueInfos = resp;
             this.plateFormGroup.reset(resp);
+            plateDetailsSignal.set(this.plaqueInfos);
 
           },
           error:(err: any) => {
@@ -98,7 +99,7 @@ export class CreatePlatePlanComponent implements OnDestroy {
             this.isSubmittingInitalization = false;
             this.plaqueInfos = resp;
             this.plateFormGroup.reset(resp);
-            console.log('resp', resp);
+            plateDetailsSignal.set(this.plaqueInfos);
 
           },
           error:(err: any) => {

@@ -121,11 +121,11 @@ export class PlatePlanService {
   replaceItemOnPlate(itemType: ITEM_TYPE, item: any, index: number) {
     const plateDetails: PlateModel = { ...plateDetailsSignal() };
     if (itemType === ITEM_TYPE.CONTROL) {
-      plateDetails.controls = [plateDetails.controls];
+      plateDetails.controls = [...plateDetails.controls!];
       plateDetails.controls![index] = item;
     }
     if (itemType === ITEM_TYPE.PATIENT) {
-      plateDetails.patients = [plateDetails.patients];
+      plateDetails.patients = [...plateDetails.patients!];
       plateDetails.patients![index] = item;
     }
     plateDetailsSignal.set(plateDetails);
