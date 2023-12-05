@@ -47,8 +47,6 @@ export class CreatePlatePlanComponent implements OnDestroy {
 
 
     effect(() => {
-      console.log(`The plateDetailsSignal signal is:`, plateDetailsSignal());
-      console.log(`The plateDetailsSignal signal has changed`);
       if(plateDetailsSignal()) {
         this.plaqueInfos = {...plateDetailsSignal()};
         this.hasPlateDetailsChanged = this.checkIfPlateHasChanged();
