@@ -74,7 +74,7 @@ export class AddPatientComponent {
     const tabIndex: number = dynamicDialogConfig.data?.tabIndex;
     this.initializeTabs(tabIndex);
     this.formGroup = this.fb.group({
-      // anon_name: [patient?.anon_name || null],
+      anon_name: [patient?.anon_name || 'anon_name'],
       first_name: [patient?.first_name || null, [Validators.required]],
       last_name: [patient?.last_name || null, [Validators.required]],
       sex: [patient?.sex || null, [Validators.required]],

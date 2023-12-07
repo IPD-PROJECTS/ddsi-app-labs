@@ -15,7 +15,7 @@ import { PlateTypeService } from 'src/app/shared/service/plate-type/plate-type.s
 import { PlateTypeModel } from 'src/app/models/plate-type.model';
 
 enum PLATE_TYPE_ATTRIBUTE {
-  name = 'name',
+  name = 'label',
   number_rows = 'number_rows',
   number_cols = 'number_cols',
   created_at = 'created_at',
@@ -24,7 +24,7 @@ enum PLATE_TYPE_ATTRIBUTE {
 }
 
 enum PLATE_TYPE_ATTRIBUTE_LABEL {
-  name = 'Name',
+  name = 'Label',
   number_rows = 'Number of rows',
   number_cols = 'Number of cols',
   created_at = 'Created at',

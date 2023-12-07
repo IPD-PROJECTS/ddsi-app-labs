@@ -14,12 +14,15 @@ import _ from 'lodash';
 import { ToastModule } from 'primeng/toast';
 import { FileUploadModule } from 'primeng/fileupload';
 import { PLATE_PLAN_FILE_MAX_SIZE } from 'src/app/shared/util';
+import { MessageService } from 'primeng/api';
+import { NotificationService } from 'src/app/shared/service/notification/notification.service';
 
 export const plateDetailsSignal = signal(<PlateModel | undefined>undefined, {equal: _.isEqual});
 @Component({
   selector: 'ddsi-labs-apps-create-plate-plan',
   standalone: true,
   imports: [CommonModule, SplitterModule, AccordionModule, PlatePlanPreviewBlockComponent, ReactiveFormsModule, ButtonModule, InputTextModule, ToastModule, FileUploadModule],
+  providers:[MessageService, NotificationService],
   templateUrl: './create-plate-plan.component.html',
   styleUrls: ['./create-plate-plan.component.scss'],
 })
@@ -33,7 +36,7 @@ export class CreatePlatePlanComponent implements OnDestroy {
   idPlate?: number;
   isSubmittingPlatePlan = false;
   hasPlateDetailsChanged = false;
-  constructor(private fb: FormBuilder, private plateService: PlatePlanService, private route: ActivatedRoute, private appRouting: ApplicationRoutingService){
+  constructor(private notificationService: NotificationService, private fb: FormBuilder, private plateService: PlatePlanService, private route: ActivatedRoute, private appRouting: ApplicationRoutingService){
     this.route.data.subscribe(({ plateDetails }) => {
       this.initializePlateData(plateDetails);
       if(this.plaqueInfos) {
@@ -121,10 +124,15 @@ export class CreatePlatePlanComponent implements OnDestroy {
       next:(res: any) => {
         console.log('res', res);
         this.isSubmittingPlatePlan = false;
+        this.notificationService.displayNotification(true, 'Success', 'Plate plan updated successfully');
+        this.plaqueInitializedInfos = this.plaqueInfos;
+        this.hasPlateDetailsChanged = false;
       },
       error: (err) => {
         console.log('err', err);
         this.isSubmittingPlatePlan = false;
+        this.notificationService.displayNotification(false, 'Success', 'Plate plan updated successfully')
+
 
       }
     })

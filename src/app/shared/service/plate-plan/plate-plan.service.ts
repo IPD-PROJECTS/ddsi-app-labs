@@ -132,9 +132,13 @@ export class PlatePlanService {
   }
 
   fillPlateWithItems(idPlate: number, plateDetailsUpdated: PlateModel) {
+    const data = {
+      patients: plateDetailsUpdated.patients,
+      controls: plateDetailsUpdated.controls
+    }
     return this.http.post(
       `${platesEndpoint}${idPlate}/fill`,
-      plateDetailsUpdated
+      data
     );
   }
 }
