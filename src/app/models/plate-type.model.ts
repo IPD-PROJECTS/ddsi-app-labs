@@ -1,6 +1,6 @@
 export interface PlateTypeModel{
     id?: string;
-    name?: string,
+    label?: string,
     number_rows?: number
     number_cols?: number
     created_at?: string

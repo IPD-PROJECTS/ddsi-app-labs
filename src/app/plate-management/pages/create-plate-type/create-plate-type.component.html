@@ -10,7 +10,7 @@
             <div class="p-float-label">
               <input
                 pInputText
-                formControlName="name"
+                formControlName="label"
                 aria-describedby="name-help"
                 id="name"
               />
@@ -18,15 +18,15 @@
             </div>
             <ng-container
               *ngIf="
-                createPlateTypeForm.get('name')?.dirty ||
-                createPlateTypeForm.get('name')?.touched
+                createPlateTypeForm.get('label')?.dirty ||
+                createPlateTypeForm.get('label')?.touched
               "
             >
               <small
                 class="text-error"
                 *ngIf="
-                  createPlateTypeForm.controls['name'].errors &&
-                  createPlateTypeForm.controls['name'].errors['required']
+                  createPlateTypeForm.controls['label'].errors &&
+                  createPlateTypeForm.controls['label'].errors['required']
                 "
                 >Ce champs est requis</small
               >

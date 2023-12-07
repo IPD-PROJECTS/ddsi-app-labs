@@ -61,7 +61,7 @@ export class CreatePlateTypeComponent {
 isSubmitting = false;
   constructor(private fb: FormBuilder, private messageService: MessageService, private appRouting: ApplicationRoutingService, private plateTypeService: PlateTypeService) {
     this.createPlateTypeForm = fb.group({
-      name: ['', Validators.required],
+      label: ['', Validators.required],
       plateFillingType: [null, Validators.required],
       rowLength: [8, [Validators.required, Validators.min(2), Validators.max(20)]],
       colLength: [12, [Validators.required, Validators.min(2), Validators.max(20)]],
@@ -83,6 +83,7 @@ isSubmitting = false;
     if(this.createPlateTypeForm.valid) {
       // Save Plate Type Infos through backEnd APIs
       const data: PlateTypeModel = {
+        label: this.createPlateTypeForm.get('label')?.value,
         number_rows: this.createPlateTypeForm.get('rowLength')?.value,
         number_cols: this.createPlateTypeForm.get('colLength')?.value,
       };
