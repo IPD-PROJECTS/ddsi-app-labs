@@ -30,9 +30,9 @@ export class GetActionMenuByPlateItemPipe implements PipeTransform {
 
   removeItemFromPlatePlan(item: {id: string, location_name: string}, plate: PlateModel, type: ITEM_TYPE) {
     if(type === ITEM_TYPE.CONTROL) {
-      plate.controls = [...plate.controls?.filter((elt: {id: string, location_name: string}) => elt.location_name !== item.location_name)!]
+      plate.wells = {patients: plate.wells!.patients ,controls: [...plate.wells?.controls?.filter((elt: {id: string, location_name: string}) => elt.location_name !== item.location_name)!]}
     } else if(type === ITEM_TYPE.PATIENT) {
-      plate.patients = [...plate.patients?.filter((elt: {id: string, location_name: string}) => elt.location_name !== item.location_name)!]
+      plate.wells = {controls: plate.wells!.controls ,patients: [...plate.wells?.patients?.filter((elt: {id: string, location_name: string}) => elt.location_name !== item.location_name)!]}
     }
     plateDetailsSignal.set(plate);
   }

@@ -80,7 +80,7 @@
             {{ item.control_name }}
           </td>
         </tr>
-        <tr *ngIf="item_type === ITEM_TYPE.PATIENT" [pSelectableRow]="item" [ngClass]="{'disabled' : (item | isPatientAlreadyAdded : plateInfos?.patients)}" >
+        <tr *ngIf="item_type === ITEM_TYPE.PATIENT" [pSelectableRow]="item" [ngClass]="{'disabled' : (item | isPatientAlreadyAdded : plateInfos?.wells?.patients)}" >
           <td>
             {{ item.id }}
           </td>

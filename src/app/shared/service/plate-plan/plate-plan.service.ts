@@ -11,6 +11,7 @@ import { PlateItemPositionModel } from 'src/app/models/position.model';
 import { plateDetailsSignal } from 'src/app/plate-plan-management/pages/create-plate-plan/create-plate-plan.component';
 import { GetLabelOfPlateItemPipe } from '../../pipes/getLabelOfPlateItem/getLabelOfPlateItem.pipe';
 import { LabelType } from 'src/app/plate-management/pages/create-plate-type/create-plate-type.component';
+import _ from 'lodash';
 
 const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;
 const platesEndpoint = `${BASE_URL}/api/v1/plates/`;
@@ -90,7 +91,7 @@ export class PlatePlanService {
               colIndex: itemData.position.colIndex!,
             })
             .toUpperCase();
-          const index_item = [ ...(itemData.type === ITEM_TYPE.CONTROL ? plateDetails.controls : plateDetails.patients)!
+          const index_item = [ ...(itemData.type === ITEM_TYPE.CONTROL ? plateDetails.wells!.controls : plateDetails.wells!.patients)!
           ].findIndex((elt: { location_name: string }) => elt.location_name === location_name );
           if (index_item >= 0) {
             const newValue: ItemPosition = {...value.selected,location_name}
@@ -110,10 +111,9 @@ export class PlatePlanService {
       location_name: locationName,
     };
     const plateDetails: PlateModel = { ...plateDetailsSignal() };
-    if (itemType === ITEM_TYPE.CONTROL)
-      plateDetails.controls = [...plateDetails.controls!, itemPosition];
-    if (itemType === ITEM_TYPE.PATIENT)
-      plateDetails.patients = [...plateDetails.patients!, itemPosition];
+
+    if (itemType === ITEM_TYPE.CONTROL) plateDetails.wells = {patients: plateDetails.wells!.patients, controls: [...plateDetails.wells?.controls!, itemPosition]} ;
+    if (itemType === ITEM_TYPE.PATIENT) plateDetails.wells = {controls: plateDetails.wells!.controls, patients: [...plateDetails.wells?.patients!, itemPosition]} ;
     plateDetailsSignal.set(plateDetails);
 
   }
@@ -121,20 +121,20 @@ export class PlatePlanService {
   replaceItemOnPlate(itemType: ITEM_TYPE, item: any, index: number) {
     const plateDetails: PlateModel = { ...plateDetailsSignal() };
     if (itemType === ITEM_TYPE.CONTROL) {
-      plateDetails.controls = [...plateDetails.controls!];
-      plateDetails.controls![index] = item;
+        plateDetails.wells = { patients: plateDetails.wells!.patients, controls: [...plateDetails.wells!.controls!]};
+        plateDetails.wells!.controls![index] = item;
     }
     if (itemType === ITEM_TYPE.PATIENT) {
-      plateDetails.patients = [...plateDetails.patients!];
-      plateDetails.patients![index] = item;
+        plateDetails.wells = { controls: plateDetails.wells!.controls,patients: [...plateDetails.wells?.patients!]};
+        plateDetails.wells!.patients![index] = item;
     }
     plateDetailsSignal.set(plateDetails);
   }
 
   fillPlateWithItems(idPlate: number, plateDetailsUpdated: PlateModel) {
     const data = {
-      patients: plateDetailsUpdated.patients,
-      controls: plateDetailsUpdated.controls
+      patients: plateDetailsUpdated.wells?.patients,
+      controls: plateDetailsUpdated.wells?.controls
     }
     return this.http.post(
       `${platesEndpoint}${idPlate}/fill`,
