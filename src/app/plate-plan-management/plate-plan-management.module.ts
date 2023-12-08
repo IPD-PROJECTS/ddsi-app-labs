@@ -13,9 +13,10 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { PlatePlanService } from '../shared/service/plate-plan/plate-plan.service';
 import { GetLabelOfPlateItemPipe } from '../shared/pipes/getLabelOfPlateItem/getLabelOfPlateItem.pipe';
 import { NextCaracterPipe } from '../shared/pipes/nextCaracter/nextCaracter.pipe';
+import { BadgeModule } from 'primeng/badge';
 @NgModule({
   declarations: [ListPlatePlanComponent],
   providers:[MessageService, PlateDetailResolve, DialogService, PlatePlanService, GetLabelOfPlateItemPipe, NextCaracterPipe],
-  imports: [CommonModule, PlatePlanManagementRoutingModule, TableModule, ButtonModule, InputTextModule, ToastModule, GetLabelOfPlateItemPipe, NextCaracterPipe],
+  imports: [CommonModule,BadgeModule, PlatePlanManagementRoutingModule, TableModule, ButtonModule, InputTextModule, ToastModule, GetLabelOfPlateItemPipe, NextCaracterPipe],
 })
 export class PlatePlanManagementModule {}

@@ -7,6 +7,8 @@ import { PlatePlanService } from 'src/app/shared/service/plate-plan/plate-plan.s
 
 export enum PLATE_ATTRIBUTE {
   id = 'id',
+  patients = 'patients',
+  controls = 'controls',
   description = 'description',
   created_at = 'created_at',
   updated_at = 'updated_at',
@@ -15,6 +17,8 @@ export enum PLATE_ATTRIBUTE {
 
 export enum PLATE_LABEL {
   id = 'Id',
+  patients = 'Nombre de patients',
+  controls = 'Nombre de controls',
   description = 'Description',
   created_at = 'Created at',
   updated_at = 'Updated at',
