@@ -51,7 +51,7 @@ export class ModalSelectItemForPlateComponent {
 }
 
 isAlreadySelected(data: Patient) {
-  const found = this.plateInfos?.wells?.patients?.find((elt) => elt.id === data.id);
+  const found = this.plateInfos?.patients?.find((elt) => elt.id === data.id);
   return !!!found;
 }
 
