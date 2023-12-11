@@ -5,5 +5,6 @@ export interface PlateModel {
   updated_at?: string;
   plate_type?: number;
   created_by?: string;
-  wells?: { controls: any[]; patients: any[] };
+  controls?: any[];
+  patients?: any[];
 }
