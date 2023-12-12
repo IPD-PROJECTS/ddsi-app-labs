@@ -45,18 +45,18 @@ export class PlatePlanService {
   }
 
   updatePlate(data: PlateModel) {
-    return this.http.put(`${platesEndpoint}/${data.id}`, data);
+    return this.http.patch(`${platesEndpoint}${data.id}`, data);
   }
 
   getPlateDetailsById(id: string | null) {
     if (id) {
-      return this.http.get(`${platesEndpoint}/${id}`);
+      return this.http.get(`${platesEndpoint}${id}`);
     }
     return of();
   }
 
   deletePlate(data: PlateModel) {
-    return this.http.delete(`${platesEndpoint}/${data.id}`);
+    return this.http.delete(`${platesEndpoint}${data.id}`);
   }
 
   createPlate(data: PlateModel) {
