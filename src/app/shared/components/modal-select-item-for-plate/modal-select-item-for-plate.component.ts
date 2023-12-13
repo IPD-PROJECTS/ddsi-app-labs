@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -8,10 +8,8 @@ import { ITEM_TYPE } from '../../enum';
 import { PatientService } from '../../service/patient/patient.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IsPatientAlreadyAddedPipe } from '../../pipes/isPatientAlreadyAdded/isPatientAlreadyAdded.pipe';
-import { ControlModel } from '../../models/controls.model';
-import { Patient } from '../../models/patient.model';
 import { PLATE_ATTRIBUTE, PLATE_LABEL } from '../../enum';
-import { PlateModel } from '../../models/plate.model';
+import { PlateModel, ControlModel, Patient } from '@ddsi-labs-apps/models';
 
 
 

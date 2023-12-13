@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PlatePlanService } from 'src/app/shared/service/plate-plan/plate-plan.service';
-import { PlateModel, plateDetailsSignal } from '../../../shared/models/plate.model';
+import { PlateModel, plateDetailsSignal } from '@ddsi-labs-apps/models';
 import { ActivatedRoute } from '@angular/router';
 import _ from 'lodash';
 import { FileUploadModule } from 'primeng/fileupload';

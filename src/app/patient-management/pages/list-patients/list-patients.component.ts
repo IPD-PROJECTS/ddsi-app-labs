@@ -3,9 +3,8 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { AddPatientComponent } from '../../modals/add-patients/add-patient.component';
 import { PatientService } from 'src/app/shared/service/patient/patient.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { Patient } from 'src/app/shared/models/patient.model';
-import { notificationSignal } from 'src/app/shared/models/notification.model';
+import { ConfirmationService } from 'primeng/api';
+import { Patient } from '@ddsi-labs-apps/models';
 import { NotificationService } from 'src/app/shared/service/notification/notification.service';
 import { NotificationSeverity } from 'src/app/shared/enum';
 enum PATIENT_ATTRIBUTE {

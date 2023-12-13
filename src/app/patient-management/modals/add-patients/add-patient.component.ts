@@ -19,7 +19,7 @@ import { MessageService } from 'primeng/api';
 import { TabView, TabViewModule } from 'primeng/tabview';
 import { FileUpload, FileUploadModule } from 'primeng/fileupload';
 import { PATIENT_FILE_LIST_MAX_SIZE } from 'src/app/shared/util';
-import { Patient } from 'src/app/shared/models/patient.model';
+import { Patient } from '@ddsi-labs-apps/models';
 @Component({
   selector: 'ddsi-labs-apps-add-patient',
   standalone: true,

@@ -12,7 +12,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PlateTypeService } from 'src/app/shared/service/plate-type/plate-type.service';
 import { ApplicationRoutingService } from 'src/app/shared/service/application-routing/application-routing.service';
-import { PlateTypeModel } from 'src/app/shared/models/plate-type.model';
+import { PlateTypeModel } from '@ddsi-labs-apps/models';
 
 enum PLATE_TYPE_ATTRIBUTE {
   name = 'label',

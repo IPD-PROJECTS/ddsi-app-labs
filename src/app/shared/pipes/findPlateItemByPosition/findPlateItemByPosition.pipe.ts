@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { PlateModel } from '../../models/plate.model';
+import { PlateModel } from '@ddsi-labs-apps/models';
 
 @Pipe({
   name: 'findPlateItemByPosition',

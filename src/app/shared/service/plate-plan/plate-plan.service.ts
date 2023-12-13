@@ -4,10 +4,7 @@ import { of } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ModalSelectItemForPlateComponent } from '../../components/modal-select-item-for-plate/modal-select-item-for-plate.component';
 import { GetLabelOfPlateItemPipe } from '../../pipes/getLabelOfPlateItem/getLabelOfPlateItem.pipe';
-import { ControlModel } from '../../models/controls.model';
-import { Patient } from '../../models/patient.model';
-import { PlateModel, plateDetailsSignal } from '../../models/plate.model';
-import { ItemPosition, PlateItemPositionModel } from '../../models/position.model';
+import { ItemPosition, PlateItemPositionModel, Patient, ControlModel ,PlateModel, plateDetailsSignal } from '@ddsi-labs-apps/models';
 import { ENV_KEY, ITEM_TYPE, LabelType } from '../../enum';
 
 const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { notificationSignal } from '../../models/notification.model';
+import { notificationSignal } from '@ddsi-labs-apps/models';
 import { NotificationSeverity } from '../../enum';
 
 @Injectable({

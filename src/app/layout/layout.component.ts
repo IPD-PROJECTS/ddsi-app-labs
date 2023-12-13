@@ -17,7 +17,7 @@ import { AppConfigComponent } from './config/app.config.component';
 import { AppBreadcrumbComponent } from './app.breadcrumb.component';
 import { ToastModule } from 'primeng/toast';
 import { Message, MessageService } from 'primeng/api';
-import { notificationSignal } from '../shared/models/notification.model';
+import { notificationSignal } from '@ddsi-labs-apps/models';
 
 @Component({
   selector: 'ddsi-labs-apps-layout',

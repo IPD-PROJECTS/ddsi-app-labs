@@ -4,7 +4,7 @@ import { Observable, catchError, of } from "rxjs";
 import { PlatePlanService } from "../shared/service/plate-plan/plate-plan.service";
 import { MessageService } from "primeng/api";
 import { ApplicationRoutingService } from "../shared/service/application-routing/application-routing.service";
-import { PlateModel } from "../shared/models/plate.model";
+import { PlateModel } from "@ddsi-labs-apps/models";
 
 @Injectable({ providedIn: 'root' })
 export class PlateDetailResolve implements Resolve<PlateModel> {

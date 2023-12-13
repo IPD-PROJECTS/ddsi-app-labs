@@ -13,7 +13,7 @@ import { GetListPlatePositionPipe } from 'src/app/shared/pipes/getListPlatePosti
 import { GetLabelOfPlateItemPipe } from 'src/app/shared/pipes/getLabelOfPlateItem/getLabelOfPlateItem.pipe';
 import { MessageService } from 'primeng/api';
 import { PlateTypeService } from 'src/app/shared/service/plate-type/plate-type.service';
-import { PlateTypeModel } from '../../../shared/models/plate-type.model';
+import { PlateTypeModel } from '@ddsi-labs-apps/models';
 import { LabelType, PlateFillingType } from '../../../shared/enum';
 import { ApplicationRoutingService } from 'src/app/shared/service/application-routing/application-routing.service';
 
