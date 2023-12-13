@@ -12,10 +12,10 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { GetListPlatePositionPipe } from 'src/app/shared/pipes/getListPlatePostion/getListPlatePosition.pipe';
 import { GetLabelOfPlateItemPipe } from 'src/app/shared/pipes/getLabelOfPlateItem/getLabelOfPlateItem.pipe';
 import { MessageService } from 'primeng/api';
-import { PlateTypeService } from 'src/app/shared/service/plate-type/plate-type.service';
+import { PlateTypeService } from '@ddsi-labs-apps/services';
 import { PlateTypeModel } from '@ddsi-labs-apps/models';
 import { LabelType, PlateFillingType } from '@ddsi-labs-apps/enums';
-import { ApplicationRoutingService } from 'src/app/shared/service/application-routing/application-routing.service';
+import { ApplicationRoutingService } from '@ddsi-labs-apps/services';
 
 
 @Component({

@@ -10,27 +10,12 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { PlateTypeService } from 'src/app/shared/service/plate-type/plate-type.service';
-import { ApplicationRoutingService } from 'src/app/shared/service/application-routing/application-routing.service';
+import { PlateTypeService } from '@ddsi-labs-apps/services';
+import { ApplicationRoutingService } from '@ddsi-labs-apps/services';
 import { PlateTypeModel } from '@ddsi-labs-apps/models';
+import { PLATE_TYPE_ATTRIBUTE, PLATE_TYPE_ATTRIBUTE_LABEL } from '@ddsi-labs-apps/enums';
 
-enum PLATE_TYPE_ATTRIBUTE {
-  name = 'label',
-  number_rows = 'number_rows',
-  number_cols = 'number_cols',
-  created_at = 'created_at',
-  updated_at = 'updated_at',
-  author = 'created_by'
-}
 
-enum PLATE_TYPE_ATTRIBUTE_LABEL {
-  name = 'Label',
-  number_rows = 'Number of rows',
-  number_cols = 'Number of cols',
-  created_at = 'Created at',
-  updated_at = 'Updated at',
-  author = 'Last Updated by'
-}
 interface expandedRows {
   [key: string]: boolean;
 }

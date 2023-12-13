@@ -2,17 +2,12 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { AddPatientComponent } from '../../modals/add-patients/add-patient.component';
-import { PatientService } from 'src/app/shared/service/patient/patient.service';
+import { PatientService } from '@ddsi-labs-apps/services';
 import { ConfirmationService } from 'primeng/api';
 import { Patient } from '@ddsi-labs-apps/models';
-import { NotificationService } from 'src/app/shared/service/notification/notification.service';
-import { NotificationSeverity } from '@ddsi-labs-apps/enums';
-enum PATIENT_ATTRIBUTE {
-  ANON_NAME = 'anon_name',
-  FIRSTNAME = 'first_name',
-  LASTNAME = 'last_name',
-  BIRTHDATE = 'birth_date',
-}
+import { NotificationService } from '@ddsi-labs-apps/services';
+import { NotificationSeverity, PATIENT_ATTRIBUTE } from '@ddsi-labs-apps/enums';
+
 
 @Component({
   selector: 'ddsi-labs-apps-list-patients',

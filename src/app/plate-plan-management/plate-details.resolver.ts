@@ -3,7 +3,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/r
 import { Observable, catchError, of } from "rxjs";
 import { PlatePlanService } from "../shared/service/plate-plan/plate-plan.service";
 import { MessageService } from "primeng/api";
-import { ApplicationRoutingService } from "../shared/service/application-routing/application-routing.service";
+import { ApplicationRoutingService } from "@ddsi-labs-apps/services";
 import { PlateModel } from "@ddsi-labs-apps/models";
 
 @Injectable({ providedIn: 'root' })

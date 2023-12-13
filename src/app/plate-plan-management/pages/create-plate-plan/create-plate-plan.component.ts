@@ -13,8 +13,8 @@ import _ from 'lodash';
 import { FileUploadModule } from 'primeng/fileupload';
 import { PLATE_PLAN_FILE_MAX_SIZE } from 'src/app/shared/util';
 import { MessageService } from 'primeng/api';
-import { NotificationService } from 'src/app/shared/service/notification/notification.service';
-import { ApplicationRoutingService } from 'src/app/shared/service/application-routing/application-routing.service';
+import { NotificationService } from '@ddsi-labs-apps/services';
+import { ApplicationRoutingService } from '@ddsi-labs-apps/services';
 import { NotificationSeverity } from '@ddsi-labs-apps/enums';
 
 

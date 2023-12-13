@@ -13,7 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
-import { PatientService } from 'src/app/shared/service/patient/patient.service';
+import { PatientService } from '@ddsi-labs-apps/services';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { TabView, TabViewModule } from 'primeng/tabview';
@@ -144,13 +144,13 @@ export class AddPatientComponent {
     this.uploadingPatients = true;
     this.hasErrorUploadingPatients = false;
     this.patientService.uploadListPatientsWithFile(importedPatientsFile).subscribe({
-      next:(res) => {
+      next:() => {
         this.uploadingPatients = false;
         this.displayNotificationMsg(true, 'Import', 'List of Patients successfully imported');
         this.fileUploader.clear();
         this.dynamicDialogRef.close({ success: true });
       },
-      error:(err) => {
+      error:() => {
         this.uploadingPatients = false;
         this.hasErrorUploadingPatients = true;
         this.displayNotificationMsg(false, 'Failed', 'Error during import, please try again')
