@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ENV_KEY } from '../../util';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Patient } from 'src/app/models/patient.model';
+import { Patient } from '../../models/patient.model';
 
 const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;
 const patientsEndpoint = `${BASE_URL}/api/v1/patients`

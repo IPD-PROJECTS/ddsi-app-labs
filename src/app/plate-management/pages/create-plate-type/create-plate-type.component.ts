@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
@@ -13,18 +13,11 @@ import { GetListPlatePositionPipe } from 'src/app/shared/pipes/getListPlatePosti
 import { GetLabelOfPlateItemPipe } from 'src/app/shared/pipes/getLabelOfPlateItem/getLabelOfPlateItem.pipe';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { ApplicationRoutingService } from 'src/app/shared/application-routing/application-routing.service';
 import { PlateTypeService } from 'src/app/shared/service/plate-type/plate-type.service';
-import { PlateTypeModel } from 'src/app/models/plate-type.model';
+import { PlateTypeModel } from '../../../shared/models/plate-type.model';
+import { LabelType, PlateFillingType } from '../../../shared/enum';
+import { ApplicationRoutingService } from 'src/app/shared/service/application-routing/application-routing.service';
 
-export enum LabelType {
-  LETTER = 'Letter',
-  NUMBER = 'Number'
-}
-export enum PlateFillingType {
-  COLUMN = 'Column',
-  ROW = 'Row'
-}
 
 @Component({
   selector: 'ddsi-labs-apps-create-plate-type',

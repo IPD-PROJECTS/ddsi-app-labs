@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { PlateModel } from 'src/app/models/plate.model';
+import { PlateModel } from '../../models/plate.model';
 import { Result } from '../../util';
 
 @Pipe({

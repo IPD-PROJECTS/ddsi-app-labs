@@ -7,15 +7,15 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PlatePlanService } from 'src/app/shared/service/plate-plan/plate-plan.service';
-import { PlateModel } from 'src/app/models/plate.model';
+import { PlateModel } from '../../../shared/models/plate.model';
 import { ActivatedRoute } from '@angular/router';
-import { ApplicationRoutingService } from 'src/app/shared/application-routing/application-routing.service';
 import _ from 'lodash';
 import { ToastModule } from 'primeng/toast';
 import { FileUploadModule } from 'primeng/fileupload';
 import { PLATE_PLAN_FILE_MAX_SIZE } from 'src/app/shared/util';
 import { MessageService } from 'primeng/api';
 import { NotificationService } from 'src/app/shared/service/notification/notification.service';
+import { ApplicationRoutingService } from 'src/app/shared/service/application-routing/application-routing.service';
 
 export const plateDetailsSignal = signal(<PlateModel | undefined>undefined, {equal: _.isEqual});
 @Component({

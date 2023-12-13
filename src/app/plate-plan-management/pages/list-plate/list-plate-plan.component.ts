@@ -1,29 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
-import { PlateModel } from 'src/app/models/plate.model';
-import { ApplicationRoutingService } from 'src/app/shared/application-routing/application-routing.service';
+import { PLATE_ATTRIBUTE, PLATE_LABEL } from 'src/app/shared/enum';
+import { PlateModel } from 'src/app/shared/models/plate.model';
+import { ApplicationRoutingService } from 'src/app/shared/service/application-routing/application-routing.service';
 import { PlatePlanService } from 'src/app/shared/service/plate-plan/plate-plan.service';
 
 
-export enum PLATE_ATTRIBUTE {
-  id = 'id',
-  patients = 'patients',
-  controls = 'controls',
-  description = 'description',
-  created_at = 'created_at',
-  updated_at = 'updated_at',
-  created_by = 'created_by',
-}
 
-export enum PLATE_LABEL {
-  id = 'Id',
-  patients = 'Nombre de patients',
-  controls = 'Nombre de controls',
-  description = 'Description',
-  created_at = 'Created at',
-  updated_at = 'Updated at',
-  created_by = 'Created by',
-}
 
 
 @Component({

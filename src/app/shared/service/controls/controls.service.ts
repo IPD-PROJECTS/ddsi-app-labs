@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ENV_KEY } from '../../util';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { ControlModel } from 'src/app/models/controls.model';
+import { HttpClient } from '@angular/common/http';
+import { ControlModel } from '../../models/controls.model';
 
 const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;
 const controlsEndpoint = `${BASE_URL}/api/v1/controls/`

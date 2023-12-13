@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { Observable, catchError, of } from "rxjs";
-import { PlateModel } from "../models/plate.model";
 import { PlatePlanService } from "../shared/service/plate-plan/plate-plan.service";
-import { ApplicationRoutingService } from "../shared/application-routing/application-routing.service";
 import { MessageService } from "primeng/api";
+import { ApplicationRoutingService } from "../shared/service/application-routing/application-routing.service";
+import { PlateModel } from "../shared/models/plate.model";
 
 @Injectable({ providedIn: 'root' })
 export class PlateDetailResolve implements Resolve<PlateModel> {

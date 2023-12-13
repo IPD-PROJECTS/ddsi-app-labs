@@ -1,26 +1,21 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ENV_KEY, ITEM_TYPE } from '../../util';
-import { PlateModel } from 'src/app/models/plate.model';
 import { of } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ModalSelectItemForPlateComponent } from '../../components/modal-select-item-for-plate/modal-select-item-for-plate.component';
-import { ControlModel } from 'src/app/models/controls.model';
-import { Patient } from 'src/app/models/patient.model';
-import { PlateItemPositionModel } from 'src/app/models/position.model';
-import { plateDetailsSignal } from 'src/app/plate-plan-management/pages/create-plate-plan/create-plate-plan.component';
 import { GetLabelOfPlateItemPipe } from '../../pipes/getLabelOfPlateItem/getLabelOfPlateItem.pipe';
-import { LabelType } from 'src/app/plate-management/pages/create-plate-type/create-plate-type.component';
-import _ from 'lodash';
+import { plateDetailsSignal } from 'src/app/plate-plan-management/pages/create-plate-plan/create-plate-plan.component';
+import { ControlModel } from '../../models/controls.model';
+import { Patient } from '../../models/patient.model';
+import { PlateModel } from '../../models/plate.model';
+import { ItemPosition, PlateItemPositionModel } from '../../models/position.model';
+import { LabelType } from '../../enum';
 
 const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;
 const platesEndpoint = `${BASE_URL}/api/v1/plates/`;
 
-interface ItemPosition {
-  id?: string;
-  location_name: string;
-  control_name?: string;
-}
+
 
 @Injectable({
   providedIn: 'root',
@@ -91,7 +86,7 @@ export class PlatePlanService {
               colIndex: itemData.position.colIndex!,
             })
             .toUpperCase();
-          const index_item = [ ...(itemData.type === ITEM_TYPE.CONTROL ? plateDetails.controls : plateDetails.patients)!
+          const index_item = [ ...((itemData.type === ITEM_TYPE.CONTROL ? plateDetails.controls : plateDetails.patients) ||  [] )
           ].findIndex((elt: { location_name: string }) => elt.location_name === location_name );
           if (index_item >= 0) {
             const newValue: ItemPosition = {...value.selected,location_name}
@@ -105,7 +100,7 @@ export class PlatePlanService {
   }
 
   addItemToPlate(locationName: string, itemType: ITEM_TYPE, item: any) {
-    let itemPosition: ItemPosition = {
+    const itemPosition: ItemPosition = {
       id: item.id,
       control_name: item['control_name'],
       location_name: locationName,

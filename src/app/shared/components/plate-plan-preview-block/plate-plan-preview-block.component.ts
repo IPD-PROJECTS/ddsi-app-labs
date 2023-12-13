@@ -1,6 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LabelType } from 'src/app/plate-management/pages/create-plate-type/create-plate-type.component';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { GetLabelOfPlateItemPipe } from '../../pipes/getLabelOfPlateItem/getLabelOfPlateItem.pipe';
@@ -8,13 +7,14 @@ import { NextCaracterPipe } from '../../pipes/nextCaracter/nextCaracter.pipe';
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { PlatePlanService } from '../../service/plate-plan/plate-plan.service';
-import { PlateModel } from 'src/app/models/plate.model';
+import { PlateModel } from '../../models/plate.model';
 import { ITEM_TYPE } from '../../util';
-import { PlateItemPositionModel } from 'src/app/models/position.model';
+import { PlateItemPositionModel } from '../../models/position.model';
 import { CheckStatusPlateItemPipe } from '../../pipes/checkStatusPlateItem/checkStatusPlateItem.pipe';
 import { LabelOfPlateItemFilledPipe } from '../../pipes/labelOfPlateItemFilled/labelOfPlateItemFilled.pipe';
 import { FindPlateItemByPositionPipe } from '../../pipes/findPlateItemByPosition/findPlateItemByPosition.pipe';
 import { plateDetailsSignal } from 'src/app/plate-plan-management/pages/create-plate-plan/create-plate-plan.component';
+import { LabelType } from '../../enum';
 
 const COLUMN_INDEX_FOR_CONTROLS = 0;
 @Pipe({
@@ -38,7 +38,6 @@ export class GetActionMenuByPlateItemPipe implements PipeTransform {
   }
 
   transform(position:{ rowIndex: number, colIndex: number }, data: {plateDetails?: any, contentItemFilled: any}): MenuItem[] {
-    const menu: MenuItem[] = [];
     if(position.colIndex === COLUMN_INDEX_FOR_CONTROLS) {
       return [
         {
@@ -109,9 +108,9 @@ export class GetActionMenuByPlateItemPipe implements PipeTransform {
 })
 export class PlatePlanPreviewBlockComponent {
   COLUMN_INDEX_FOR_CONTROLS = COLUMN_INDEX_FOR_CONTROLS;
-  @Input() rowLength: number = 8;
+  @Input() rowLength = 8;
   @Input() rowLabelType: LabelType = LabelType.LETTER;
-  @Input() colLength: number = 12;
+  @Input() colLength = 12;
   @Input() colLabelType: LabelType = LabelType.NUMBER;
   @Input() disabled = false;
   @Input() plateDetails?: PlateModel

@@ -1,10 +1,10 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
-import { Patient } from 'src/app/models/patient.model';
 import { AddPatientComponent } from '../../modals/add-patients/add-patient.component';
 import { PatientService } from 'src/app/shared/service/patient/patient.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Patient } from 'src/app/shared/models/patient.model';
 enum PATIENT_ATTRIBUTE {
   ANON_NAME = 'anon_name',
   FIRSTNAME = 'first_name',

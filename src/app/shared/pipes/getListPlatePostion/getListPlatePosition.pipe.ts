@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { LabelType } from 'src/app/plate-management/pages/create-plate-type/create-plate-type.component';
 import { NextCaracterPipe } from '../nextCaracter/nextCaracter.pipe';
+import { LabelType } from '../../enum';
 
 @Pipe({
   name: 'getListPlatePosition',

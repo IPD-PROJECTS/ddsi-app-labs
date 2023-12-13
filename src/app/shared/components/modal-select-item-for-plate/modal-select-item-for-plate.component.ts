@@ -2,16 +2,16 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { PlateModel } from 'src/app/models/plate.model';
-import { PLATE_LABEL, PLATE_ATTRIBUTE } from 'src/app/plate-plan-management/pages/list-plate/list-plate-plan.component';
 import { InputTextModule } from 'primeng/inputtext';
-import { Patient } from 'src/app/models/patient.model';
 import { ControlsService } from '../../service/controls/controls.service';
 import { ITEM_TYPE } from '../../util';
 import { PatientService } from '../../service/patient/patient.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ControlModel } from 'src/app/models/controls.model';
 import { IsPatientAlreadyAddedPipe } from '../../pipes/isPatientAlreadyAdded/isPatientAlreadyAdded.pipe';
+import { ControlModel } from '../../models/controls.model';
+import { Patient } from '../../models/patient.model';
+import { PLATE_ATTRIBUTE, PLATE_LABEL } from '../../enum';
+import { PlateModel } from '../../models/plate.model';
 
 
 
@@ -51,8 +51,8 @@ export class ModalSelectItemForPlateComponent {
 }
 
 isAlreadySelected(data: Patient) {
-  const found = this.plateInfos?.patients?.find((elt) => elt.id === data.id);
-  return !!!found;
+  const found = this.plateInfos?.patients?.find((elt: {id: string}) => elt.id === data.id);
+  return !found;
 }
 
   lazyLoadTableItems(params: any) {
