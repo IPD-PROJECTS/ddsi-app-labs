@@ -6,7 +6,7 @@ import { PatientService } from 'src/app/shared/service/patient/patient.service';
 import { ConfirmationService } from 'primeng/api';
 import { Patient } from '@ddsi-labs-apps/models';
 import { NotificationService } from 'src/app/shared/service/notification/notification.service';
-import { NotificationSeverity } from 'src/app/shared/enum';
+import { NotificationSeverity } from '@ddsi-labs-apps/enums';
 enum PATIENT_ATTRIBUTE {
   ANON_NAME = 'anon_name',
   FIRSTNAME = 'first_name',

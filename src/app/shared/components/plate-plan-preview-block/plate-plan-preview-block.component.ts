@@ -8,11 +8,10 @@ import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { PlatePlanService } from '../../service/plate-plan/plate-plan.service';
 import { PlateModel, plateDetailsSignal, PlateItemPositionModel } from '@ddsi-labs-apps/models';
-import { ITEM_TYPE } from '../../enum';
+import { ITEM_TYPE, LabelType } from '@ddsi-labs-apps/enums';
 import { CheckStatusPlateItemPipe } from '../../pipes/checkStatusPlateItem/checkStatusPlateItem.pipe';
 import { LabelOfPlateItemFilledPipe } from '../../pipes/labelOfPlateItemFilled/labelOfPlateItemFilled.pipe';
 import { FindPlateItemByPositionPipe } from '../../pipes/findPlateItemByPosition/findPlateItemByPosition.pipe';
-import { LabelType } from '../../enum';
 
 const COLUMN_INDEX_FOR_CONTROLS = 0;
 @Pipe({

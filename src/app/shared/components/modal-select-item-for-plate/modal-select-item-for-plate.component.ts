@@ -4,11 +4,10 @@ import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ControlsService } from '../../service/controls/controls.service';
-import { ITEM_TYPE } from '../../enum';
+import { ITEM_TYPE, PLATE_ATTRIBUTE, PLATE_LABEL } from '@ddsi-labs-apps/enums';
 import { PatientService } from '../../service/patient/patient.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IsPatientAlreadyAddedPipe } from '../../pipes/isPatientAlreadyAdded/isPatientAlreadyAdded.pipe';
-import { PLATE_ATTRIBUTE, PLATE_LABEL } from '../../enum';
 import { PlateModel, ControlModel, Patient } from '@ddsi-labs-apps/models';
 
 

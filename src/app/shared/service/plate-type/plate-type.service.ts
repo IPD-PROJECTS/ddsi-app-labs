@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PlateTypeModel } from '@ddsi-labs-apps/models';
-import { ENV_KEY } from '../../enum';
+import { ENV_KEY } from '@ddsi-labs-apps/enums';
 
 const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;
 const plateTypesEndpoint = `${BASE_URL}/api/v1/plate-types/`

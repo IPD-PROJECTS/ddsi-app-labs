@@ -15,7 +15,7 @@ import { PLATE_PLAN_FILE_MAX_SIZE } from 'src/app/shared/util';
 import { MessageService } from 'primeng/api';
 import { NotificationService } from 'src/app/shared/service/notification/notification.service';
 import { ApplicationRoutingService } from 'src/app/shared/service/application-routing/application-routing.service';
-import { NotificationSeverity } from 'src/app/shared/enum';
+import { NotificationSeverity } from '@ddsi-labs-apps/enums';
 
 
 @Component({

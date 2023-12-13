@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { PlateModel } from '@ddsi-labs-apps/models';
-import { PLATE_ATTRIBUTE, PLATE_LABEL } from 'src/app/shared/enum';
+import { PLATE_ATTRIBUTE, PLATE_LABEL } from '@ddsi-labs-apps/enums';
 import { ApplicationRoutingService } from 'src/app/shared/service/application-routing/application-routing.service';
 import { PlatePlanService } from 'src/app/shared/service/plate-plan/plate-plan.service';
 

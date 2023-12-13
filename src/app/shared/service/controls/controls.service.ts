@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ControlModel } from '@ddsi-labs-apps/models';
-import { ENV_KEY } from '../../enum';
+import { ENV_KEY } from '@ddsi-labs-apps/enums';
 
 const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;
 const controlsEndpoint = `${BASE_URL}/api/v1/controls/`

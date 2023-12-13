@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { NextCaracterPipe } from '../nextCaracter/nextCaracter.pipe';
-import { LabelType } from '../../enum';
+import { LabelType } from '@ddsi-labs-apps/enums';
 
 @Pipe({
   name: 'getListPlatePosition',

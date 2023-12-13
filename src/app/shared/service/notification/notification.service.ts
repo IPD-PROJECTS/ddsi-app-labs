@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { notificationSignal } from '@ddsi-labs-apps/models';
-import { NotificationSeverity } from '../../enum';
+import { NotificationSeverity } from '@ddsi-labs-apps/enums';
 
 @Injectable({
   providedIn: 'root',

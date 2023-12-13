@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@ddsi-labs-apps/enums": ["libs/enums/src/index.ts"],
       "@ddsi-labs-apps/models": ["libs/models/src/index.ts"]
     }
   },

@@ -5,7 +5,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ModalSelectItemForPlateComponent } from '../../components/modal-select-item-for-plate/modal-select-item-for-plate.component';
 import { GetLabelOfPlateItemPipe } from '../../pipes/getLabelOfPlateItem/getLabelOfPlateItem.pipe';
 import { ItemPosition, PlateItemPositionModel, Patient, ControlModel ,PlateModel, plateDetailsSignal } from '@ddsi-labs-apps/models';
-import { ENV_KEY, ITEM_TYPE, LabelType } from '../../enum';
+import { ENV_KEY, ITEM_TYPE, LabelType } from '@ddsi-labs-apps/enums';
 
 const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;
 const platesEndpoint = `${BASE_URL}/api/v1/plates/`;
