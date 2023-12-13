@@ -1,16 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ENV_KEY, ITEM_TYPE } from '../../util';
 import { of } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ModalSelectItemForPlateComponent } from '../../components/modal-select-item-for-plate/modal-select-item-for-plate.component';
 import { GetLabelOfPlateItemPipe } from '../../pipes/getLabelOfPlateItem/getLabelOfPlateItem.pipe';
-import { plateDetailsSignal } from 'src/app/plate-plan-management/pages/create-plate-plan/create-plate-plan.component';
 import { ControlModel } from '../../models/controls.model';
 import { Patient } from '../../models/patient.model';
-import { PlateModel } from '../../models/plate.model';
+import { PlateModel, plateDetailsSignal } from '../../models/plate.model';
 import { ItemPosition, PlateItemPositionModel } from '../../models/position.model';
-import { LabelType } from '../../enum';
+import { ENV_KEY, ITEM_TYPE, LabelType } from '../../enum';
 
 const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;
 const platesEndpoint = `${BASE_URL}/api/v1/plates/`;

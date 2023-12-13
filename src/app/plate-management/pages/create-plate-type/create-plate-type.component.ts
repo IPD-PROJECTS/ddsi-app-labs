@@ -12,7 +12,6 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { GetListPlatePositionPipe } from 'src/app/shared/pipes/getListPlatePostion/getListPlatePosition.pipe';
 import { GetLabelOfPlateItemPipe } from 'src/app/shared/pipes/getLabelOfPlateItem/getLabelOfPlateItem.pipe';
 import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
 import { PlateTypeService } from 'src/app/shared/service/plate-type/plate-type.service';
 import { PlateTypeModel } from '../../../shared/models/plate-type.model';
 import { LabelType, PlateFillingType } from '../../../shared/enum';
@@ -22,7 +21,7 @@ import { ApplicationRoutingService } from 'src/app/shared/service/application-ro
 @Component({
   selector: 'ddsi-labs-apps-create-plate-type',
   standalone: true,
-  imports: [CommonModule, ToastModule,FormsModule,GetLabelOfPlateItemPipe,NextCaracterPipe,GetListPlatePositionPipe, InputTextModule, ButtonModule, RippleModule, DropdownModule, InputSwitchModule, ReactiveFormsModule, TooltipModule, MultiSelectModule],
+  imports: [CommonModule,FormsModule,GetLabelOfPlateItemPipe,NextCaracterPipe,GetListPlatePositionPipe, InputTextModule, ButtonModule, RippleModule, DropdownModule, InputSwitchModule, ReactiveFormsModule, TooltipModule, MultiSelectModule],
   providers:[MessageService, NextCaracterPipe],
   templateUrl: './create-plate-type.component.html',
   styleUrls: ['./create-plate-type.component.scss'],

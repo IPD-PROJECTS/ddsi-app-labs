@@ -1,3 +1,6 @@
+import { signal } from "@angular/core";
+import _ from "lodash";
+
 export interface PlateModel {
   id?: number;
   description?: string;
@@ -8,3 +11,5 @@ export interface PlateModel {
   controls?: any[];
   patients?: any[];
 }
+
+export const plateDetailsSignal = signal(<PlateModel | undefined>undefined, {equal: _.isEqual});

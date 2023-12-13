@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ENV_KEY } from '../../util';
 import { PlateTypeModel } from '../../models/plate-type.model';
+import { ENV_KEY } from '../../enum';
 
 const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;
 const plateTypesEndpoint = `${BASE_URL}/api/v1/plate-types/`

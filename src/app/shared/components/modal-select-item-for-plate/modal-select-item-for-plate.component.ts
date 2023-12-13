@@ -4,7 +4,7 @@ import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ControlsService } from '../../service/controls/controls.service';
-import { ITEM_TYPE } from '../../util';
+import { ITEM_TYPE } from '../../enum';
 import { PatientService } from '../../service/patient/patient.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IsPatientAlreadyAddedPipe } from '../../pipes/isPatientAlreadyAdded/isPatientAlreadyAdded.pipe';

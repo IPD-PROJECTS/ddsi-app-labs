@@ -24,7 +24,6 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
     FormsModule,
     ButtonModule,
     InputTextModule,
-    ToastModule,
     DynamicDialogModule
   ],
 })

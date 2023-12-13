@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { PlateModel } from '../../models/plate.model';
-import { Result } from '../../util';
+import { Result } from '../../enum';
 
 @Pipe({
   name: 'checkStatusPlateItem',

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { notificationSignal } from '../../models/notification.model';
+import { NotificationSeverity } from '../../enum';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +10,8 @@ export class NotificationService {
 
   constructor(private message: MessageService) { }
 
-  displayNotification(sucess: boolean, title: string, message: string) {
-    this.message.add({ severity: sucess ? 'success' : 'error', summary: title, detail: message});
+  displayNotification(severity: NotificationSeverity, title: string, message: string) {
+    notificationSignal.set({severity, summary:title, detail: message});
+    // this.message.add({ severity: sucess ? 'success' : 'error', summary: title, detail: message});
   }
 }

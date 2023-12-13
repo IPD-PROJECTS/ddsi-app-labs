@@ -7,13 +7,12 @@ import { NextCaracterPipe } from '../../pipes/nextCaracter/nextCaracter.pipe';
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { PlatePlanService } from '../../service/plate-plan/plate-plan.service';
-import { PlateModel } from '../../models/plate.model';
-import { ITEM_TYPE } from '../../util';
+import { PlateModel, plateDetailsSignal } from '../../models/plate.model';
+import { ITEM_TYPE } from '../../enum';
 import { PlateItemPositionModel } from '../../models/position.model';
 import { CheckStatusPlateItemPipe } from '../../pipes/checkStatusPlateItem/checkStatusPlateItem.pipe';
 import { LabelOfPlateItemFilledPipe } from '../../pipes/labelOfPlateItemFilled/labelOfPlateItemFilled.pipe';
 import { FindPlateItemByPositionPipe } from '../../pipes/findPlateItemByPosition/findPlateItemByPosition.pipe';
-import { plateDetailsSignal } from 'src/app/plate-plan-management/pages/create-plate-plan/create-plate-plan.component';
 import { LabelType } from '../../enum';
 
 const COLUMN_INDEX_FOR_CONTROLS = 0;

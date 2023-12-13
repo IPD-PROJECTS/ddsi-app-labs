@@ -6,7 +6,6 @@ import { ListPlatePlanComponent } from './pages/list-plate/list-plate-plan.compo
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { PlateDetailResolve } from './plate-details.resolver';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -17,6 +16,6 @@ import { BadgeModule } from 'primeng/badge';
 @NgModule({
   declarations: [ListPlatePlanComponent],
   providers:[MessageService, PlateDetailResolve, DialogService, PlatePlanService, GetLabelOfPlateItemPipe, NextCaracterPipe],
-  imports: [CommonModule,BadgeModule, PlatePlanManagementRoutingModule, TableModule, ButtonModule, InputTextModule, ToastModule, GetLabelOfPlateItemPipe, NextCaracterPipe],
+  imports: [CommonModule,BadgeModule, PlatePlanManagementRoutingModule, TableModule, ButtonModule, InputTextModule, GetLabelOfPlateItemPipe, NextCaracterPipe],
 })
 export class PlatePlanManagementModule {}

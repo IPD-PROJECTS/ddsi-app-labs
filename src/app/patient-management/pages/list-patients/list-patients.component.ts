@@ -5,6 +5,9 @@ import { AddPatientComponent } from '../../modals/add-patients/add-patient.compo
 import { PatientService } from 'src/app/shared/service/patient/patient.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Patient } from 'src/app/shared/models/patient.model';
+import { notificationSignal } from 'src/app/shared/models/notification.model';
+import { NotificationService } from 'src/app/shared/service/notification/notification.service';
+import { NotificationSeverity } from 'src/app/shared/enum';
 enum PATIENT_ATTRIBUTE {
   ANON_NAME = 'anon_name',
   FIRSTNAME = 'first_name',
@@ -16,7 +19,7 @@ enum PATIENT_ATTRIBUTE {
   selector: 'ddsi-labs-apps-list-patients',
   templateUrl: './list-patients.component.html',
   styleUrls: ['./list-patients.component.scss'],
-  providers: [DialogService, MessageService, ConfirmationService],
+  providers: [DialogService, NotificationService, ConfirmationService],
 })
 export class ListPatientsComponent {
   TABLE_COLUMN = PATIENT_ATTRIBUTE;
@@ -30,7 +33,7 @@ export class ListPatientsComponent {
 
   constructor(
     private confirmService: ConfirmationService,
-    private messageService: MessageService,
+    private notificationService: NotificationService,
     public dialogService: DialogService,
     private patientService: PatientService
   ) {}
@@ -59,11 +62,8 @@ export class ListPatientsComponent {
       next: (data: { success: boolean }) => {
         if (data?.success) {
           this.table.reset();
-          this.messageService.add({
-            severity: 'success',
-            summary: `${editMode ? 'Edit' : 'Creation'} `,
-            detail: 'Action is fully effective',
-          });
+          this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `${editMode ? 'Edit' : 'Creation'} `, 'Action is fully effective');
+
         }
       },
     });
@@ -83,11 +83,7 @@ export class ListPatientsComponent {
   delete(item: Patient) {
     this.patientService.deletePatient(item).subscribe({
       next: (resp) => {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Success',
-          detail: `Item ${item.id} Deleted`,
-        });
+        this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `Success`, `Item ${item.id} Deleted`);
         this.table.reset();
       },
     });
@@ -129,21 +125,9 @@ export class ListPatientsComponent {
       next: (data: { success: boolean }) => {
         if (data?.success) {
           this.table.reset();
-          this.messageService.add({
-            severity: 'success',
-            summary: `Creation`,
-            detail: 'Action is fully effective',
-          });
+          this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `Creation`, 'Action is fully effective' );
         }
       },
-    });
-  }
-
-  displayNotificationMsg(success: boolean, title: string, message: string) {
-    this.messageService.add({
-      severity: success ? 'success' : 'error',
-      summary: title,
-      detail: message,
     });
   }
 }

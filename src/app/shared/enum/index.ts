@@ -1,3 +1,8 @@
+export enum NotificationSeverity {
+  SUCCESS = 'success',
+  ERROR = 'error',
+  INFO = 'info',
+}
 export enum LabelType {
   LETTER = 'Letter',
   NUMBER = 'Number',
@@ -25,4 +30,18 @@ export enum PLATE_ATTRIBUTE {
     created_at = 'Created at',
     updated_at = 'Updated at',
     created_by = 'Created by',
+  }
+
+  export enum ENV_KEY {
+    BASE_URL = 'NX_BASE_API_URL'
+}
+
+export enum ITEM_TYPE {
+    CONTROL = 'control',
+    PATIENT = 'patient'
+  }
+
+ export enum Result {
+    FILLED = 'filled',
+    EMPTY = ''
   }

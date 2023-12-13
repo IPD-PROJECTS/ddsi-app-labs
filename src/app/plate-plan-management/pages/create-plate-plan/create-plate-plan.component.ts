@@ -1,4 +1,4 @@
-import { Component, OnDestroy, effect, signal } from '@angular/core';
+import { Component, OnDestroy, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SplitterModule } from 'primeng/splitter';
 import { AccordionModule } from 'primeng/accordion';
@@ -7,21 +7,21 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PlatePlanService } from 'src/app/shared/service/plate-plan/plate-plan.service';
-import { PlateModel } from '../../../shared/models/plate.model';
+import { PlateModel, plateDetailsSignal } from '../../../shared/models/plate.model';
 import { ActivatedRoute } from '@angular/router';
 import _ from 'lodash';
-import { ToastModule } from 'primeng/toast';
 import { FileUploadModule } from 'primeng/fileupload';
 import { PLATE_PLAN_FILE_MAX_SIZE } from 'src/app/shared/util';
 import { MessageService } from 'primeng/api';
 import { NotificationService } from 'src/app/shared/service/notification/notification.service';
 import { ApplicationRoutingService } from 'src/app/shared/service/application-routing/application-routing.service';
+import { NotificationSeverity } from 'src/app/shared/enum';
 
-export const plateDetailsSignal = signal(<PlateModel | undefined>undefined, {equal: _.isEqual});
+
 @Component({
   selector: 'ddsi-labs-apps-create-plate-plan',
   standalone: true,
-  imports: [CommonModule, SplitterModule, AccordionModule, PlatePlanPreviewBlockComponent, ReactiveFormsModule, ButtonModule, InputTextModule, ToastModule, FileUploadModule],
+  imports: [CommonModule, SplitterModule, AccordionModule, PlatePlanPreviewBlockComponent, ReactiveFormsModule, ButtonModule, InputTextModule, FileUploadModule],
   providers:[MessageService, NotificationService],
   templateUrl: './create-plate-plan.component.html',
   styleUrls: ['./create-plate-plan.component.scss'],
@@ -124,14 +124,14 @@ export class CreatePlatePlanComponent implements OnDestroy {
       next:(res: any) => {
         console.log('res', res);
         this.isSubmittingPlatePlan = false;
-        this.notificationService.displayNotification(true, 'Success', 'Plate plan updated successfully');
+        this.notificationService.displayNotification(NotificationSeverity.SUCCESS, 'Success', 'Plate plan updated successfully');
         this.plaqueInitializedInfos = this.plaqueInfos;
         this.hasPlateDetailsChanged = false;
       },
       error: (err) => {
         console.log('err', err);
         this.isSubmittingPlatePlan = false;
-        this.notificationService.displayNotification(false, 'Success', 'Plate plan updated successfully')
+        this.notificationService.displayNotification(NotificationSeverity.ERROR, 'Success', 'Plate plan updated successfully')
 
 
       }
