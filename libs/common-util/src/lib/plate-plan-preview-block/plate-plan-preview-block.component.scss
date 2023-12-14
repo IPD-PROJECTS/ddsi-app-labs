@@ -1,0 +1,21 @@
+.plate-preview {
+    border-radius: 5px;
+    border: 1px solid;
+    .btn-container {
+        position: relative;
+        .row-label {
+            position: absolute;
+            left: -15px;
+        }
+    }
+    ::ng-deep .p-button {
+        padding: 0.75rem;
+        width: inherit;
+        &.filled {
+            background-color: blue;
+        }
+    }
+    .background-control-place {
+        background-color: gainsboro;
+    }
+}

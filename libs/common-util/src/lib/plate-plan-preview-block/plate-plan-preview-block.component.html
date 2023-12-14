@@ -1,0 +1,84 @@
+<div class="plate-preview overflow-auto">
+  <div
+    class="flex flex-row row-content"
+    *ngFor="
+      let i of [].constructor(rowLength);
+      let rowIndex = index;
+      let first = first
+    "
+  >
+    <ng-container
+      *ngFor="
+        let j of [].constructor(colLength);
+        let colIndex = index;
+        let firstCol = first
+      "
+    >
+      <p-menu [hidden]="disableMenu"
+        #menu
+        [model]="{rowIndex, colIndex} | getActionMenuByPlateItem: {plateDetails, contentItemFilled: (plateDetails
+              | checkStatusPlateItem
+                : ({ rowLabelType, rowIndex, colLabelType, colIndex }
+                    | getLabelOfPlateItem
+                    | uppercase)).item}"
+        [popup]="true"
+      ></p-menu>
+      <div
+        class="flex flex-column align-items-center justify-content-center col" [ngClass]="{'ml\-3' : firstCol}"
+      >
+        <div *ngIf="first">
+          {{
+            colLabelType !== 'Letter'
+              ? colIndex + 1
+              : (colIndex | nextCaracter | uppercase)
+          }}
+        </div>
+        <div
+          class="flex align-items-center btn-container"
+        >
+          <span *ngIf="firstCol" class="row-label">
+            {{
+              rowLabelType !== 'Letter'
+                ? rowIndex + 1
+                : (rowIndex | nextCaracter | uppercase)
+            }}
+          </span>
+
+          <p-button
+            pRipple
+            [disabled]="disabled"
+            [raised]="true"
+            (click)="menu.toggle($event)"
+            [pTooltip]="
+              plateDetails
+                | labelOfPlateItemFilled
+                  : ({
+                      rowLabelType,
+                      rowIndex,
+                      colLabelType,
+                      colIndex
+                    }
+                      | getLabelOfPlateItem
+                      | uppercase)
+            "
+            class="item flex justify-content-center p-2"
+            [styleClass]="
+              (
+                plateDetails
+                | checkStatusPlateItem
+                  : ({ rowLabelType, rowIndex, colLabelType, colIndex }
+                      | getLabelOfPlateItem
+                      | uppercase)
+              ).status
+            "
+            [ngClass]="{
+              'background-control-place': colIndex === COLUMN_INDEX_FOR_CONTROLS
+            }"
+            [rounded]="true"
+            [outlined]="true"
+          ></p-button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

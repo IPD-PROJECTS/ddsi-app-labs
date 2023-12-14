@@ -1,0 +1,36 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2022",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@ddsi-labs-apps/auth": ["libs/feature/auth/src/index.ts"],
+      "@ddsi-labs-apps/common-util": ["libs/common-util/src/index.ts"],
+      "@ddsi-labs-apps/enums": ["libs/enums/src/index.ts"],
+      "@ddsi-labs-apps/models": ["libs/models/src/index.ts"],
+      "@ddsi-labs-apps/patients-management": [
+        "libs/feature/patients/src/index.ts"
+      ],
+      "@ddsi-labs-apps/pipes": ["libs/pipes/src/index.ts"],
+      "@ddsi-labs-apps/plate-management": [
+        "libs/feature/plate-management/src/index.ts"
+      ],
+      "@ddsi-labs-apps/plate-plan-management": [
+        "libs/feature/plate-plan-management/src/index.ts"
+      ],
+      "@ddsi-labs-apps/services": ["libs/services/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

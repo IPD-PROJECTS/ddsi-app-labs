@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MenuService } from '../app.menu.service';
-import { LayoutService } from '../service/app.layout.service';
+import { LayoutService } from '@ddsi-labs-apps/services';
 import { CommonModule } from '@angular/common';
 import { SidebarModule } from 'primeng/sidebar';
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -100,6 +100,8 @@ export class AppConfigComponent implements OnInit {
     }
 
     changeColorScheme(colorScheme: string) {
+        console.log('click');
+
         const themeLink = <HTMLLinkElement>document.getElementById('theme-link');
         const themeLinkHref = themeLink.getAttribute('href');
         const currentColorScheme = 'theme-' + this.layoutService.config.colorScheme;
