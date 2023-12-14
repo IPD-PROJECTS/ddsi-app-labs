@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppConfig, LayoutState } from '@ddsi-labs-apps/models';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -28,7 +28,7 @@ export class LayoutService {
         anchored: false
     };
 
-    private configUpdate = new Subject<AppConfig>();
+    private configUpdate = new BehaviorSubject<AppConfig>(this.config);
 
     private overlayOpen = new Subject<unknown>();
 
