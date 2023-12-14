@@ -22,6 +22,9 @@
         "libs/feature/patients/src/index.ts"
       ],
       "@ddsi-labs-apps/pipes": ["libs/pipes/src/index.ts"],
+      "@ddsi-labs-apps/plate-plan-management": [
+        "libs/feature/plate-plan-management/src/index.ts"
+      ],
       "@ddsi-labs-apps/services": ["libs/services/src/index.ts"]
     }
   },

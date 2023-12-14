@@ -13,7 +13,7 @@ import { PlateTypeService } from '@ddsi-labs-apps/services';
 import { PlateTypeModel } from '@ddsi-labs-apps/models';
 import { LabelType, PlateFillingType } from '@ddsi-labs-apps/enums';
 import { ApplicationRoutingService } from '@ddsi-labs-apps/services';
-import { PlatePlanPreviewBlockComponent } from 'src/app/shared/components/plate-plan-preview-block/plate-plan-preview-block.component';
+import { PlatePlanPreviewBlockComponent } from '@ddsi-labs-apps/common-util';
 
 
 @Component({

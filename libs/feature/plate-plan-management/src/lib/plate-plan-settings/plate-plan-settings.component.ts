@@ -6,27 +6,21 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FileUploadModule } from 'primeng/fileupload';
-import { PlatePlanPreviewBlockComponent } from 'src/app/shared/components/plate-plan-preview-block/plate-plan-preview-block.component';
-import { PlatePlanService } from 'src/app/shared/service/plate-plan/plate-plan.service';
+import { NotificationSeverity } from '@ddsi-labs-apps/enums';
 import { PlateModel, plateDetailsSignal } from '@ddsi-labs-apps/models';
 import { ActivatedRoute } from '@angular/router';
-import _ from 'lodash';
-import { PLATE_PLAN_FILE_MAX_SIZE } from '@ddsi-labs-apps/common-util';
-import { MessageService } from 'primeng/api';
-import { NotificationService } from '@ddsi-labs-apps/services';
-import { ApplicationRoutingService } from '@ddsi-labs-apps/services';
-import { NotificationSeverity } from '@ddsi-labs-apps/enums';
-
+import { PLATE_PLAN_FILE_MAX_SIZE, PlatePlanPreviewBlockComponent } from '@ddsi-labs-apps/common-util';
+import { NotificationService, PlatePlanService, ApplicationRoutingService } from '@ddsi-labs-apps/services';
+import * as _ from 'lodash';
 
 @Component({
-  selector: 'ddsi-labs-apps-create-plate-plan',
+  selector: 'ddsi-labs-apps-plate-plan-settings',
   standalone: true,
   imports: [CommonModule, SplitterModule, AccordionModule, PlatePlanPreviewBlockComponent, ReactiveFormsModule, ButtonModule, InputTextModule, FileUploadModule],
-  providers:[MessageService, NotificationService],
-  templateUrl: './create-plate-plan.component.html',
-  styleUrls: ['./create-plate-plan.component.scss'],
+  templateUrl: './plate-plan-settings.component.html',
+  styleUrls: ['./plate-plan-settings.component.scss'],
 })
-export class CreatePlatePlanComponent implements OnDestroy {
+export class PlatePlanSettingsComponent implements OnDestroy {
   PLATE_PLAN_FILE_MAX_SIZE = PLATE_PLAN_FILE_MAX_SIZE;
   plateFormGroup: FormGroup = new FormGroup({});
   isSubmittingInitalization = false;

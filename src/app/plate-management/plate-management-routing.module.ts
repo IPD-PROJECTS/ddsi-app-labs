@@ -13,7 +13,7 @@ const routes: Routes = [
     path: 'create-plate-type', data: { breadcrumb: 'Create Plate Type' } , loadComponent:() => import('./pages/create-plate-type/create-plate-type.component').then(c => c.CreatePlateTypeComponent)
   },
   {
-    path: 'plate-plan', data: { breadcrumb: 'Plate Plan' } , loadChildren:() => import('./../plate-plan-management/plate-plan-management.module').then(c => c.PlatePlanManagementModule)
+    path: 'plate-plan', data: { breadcrumb: 'Plate Plan' } , loadChildren:() => import('@ddsi-labs-apps/plate-plan-management').then(c => c.PlatePlanManagementModule)
   },
   {
     path: 'patients', data: { breadcrumb: 'Patients' } , loadChildren: () => import('@ddsi-labs-apps/patients-management').then(m => m.PatientsManagementModule)

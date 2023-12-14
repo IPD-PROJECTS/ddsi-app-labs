@@ -10,8 +10,6 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IsPatientAlreadyAddedPipe } from '@ddsi-labs-apps/pipes';
 import { PlateModel, ControlModel, Patient } from '@ddsi-labs-apps/models';
 
-
-
 @Component({
   selector: 'ddsi-labs-apps-modal-select-item-for-plate',
   standalone: true,

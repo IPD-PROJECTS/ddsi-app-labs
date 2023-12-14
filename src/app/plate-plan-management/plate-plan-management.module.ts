@@ -15,6 +15,6 @@ import { BadgeModule } from 'primeng/badge';
 @NgModule({
   declarations: [ListPlatePlanComponent],
   providers:[MessageService, PlateDetailResolve, DialogService, PlatePlanService, GetLabelOfPlateItemPipe, NextCaracterPipe],
-  imports: [CommonModule,BadgeModule, PlatePlanManagementRoutingModule, TableModule, ButtonModule, InputTextModule, GetLabelOfPlateItemPipe, NextCaracterPipe],
+  imports: [CommonModule, PlatePlanManagementRoutingModule, BadgeModule, TableModule, ButtonModule, InputTextModule, GetLabelOfPlateItemPipe, NextCaracterPipe],
 })
 export class PlatePlanManagementModule {}
