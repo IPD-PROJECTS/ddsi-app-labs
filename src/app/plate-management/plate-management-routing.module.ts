@@ -16,7 +16,7 @@ const routes: Routes = [
     path: 'plate-plan', data: { breadcrumb: 'Plate Plan' } , loadChildren:() => import('./../plate-plan-management/plate-plan-management.module').then(c => c.PlatePlanManagementModule)
   },
   {
-    path: 'patients', data: { breadcrumb: 'Patients' } , loadChildren: () => import('../patient-management/patient-management.module').then(m => m.PatientManagementModule)
+    path: 'patients', data: { breadcrumb: 'Patients' } , loadChildren: () => import('@ddsi-labs-apps/patients-management').then(m => m.PatientsManagementModule)
   }
 ];
 

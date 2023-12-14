@@ -4,24 +4,18 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
-import { PatientService } from '@ddsi-labs-apps/services';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
 import { TabView, TabViewModule } from 'primeng/tabview';
 import { FileUpload, FileUploadModule } from 'primeng/fileupload';
-import { PATIENT_FILE_LIST_MAX_SIZE } from 'src/app/shared/util';
 import { Patient } from '@ddsi-labs-apps/models';
+import { PatientService } from '@ddsi-labs-apps/services';
+import { MessageService } from 'primeng/api';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { PATIENT_FILE_LIST_MAX_SIZE } from '@ddsi-labs-apps/common-util'
 @Component({
-  selector: 'ddsi-labs-apps-add-patient',
+  selector: 'ddsi-labs-apps-patient-add',
   standalone: true,
   imports: [
     CommonModule,
@@ -36,11 +30,10 @@ import { Patient } from '@ddsi-labs-apps/models';
     TabViewModule,
     FileUploadModule,
   ],
-  providers: [MessageService],
-  templateUrl: './add-patient.component.html',
-  styleUrls: ['./add-patient.component.scss'],
+  templateUrl: './patient-add.component.html',
+  styleUrls: ['./patient-add.component.scss'],
 })
-export class AddPatientComponent {
+export class PatientAddComponent {
   PATIENT_FILE_LIST_MAX_SIZE = PATIENT_FILE_LIST_MAX_SIZE;
   sexes: { label: string; value: string }[] = [
     {
@@ -103,22 +96,22 @@ export class AddPatientComponent {
         value.id = this.dynamicDialogConfig.data.patient?.id;
 
         this.patientService.updatePatient(value).subscribe({
-          next: (resp: any) => {
+          next: () => {
             this.isLoading = false;
             this.onSuccess(true);
           },
-          error: (err: any) => {
+          error: () => {
             this.isLoading = false;
             this.onSuccess(false);
           },
         });
       } else {
         this.patientService.createPatient(value).subscribe({
-          next: (resp: any) => {
+          next: () => {
             this.isLoading = false;
             this.onSuccess(true);
           },
-          error: (err: any) => {
+          error: () => {
             this.isLoading = false;
             this.onSuccess(false);
           },

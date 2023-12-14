@@ -1,21 +1,37 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { DialogService } from 'primeng/dynamicdialog';
-import { Table } from 'primeng/table';
-import { AddPatientComponent } from '../../modals/add-patients/add-patient.component';
-import { PatientService } from '@ddsi-labs-apps/services';
+import { CommonModule } from '@angular/common';
+import { Table, TableModule } from 'primeng/table';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { MenuModule } from 'primeng/menu';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { NotificationService, PatientService } from '@ddsi-labs-apps/services';
 import { ConfirmationService } from 'primeng/api';
-import { Patient } from '@ddsi-labs-apps/models';
-import { NotificationService } from '@ddsi-labs-apps/services';
 import { NotificationSeverity, PATIENT_ATTRIBUTE } from '@ddsi-labs-apps/enums';
-
-
+import { Patient } from '@ddsi-labs-apps/models';
+import { PatientAddComponent } from '../patient-add/patient-add.component';
 @Component({
-  selector: 'ddsi-labs-apps-list-patients',
-  templateUrl: './list-patients.component.html',
-  styleUrls: ['./list-patients.component.scss'],
+  selector: 'ddsi-labs-apps-patients-list',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MenuModule,
+    ConfirmPopupModule,
+    TableModule,
+    DropdownModule,
+    FormsModule,
+    ButtonModule,
+    InputTextModule,
+    DynamicDialogModule,
+  ],
   providers: [DialogService, NotificationService, ConfirmationService],
+  templateUrl: './patients-list.component.html',
+  styleUrls: ['./patients-list.component.scss'],
 })
-export class ListPatientsComponent {
+export class PatientsListComponent {
   TABLE_COLUMN = PATIENT_ATTRIBUTE;
 
   listPatient: Patient[] = [];
@@ -42,7 +58,7 @@ export class ListPatientsComponent {
   }
 
   addPatient(editMode: boolean = false, patient?: Patient) {
-    const ref = this.dialogService.open(AddPatientComponent, {
+    const ref = this.dialogService.open(PatientAddComponent, {
       header: `${editMode ? 'Edit' : 'Add'} Patient`,
       autoZIndex: true,
       data: {
@@ -107,7 +123,7 @@ export class ListPatientsComponent {
   }
 
   opentModalImport() {
-    const ref = this.dialogService.open(AddPatientComponent, {
+    const ref = this.dialogService.open(PatientAddComponent, {
       data: {
         tabIndex: 1,
       },
