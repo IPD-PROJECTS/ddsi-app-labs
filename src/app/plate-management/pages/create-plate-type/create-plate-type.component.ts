@@ -6,23 +6,21 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { NextCaracterPipe } from 'src/app/shared/pipes/nextCaracter/nextCaracter.pipe';
 import { TooltipModule } from 'primeng/tooltip';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { GetListPlatePositionPipe } from 'src/app/shared/pipes/getListPlatePostion/getListPlatePosition.pipe';
-import { GetLabelOfPlateItemPipe } from 'src/app/shared/pipes/getLabelOfPlateItem/getLabelOfPlateItem.pipe';
 import { MessageService } from 'primeng/api';
 import { PlateTypeService } from '@ddsi-labs-apps/services';
 import { PlateTypeModel } from '@ddsi-labs-apps/models';
 import { LabelType, PlateFillingType } from '@ddsi-labs-apps/enums';
 import { ApplicationRoutingService } from '@ddsi-labs-apps/services';
+import { PlatePlanPreviewBlockComponent } from 'src/app/shared/components/plate-plan-preview-block/plate-plan-preview-block.component';
 
 
 @Component({
   selector: 'ddsi-labs-apps-create-plate-type',
   standalone: true,
-  imports: [CommonModule,FormsModule,GetLabelOfPlateItemPipe,NextCaracterPipe,GetListPlatePositionPipe, InputTextModule, ButtonModule, RippleModule, DropdownModule, InputSwitchModule, ReactiveFormsModule, TooltipModule, MultiSelectModule],
-  providers:[MessageService, NextCaracterPipe],
+  imports: [CommonModule,FormsModule,PlatePlanPreviewBlockComponent, InputTextModule, ButtonModule, RippleModule, DropdownModule, InputSwitchModule, ReactiveFormsModule, TooltipModule, MultiSelectModule],
+  providers:[MessageService],
   templateUrl: './create-plate-type.component.html',
   styleUrls: ['./create-plate-type.component.scss'],
 })

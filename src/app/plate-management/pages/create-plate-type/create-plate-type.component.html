@@ -451,7 +451,8 @@
             >Preview</span
           >
           <div class="p-3">
-            <div class="plate-preview overflow-auto">
+            <ddsi-labs-apps-plate-plan-preview-block [disableMenu]="true"  [rowLabelType]="createPlateTypeForm.get('rowLabelType')?.value" [rowLength]="createPlateTypeForm.get('rowLength')?.value" [colLabelType]="createPlateTypeForm.get('colLabelType')?.value" [colLength]="createPlateTypeForm.get('colLength')?.value"></ddsi-labs-apps-plate-plan-preview-block>
+            <!-- <div class="plate-preview overflow-auto">
 
                 <div
                   class="flex flex-row row-content"
@@ -514,6 +515,7 @@
                   </ng-container>
                 </div>
 
+              </div> -->
               <ng-container *ngIf="!createPlateTypeForm.disabled">
                 <span
                   *ngIf="
@@ -525,7 +527,6 @@
                   Please choose valid value for the plate
                 </span>
               </ng-container>
-            </div>
           </div>
         </div>
       </div>

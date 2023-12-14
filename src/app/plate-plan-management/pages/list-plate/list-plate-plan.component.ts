@@ -3,7 +3,7 @@ import { Table } from 'primeng/table';
 import { PlateModel } from '@ddsi-labs-apps/models';
 import { PLATE_ATTRIBUTE, PLATE_LABEL } from '@ddsi-labs-apps/enums';
 import { ApplicationRoutingService } from '@ddsi-labs-apps/services';
-import { PlatePlanService } from 'src/app/shared/service/plate-plan/plate-plan.service';
+import { PlatePlanService } from '@ddsi-labs-apps/services';
 
 
 

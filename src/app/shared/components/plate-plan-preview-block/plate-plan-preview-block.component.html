@@ -14,7 +14,7 @@
         let firstCol = first
       "
     >
-      <p-menu
+      <p-menu [hidden]="disableMenu"
         #menu
         [model]="{rowIndex, colIndex} | getActionMenuByPlateItem: {plateDetails, contentItemFilled: (plateDetails
               | checkStatusPlateItem

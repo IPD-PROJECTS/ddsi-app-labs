@@ -8,6 +8,7 @@ export * from '../lib/services/notification/notification.service'
 export * from '../lib/services/patient/patient.service'
 export * from '../lib/services/plate-type/plate-type.service'
 export * from '../lib/services/process-result/process-result.service'
+export * from '../lib/services/plate-plan/plate-plan.service'
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],

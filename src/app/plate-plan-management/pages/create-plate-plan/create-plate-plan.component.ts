@@ -11,7 +11,7 @@ import { PlateModel, plateDetailsSignal } from '@ddsi-labs-apps/models';
 import { ActivatedRoute } from '@angular/router';
 import _ from 'lodash';
 import { FileUploadModule } from 'primeng/fileupload';
-import { PLATE_PLAN_FILE_MAX_SIZE } from 'src/app/shared/util';
+import { PLATE_PLAN_FILE_MAX_SIZE } from '@ddsi-labs-apps/common-util';
 import { MessageService } from 'primeng/api';
 import { NotificationService } from '@ddsi-labs-apps/services';
 import { ApplicationRoutingService } from '@ddsi-labs-apps/services';

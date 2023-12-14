@@ -7,7 +7,7 @@ import { ControlsService } from '@ddsi-labs-apps/services';
 import { ITEM_TYPE, PLATE_ATTRIBUTE, PLATE_LABEL } from '@ddsi-labs-apps/enums';
 import { PatientService } from '@ddsi-labs-apps/services';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { IsPatientAlreadyAddedPipe } from '../../pipes/isPatientAlreadyAdded/isPatientAlreadyAdded.pipe';
+import { IsPatientAlreadyAddedPipe } from '@ddsi-labs-apps/pipes';
 import { PlateModel, ControlModel, Patient } from '@ddsi-labs-apps/models';
 
 

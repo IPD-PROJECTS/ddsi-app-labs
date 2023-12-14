@@ -10,8 +10,7 @@ import { MessageService } from 'primeng/api';
 import { PlateDetailResolve } from './plate-details.resolver';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PlatePlanService } from '../shared/service/plate-plan/plate-plan.service';
-import { GetLabelOfPlateItemPipe } from '../shared/pipes/getLabelOfPlateItem/getLabelOfPlateItem.pipe';
-import { NextCaracterPipe } from '../shared/pipes/nextCaracter/nextCaracter.pipe';
+import { NextCaracterPipe, GetLabelOfPlateItemPipe } from '@ddsi-labs-apps/pipes';
 import { BadgeModule } from 'primeng/badge';
 @NgModule({
   declarations: [ListPlatePlanComponent],

@@ -16,9 +16,6 @@ import { PlateTypeModel } from '@ddsi-labs-apps/models';
 import { PLATE_TYPE_ATTRIBUTE, PLATE_TYPE_ATTRIBUTE_LABEL } from '@ddsi-labs-apps/enums';
 
 
-interface expandedRows {
-  [key: string]: boolean;
-}
 
 @Component({
   selector: 'ddsi-labs-apps-list-plate-type',
