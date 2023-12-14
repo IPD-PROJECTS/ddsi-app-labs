@@ -12,11 +12,14 @@ import { ActivatedRoute } from '@angular/router';
 import { PLATE_PLAN_FILE_MAX_SIZE, PlatePlanPreviewBlockComponent } from '@ddsi-labs-apps/common-util';
 import { NotificationService, PlatePlanService, ApplicationRoutingService } from '@ddsi-labs-apps/services';
 import * as _ from 'lodash';
+import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'ddsi-labs-apps-plate-plan-settings',
   standalone: true,
   imports: [CommonModule, SplitterModule, AccordionModule, PlatePlanPreviewBlockComponent, ReactiveFormsModule, ButtonModule, InputTextModule, FileUploadModule],
+  providers:[MessageService, DialogService, NotificationService],
   templateUrl: './plate-plan-settings.component.html',
   styleUrls: ['./plate-plan-settings.component.scss'],
 })

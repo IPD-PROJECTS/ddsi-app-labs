@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription, filter } from 'rxjs';
-import { LayoutService } from './service/app.layout.service';
+import { LayoutService } from '@ddsi-labs-apps/services';
 import { AppSidebarComponent } from './app.sidebar.component';
 import { AppTopbarComponent } from './app.topbar.component';
 import { Router, NavigationEnd, RouterModule } from '@angular/router';

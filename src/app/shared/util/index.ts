@@ -1,5 +1,0 @@
-
-
-  export const PATIENT_FILE_LIST_MAX_SIZE = 5 * 1000000;
-  export const PLATE_PLAN_FILE_MAX_SIZE = 5 * 1000000;
-

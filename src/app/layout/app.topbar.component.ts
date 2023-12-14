@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { LayoutService } from './service/app.layout.service';
+import { LayoutService } from '@ddsi-labs-apps/services';
 import { CommonModule } from '@angular/common';
 import { AppMenuComponent } from './app.menu.component';
 import { InputTextModule } from "primeng/inputtext";

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LayoutService } from './service/app.layout.service';
+import { LayoutService } from '@ddsi-labs-apps/services';
 import { CommonModule } from '@angular/common';
 import { SidebarModule } from 'primeng/sidebar';
 import { Router, RouterModule } from '@angular/router';

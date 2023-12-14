@@ -1,8 +1,9 @@
-import { Component, ElementRef } from '@angular/core';
-import { LayoutService } from './service/app.layout.service';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { LayoutService } from '@ddsi-labs-apps/services';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AppMenuComponent } from './app.menu.component';
+import { AppConfig } from '@ddsi-labs-apps/models';
 
 @Component({
     selector: 'app-sidebar',
@@ -10,12 +11,20 @@ import { AppMenuComponent } from './app.menu.component';
     imports: [CommonModule, RouterModule, AppMenuComponent],
     templateUrl: './app.sidebar.component.html'
 })
-export class AppSidebarComponent {
+export class AppSidebarComponent implements OnInit {
     timeout: any = null;
+    appConfig?: AppConfig;
 
+    constructor(public layoutService: LayoutService, public el: ElementRef) {
 
-    constructor(public layoutService: LayoutService, public el: ElementRef) { }
-
+    }
+    ngOnInit(): void {
+        this.layoutService.configUpdate$.subscribe({
+            next:(conf: AppConfig) => {
+                this.appConfig = conf;
+            }
+        })
+    }
     onMouseEnter() {
         if (!this.layoutService.state.anchored) {
             if (this.timeout) {

@@ -4,7 +4,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MenuService } from './app.menu.service';
-import { LayoutService } from './service/app.layout.service';
+import { LayoutService } from '@ddsi-labs-apps/services';
 import { CommonModule } from '@angular/common';
 import { TooltipModule } from 'primeng/tooltip';
 
