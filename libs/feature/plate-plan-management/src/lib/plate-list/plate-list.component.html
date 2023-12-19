@@ -130,12 +130,14 @@
                   (onClick)="addNewPlatePlan(item.id)"
                   label="Set Plate Plan"
                 ></p-button>
+                <p-confirmPopup defaultFocus="reject" ></p-confirmPopup>
                 <p-button
                   [rounded]="true"
                   [raised]="true"
                   icon="pi pi-pencil-v"
                   severity="secondary"
                   label="Supprimer"
+                  (click)="onDeleteItem($event, item)"
                 ></p-button>
 
                 <!-- <button pButton class="p-button-secondary p-button-outlined" type="button" (click)="menu.toggle($event)" icon="pi pi-cog"></button> -->
@@ -143,6 +145,11 @@
             </td>
           </tr>
         </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="flex align-items-center justify-content-between">
+              In total there are {{ itemCounts }} items.
+          </div>
+      </ng-template>
         <ng-template pTemplate="emptymessage">
           <tr>
             <td colspan="8">No Plate found.</td>

@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { DialogService } from 'primeng/dynamicdialog';
 import { PlateModel } from '@ddsi-labs-apps/models';
 import { ENV_KEY } from '@ddsi-labs-apps/enums';
 
@@ -15,8 +14,7 @@ const platesEndpoint = `${BASE_URL}/api/v1/plates/`;
 })
 export class PlatePlanService {
   constructor(
-    private http: HttpClient,
-    private dialogService: DialogService,
+    private http: HttpClient
   ) {}
 
   getListPlates(params?: any) {
@@ -29,6 +27,12 @@ export class PlatePlanService {
       `${platesEndpoint}`,
       { params: data }
     );
+  }
+
+  uploadRoboAnalysisResult(id: any, file: File) {
+    const formData = new FormData();
+    formData.append('excel_spectro_file', file)
+    return this.http.patch(`${platesEndpoint}${id}`, formData);
   }
 
   updatePlate(data: PlateModel) {
@@ -61,5 +65,11 @@ export class PlatePlanService {
       `${platesEndpoint}${idPlate}/fill`,
       data
     );
+  }
+
+  uploadPlatePlan(idPlate: number,file: File) {
+    const formData = new FormData();
+    formData.append('plate_file', file);
+    return this.http.post(`${platesEndpoint}${idPlate}/import/`, formData)
   }
 }

@@ -10,6 +10,7 @@ export interface PlateModel {
   created_by?: string;
   controls?: any[];
   patients?: any[];
+  excel_spectro_file?: any;
 }
 
 export const plateDetailsSignal = signal(<PlateModel | undefined>undefined, {equal: _.isEqual});

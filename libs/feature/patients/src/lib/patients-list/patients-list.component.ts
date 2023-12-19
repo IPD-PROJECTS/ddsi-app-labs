@@ -10,7 +10,7 @@ import { MenuModule } from 'primeng/menu';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { NotificationService, PatientService } from '@ddsi-labs-apps/services';
 import { ConfirmationService } from 'primeng/api';
-import { NotificationSeverity, PATIENT_ATTRIBUTE } from '@ddsi-labs-apps/enums';
+import { NotificationSeverity, PATIENT_ATTRIBUTE, TableColumn } from '@ddsi-labs-apps/enums';
 import { Patient } from '@ddsi-labs-apps/models';
 import { PatientAddComponent } from '../patient-add/patient-add.component';
 @Component({
@@ -33,7 +33,23 @@ import { PatientAddComponent } from '../patient-add/patient-add.component';
 })
 export class PatientsListComponent {
   TABLE_COLUMN = PATIENT_ATTRIBUTE;
-
+  cols: TableColumn[] = [
+    {
+      field: 'id', header: 'ID'
+    },
+    {
+      field: 'anon_name', header: 'Anon Name'
+    },
+    {
+      field: 'first_name', header: 'Firstname'
+    },
+    {
+      field: 'last_name', header: 'Lastname'
+    },
+    {
+      field: 'birth_date', header: 'Birthdate'
+    },
+  ];
   listPatient: Patient[] = [];
   totalRecords = 0;
   loading: boolean = true;
