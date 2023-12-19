@@ -73,6 +73,17 @@ export enum PATIENT_ATTRIBUTE {
   BIRTHDATE = 'birth_date',
 }
 
+export interface TableColumn {
+  field: string;
+  header: string;
+}
+
+export enum Plate_Settings_Step {
+  INIT = 'INIT',
+  FILL_PLATE = 'FILL_PLATE',
+  IMPORT_RESULT = 'IMPORT_RESULT',
+}
+
 @NgModule({
   imports: [CommonModule],
 })

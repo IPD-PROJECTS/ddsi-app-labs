@@ -1,0 +1,37 @@
+<div class="card">
+    <p>
+        In this section you can import the excel file result of the analysis.Here is a link of a downloadable template file
+        <a href="assets/file_template/import_plate_plan_template.xlsx">Download</a>
+      </p>
+      <div class="flex flex-column">
+        <div class="flex flex-column">
+          <div class="flex gap-3">
+            <p-fileUpload
+                  #fileUploader
+                  [invalidFileSizeMessageDetail]="'Max file size authorized: {0}'"
+                  [invalidFileSizeMessageSummary]="'{0}: Taille de fichier invalide'"
+                  mode="basic"
+                  name="cvFile"
+                  styleClass="p-button-success"
+                  chooseIcon="pi-upload"
+                  chooseLabel="Import Plate result file"
+                  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                  [maxFileSize]="PLATE_PLAN_FILE_MAX_SIZE"
+                  [customUpload]="true"
+                  (onSelect)="onFileSelected($event)"
+                ></p-fileUpload>
+            <button
+              [loading]="uploadingFile"
+              *ngIf="fileUploader._files.length"
+              pButton
+              class="p-button-text mr-4"
+              icon="pi pi-times"
+              (click)="fileUploader.clear()"
+            ></button>
+          </div>
+          <small *ngIf="hasErrorUploading" class="p-error my-3">
+            Error Occured, Please try again
+          </small>
+        </div>
+      </div>
+</div>

@@ -1,136 +1,193 @@
 <div class="col-12">
-    <div class="card">
-      <button
-        pButton
-        pRipple
-        class="p-button-primary p-button-outlined border-round mb-3"
-        label="Back"
-        (click)="goBack()"
-        icon="pi pi-fw pi-arrow-left"
-      ></button>
-      <div class="grid">
-        <div class="col-12 lg:col-3">
-          <p-accordion [activeIndex]="currentStepIndex" [selectOnFocus]="true">
-            <p-accordionTab header="Init Plate Infos">
-              <form [formGroup]="plateFormGroup" (ngSubmit)="initializePlate()">
-                <div class="col-12">
-                  <span class="block text-900 font-bold text-xl mb-4"
-                    >Initialisation of a plaque</span
-                  >
-                  <p class="p-0 text-600 line-height-3 mb-3">
-                    You have to initialise a plaque before going to the step plate
-                    plan
-                  </p>
-                  <div class="flex flex-wrap">
-                    <div class="col-12 lg:col">
+  <div class="card">
+    <button
+      pButton
+      pRipple
+      class="p-button-primary p-button-outlined border-round mb-3"
+      label="Back"
+      (click)="goBack()"
+      icon="pi pi-fw pi-arrow-left"
+    ></button>
+    <div class="grid">
+      <div class="col-12 lg:col-3">
+        <p-accordion [activeIndex]="currentStepIndex">
+          <p-accordionTab header="Init Plate Infos">
+            <form [formGroup]="plateFormGroup" (ngSubmit)="initializePlate()">
+              <div class="col-12">
+                <span class="block text-900 font-bold text-xl mb-4"
+                  >Initialisation of a plaque</span
+                >
+                <p class="p-0 text-600 line-height-3 mb-3">
+                  You have to initialise a plaque before going to the step plate
+                  plan
+                </p>
+                <div class="flex flex-column">
+                  <div class="col-12">
+                    <div class="p-float-label">
+                      <input
+                        pInputText
+                        formControlName="description"
+                        aria-describedby="name-help"
+                        class="w-full"
+                        id="name"
+                      />
+                      <label htmlFor="name">Plate Type Name</label>
+                    </div>
+                    <ng-container
+                      *ngIf="
+                        plateFormGroup.get('description')?.dirty ||
+                        plateFormGroup.get('description')?.touched
+                      "
+                    >
+                      <small
+                        class="p-error"
+                        *ngIf="
+                          plateFormGroup.controls['description'].errors &&
+                          plateFormGroup.controls['description'].errors[
+                            'required'
+                          ]
+                        "
+                        >Ce champs est requis</small
+                      >
+                    </ng-container>
+                  </div>
+                  <!-- <div class="col-12">
                       <div class="p-float-label">
                         <input
                           pInputText
-                          formControlName="description"
-                          aria-describedby="name-help"
+                          formControlName="created_by"
+                          aria-describedby="created-by-help"
                           class="w-full"
-                          id="name"
+                          id="created_by"
                         />
-                        <label htmlFor="name">Plate Type Name</label>
+                        <label htmlFor="name">Owner</label>
                       </div>
                       <ng-container
                         *ngIf="
-                          plateFormGroup.get('description')?.dirty ||
-                          plateFormGroup.get('description')?.touched
+                          plateFormGroup.get('created_by')?.dirty ||
+                          plateFormGroup.get('created_by')?.touched
                         "
                       >
                         <small
                           class="p-error"
                           *ngIf="
-                            plateFormGroup.controls['description'].errors &&
-                            plateFormGroup.controls['description'].errors[
+                            plateFormGroup.controls['created_by'].errors &&
+                            plateFormGroup.controls['created_by'].errors[
                               'required'
                             ]
                           "
                           >Ce champs est requis</small
                         >
                       </ng-container>
-                    </div>
-                    <div class="col-12">
-                      <button
-                        type="submit"
-                        [disabled]="!plateFormGroup.dirty"
-                        [loading]="isSubmittingInitalization"
-                        pButton
-                        pRipple
-                        class="p-button-primary border-round w-full"
-                        [label]="plaqueInfos?.id ? 'Update' : 'Save'"
-                        icon="pi pi-fw pi-check"
-                      ></button>
-                    </div>
+                    </div> -->
+                  <div class="col-12">
+                    <button
+                      type="submit"
+                      [disabled]="!plateFormGroup.dirty"
+                      [loading]="isSubmittingInitalization"
+                      pButton
+                      pRipple
+                      class="p-button-primary border-round w-full"
+                      [label]="plaqueInfos?.id ? 'Update' : 'Save'"
+                      icon="pi pi-fw pi-check"
+                    ></button>
                   </div>
                 </div>
-              </form>
-            </p-accordionTab>
-            <p-accordionTab
-              [disabled]="!plaqueInfos?.id"
-              header="Set Plate Plane Infos"
-            >
-              <p>
-                This section is enabled once the plate has been initialised
-                successfully.
+              </div>
+            </form>
+          </p-accordionTab>
+          <p-accordionTab
+            [disabled]="!plaqueInfos?.id"
+            header="Set Plate Plane Infos"
+          >
+          <span class="block text-900 font-bold text-xl mb-4"
+                >Configuration of a plate plan</span
+              >
+            <p>
+              This section is enabled once the plate has been initialised
+              successfully.
+            </p>
+            <p>The plate plan can be filled through 3 options:</p>
+            <ul>
+              <li>Manually</li>
+              <li>Import of a file which contain a plate plan</li>
+              <li>Automatically</li>
+            </ul>
+            <div>
+              <i class="pi pi-info-circle"></i>
+              The first column of the plate is dedicated to the controls item:
+              NEG, POS, WHITE
+            </div>
+          </p-accordionTab>
+          <p-accordionTab
+            [disabled]="!plaqueInfos?.id"
+            header="Process Plate analysis result"
+          >
+            <div class="col-12">
+              <span class="block text-900 font-bold text-xl mb-4"
+                >Processing result of the analysis of a plate</span
+              >
+              <p class="p-0 mb-3">
+                You can upload the result analysis file with the button
+                <i><b>Upload result analysis file</b></i> to visualise the
+                result the plate analysis
               </p>
-              <p>The plate plan can be filled through 3 options:</p>
-              <ul>
-                <li>Manually</li>
-                <li>Import of a file which contain a plate plan</li>
-                <li>Automatically</li>
-              </ul>
-                <div>
-                  <i class="pi pi-info-circle"></i>
-                  The first column of the plate is dedicated to the controls item: NEG, POS, WHITE
-                </div>
-            </p-accordionTab>
-          </p-accordion>
-        </div>
-        <div class="col-12 lg:col-9 flex gap-2 flex-column overflow-auto">
-          <h5>Preview</h5>
-          <div class="col flex flex-column gap-2">
-            <div
-              class="flex flex-wrap justify-content-between align-items-center"
-            >
-              <span> Description Plate Plan </span>
-              <div class="flex flex-wrap gap-2 align-items-center">
-                <div class="flex flex-column gap-2">
-                  <p-fileUpload
-                  #fileUploader
-                  [invalidFileSizeMessageDetail]="'Max file size authorized: {0}'"
-                  [invalidFileSizeMessageSummary]="'{0}: Taille de fichier invalide'"
-                  mode="basic"
-                  name="cvFile"
-                  styleClass="p-button-success"
-                  chooseIcon="pi-upload"
-                  chooseLabel="Import Plate plan file"
-                  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                  [maxFileSize]="PLATE_PLAN_FILE_MAX_SIZE"
-                  [customUpload]="true"
-                  (onSelect)="onFileSelected($event)"
-                ></p-fileUpload>
-                </div>
+            </div>
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+      <div class="col-12 lg:col-9 flex gap-2 flex-column overflow-auto">
+        <h5>Preview</h5>
+        <div class="col flex flex-column gap-2">
+          <div
+            class="flex flex-wrap justify-content-between align-items-center"
+          >
+            <span>
+              Plate:
+              {{
+                plateFormGroup.get('description')?.value || 'Nom de la plaque'
+              }}
+            </span>
+            <div class="flex flex-wrap gap-2 align-items-center">
+              <div class="flex flex-column gap-2">
                 <button
                   pButton
-                  [loading]="isSubmittingPlatePlan"
                   pRipple
-                  class="p-button-primary border-round"
-                  label="Save Plate Plan"
+                  class="p-button-secondary border-round"
+                  label="Upload Plate Plan"
                   icon="pi pi-save"
-                  [disabled]="!hasPlateDetailsChanged"
-                   (click)="savePlatePlan()"
+                  (click)="opentModalImportPlatePlan()"
                 ></button>
-
               </div>
+              <button
+                pButton
+                [loading]="isSubmittingPlatePlan"
+                pRipple
+                class="p-button-primary border-round"
+                label="Save Plate Plan"
+                icon="pi pi-save"
+                [disabled]="!hasPlateDetailsChanged"
+                (click)="savePlatePlan()"
+              ></button>
             </div>
-            <ddsi-labs-apps-plate-plan-preview-block
-              [plateDetails]="plaqueInfos"
-              [disabled]="!plaqueInfos"
-            ></ddsi-labs-apps-plate-plan-preview-block>
+          </div>
+          <ddsi-labs-apps-plate-plan-preview-block
+            [plateDetails]="plaqueInfos"
+            [disabled]="!plaqueInfos"
+          ></ddsi-labs-apps-plate-plan-preview-block>
+          <div class="flex justify-content-end">
+            <button
+              pButton
+              [disabled]="!plaqueInfos?.patients?.length"
+              pRipple
+              class="p-button-warning border-round flex-shrink-0"
+              label="Upload result analysis file"
+              icon="pi pi-upload"
+              (click)="openModalImportAnalysisResult()"
+            ></button>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
