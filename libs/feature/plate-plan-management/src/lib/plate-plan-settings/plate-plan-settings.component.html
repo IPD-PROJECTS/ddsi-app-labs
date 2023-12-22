@@ -175,16 +175,22 @@
             [plateDetails]="plaqueInfos"
             [disabled]="!plaqueInfos"
           ></ddsi-labs-apps-plate-plan-preview-block>
-          <div class="flex justify-content-end">
-            <button
-              pButton
-              [disabled]="!plaqueInfos?.patients?.length"
-              pRipple
-              class="p-button-warning border-round flex-shrink-0"
-              label="Upload result analysis file"
-              icon="pi pi-upload"
-              (click)="openModalImportAnalysisResult()"
-            ></button>
+          <div class="flex justify-content-between">
+            <div [pTooltip]="!plaqueInfos?.patients?.length ? 'Please finish the configuration of the plate plan by adding patients and controls to enable this button' : ''">
+              <button
+                pButton
+                [disabled]="!plaqueInfos?.patients?.length"
+                pRipple
+                class="p-button-warning border-round flex-shrink-0"
+                label="Upload result analysis file"
+                icon="pi pi-upload"
+                (click)="openModalImportAnalysisResult()"
+              ></button>
+            </div>
+            <div [pTooltip]="!plaqueInfos?.excel_spectro_file ? 'Please upload result analysis to enable this button' : ''">
+              <p-menu #menu [model]="items" [popup]="true"></p-menu>
+              <button [disabled]="!plaqueInfos?.excel_spectro_file" pButton type="button" (click)="menu.toggle($event)" icon="pi pi-sitemap" label="Process Result"></button>
+            </div>
           </div>
         </div>
       </div>

@@ -68,11 +68,11 @@
                 {{ PLATE_PLAN_LABEL.created_by }}
               </div>
             </th>
-            <th pResizableColumn style="min-width: 12rem">
+            <!-- <th pResizableColumn style="min-width: 12rem">
               <div class="flex justify-content-between align-items-center">
                 {{ PLATE_PLAN_LABEL.created_at }}
               </div>
-            </th>
+            </th> -->
             <th pResizableColumn style="min-width: 12rem">
               <div class="flex justify-content-between align-items-center">
                 {{ PLATE_PLAN_LABEL.updated_at }}
@@ -109,9 +109,9 @@
               ></p-badge>
             </td>
 
-            <td>
+            <!-- <td>
               {{ item[PLATE_ATTRIBUTE.created_by] }}
-            </td>
+            </td> -->
             <td>
               {{ item[PLATE_ATTRIBUTE.created_at] | date : 'dd-MM-yyyy' }}
             </td>
@@ -126,15 +126,15 @@
                   [link]="true"
                   [raised]="true"
                   class="p-link"
-                  icon="pi pi-pencil-v"
+                  icon="pi pi-folder"
                   (onClick)="addNewPlatePlan(item.id)"
-                  label="Set Plate Plan"
+                  label="Open Plate"
                 ></p-button>
                 <p-confirmPopup defaultFocus="reject" ></p-confirmPopup>
                 <p-button
                   [rounded]="true"
                   [raised]="true"
-                  icon="pi pi-pencil-v"
+                  icon="pi pi-trash"
                   severity="secondary"
                   label="Supprimer"
                   (click)="onDeleteItem($event, item)"
