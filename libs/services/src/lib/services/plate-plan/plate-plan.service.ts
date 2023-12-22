@@ -1,8 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { PlateModel } from '@ddsi-labs-apps/models';
-import { ENV_KEY } from '@ddsi-labs-apps/enums';
+import { ENV_KEY, FORMAT } from '@ddsi-labs-apps/enums';
 
 const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;
 const platesEndpoint = `${BASE_URL}/api/v1/plates/`;
@@ -64,6 +64,13 @@ export class PlatePlanService {
     return this.http.post(
       `${platesEndpoint}${idPlate}/fill`,
       data
+    );
+  }
+
+  getRobotProcessResult(idPlate: number, type: FORMAT) {
+    const headers = new HttpHeaders().set('Content-type', type);;
+    return this.http.get(
+      `${platesEndpoint}${idPlate}/process`, {headers}
     );
   }
 

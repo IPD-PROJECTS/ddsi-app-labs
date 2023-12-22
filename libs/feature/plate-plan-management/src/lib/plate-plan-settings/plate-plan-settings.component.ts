@@ -6,27 +6,72 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FileUploadModule } from 'primeng/fileupload';
-import { NotificationSeverity, Plate_Settings_Step } from '@ddsi-labs-apps/enums';
+import { FORMAT, NotificationSeverity, Plate_Settings_Step } from '@ddsi-labs-apps/enums';
 import { PlateModel, plateDetailsSignal } from '@ddsi-labs-apps/models';
 import { ActivatedRoute } from '@angular/router';
 import { PlatePlanPreviewBlockComponent } from '@ddsi-labs-apps/common-util';
 import { NotificationService, PlatePlanService, ApplicationRoutingService } from '@ddsi-labs-apps/services';
 import * as _ from 'lodash';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService, PrimeIcons } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ImportPlatePlanComponent } from '../import-plate-plan/import-plate-plan.component';
 import { ImportPlateAnalysisResultComponent } from '../import-plate-analysis-result/import-plate-analysis-result.component';
+import { MenuModule } from 'primeng/menu';
+import { TooltipModule } from 'primeng/tooltip';
 
 
 @Component({
   selector: 'ddsi-labs-apps-plate-plan-settings',
   standalone: true,
-  imports: [CommonModule, SplitterModule, AccordionModule, PlatePlanPreviewBlockComponent, ReactiveFormsModule, ButtonModule, InputTextModule, FileUploadModule],
+  imports: [CommonModule, SplitterModule,TooltipModule, AccordionModule, MenuModule, PlatePlanPreviewBlockComponent, ReactiveFormsModule, ButtonModule, InputTextModule, FileUploadModule],
   providers:[MessageService, DialogService, NotificationService],
   templateUrl: './plate-plan-settings.component.html',
   styleUrls: ['./plate-plan-settings.component.scss'],
 })
 export class PlatePlanSettingsComponent implements OnDestroy {
+  items: MenuItem[] | undefined = [
+    {
+      label: 'Graph',
+      icon: PrimeIcons.FORWARD,
+      items: [
+        {
+          label: 'Display Diagram',
+          icon: PrimeIcons.CHART_BAR,
+          command:() => {
+            this.getRobotAnalysisResultByType(FORMAT.JSON);
+          }
+        }
+      ]
+    },
+    {
+      label: 'Downloads',
+      icon: PrimeIcons.DOWNLOAD,
+      items: [
+        {
+          label: 'Result in ZIP Format',
+          icon: PrimeIcons.FILE,
+          command:() => {
+            this.getRobotAnalysisResultByType(FORMAT.ZIP);
+          }
+        },
+        {
+          label: 'Result in PNG Format',
+          icon: PrimeIcons.IMAGE,
+          command:() => {
+            this.getRobotAnalysisResultByType(FORMAT.PNG);
+          }
+        },
+        {
+          label: 'Result in EXCEL Format',
+          icon: PrimeIcons.FILE_EXCEL,
+          command:() => {
+            this.getRobotAnalysisResultByType(FORMAT.EXCEL);
+          }
+        },
+      ]
+    }
+
+  ]
   plateFormGroup: FormGroup = new FormGroup({});
   isSubmittingInitalization = false;
   currentStepIndex = 0;
@@ -130,6 +175,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
           this.isSubmittingPlatePlan = false;
           this.notificationService.displayNotification(NotificationSeverity.SUCCESS, 'Success', 'Plate plan updated successfully');
           this.plaqueInitializedInfos = this.plaqueInfos;
+          this.plateFormGroup.reset(this.plaqueInfos);
           plateDetailsSignal.set(this.plaqueInfos);
           this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
         },
@@ -175,6 +221,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
         if (resp?.success) {
           this.plaqueInitializedInfos = resp.data;
           plateDetailsSignal.set(resp.data);
+          this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
           this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `Plate Plan`, 'Plate plan updated successfully' );
         }
       },
@@ -200,5 +247,36 @@ export class PlatePlanSettingsComponent implements OnDestroy {
         }
       }
     })
+  }
+
+  getRobotAnalysisResultByType(type: FORMAT) {
+    if(this.plaqueInfos?.id) {
+      switch (type) {
+        case FORMAT.ZIP:
+        case FORMAT.PNG:
+        case FORMAT.EXCEL:
+          this.plateService.getRobotProcessResult(this.plaqueInfos?.id, type).subscribe(
+            {
+              next:(val => {
+                console.log('val', val, type);
+              })
+            }
+          )
+          break;
+        case FORMAT.JSON:
+          this.plateService.getRobotProcessResult(this.plaqueInfos?.id, type).subscribe(
+            {
+              next:(val => {
+                console.log('val', val);
+              })
+            }
+          )
+          break;
+
+        default:
+          break;
+      }
+
+    }
   }
 }

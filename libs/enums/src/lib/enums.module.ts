@@ -84,6 +84,13 @@ export enum Plate_Settings_Step {
   IMPORT_RESULT = 'IMPORT_RESULT',
 }
 
+export enum FORMAT {
+  ZIP = 'application/zip',
+  PNG = 'image/png',
+  EXCEL = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  JSON = 'application/json'
+}
+
 @NgModule({
   imports: [CommonModule],
 })
