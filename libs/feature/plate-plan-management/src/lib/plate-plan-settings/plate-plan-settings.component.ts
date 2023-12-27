@@ -121,6 +121,13 @@ export class PlatePlanSettingsComponent implements OnDestroy {
     });
   }
 
+  resetPlateValue(data: PlateModel) {
+    this.plaqueInfos = data;
+    this.plateFormGroup.reset(data);
+    this.plaqueInitializedInfos = this.plaqueInfos;
+    plateDetailsSignal.set(data);
+    this.hasPlateDetailsChanged = this.checkIfPlateHasChanged();
+  }
   initializePlate() {
     this.plateFormGroup.markAllAsTouched();
     if(this.plateFormGroup.valid) {
@@ -130,10 +137,8 @@ export class PlatePlanSettingsComponent implements OnDestroy {
         this.plateService.createPlate(value).subscribe({
           next:(resp: PlateModel) => {
             this.isSubmittingInitalization = false;
-            this.plaqueInfos = resp;
-            this.plateFormGroup.reset(resp);
+            this.resetPlateValue(resp);
             this.notificationService.displayNotification(NotificationSeverity.SUCCESS, 'Initialization', 'Plate infos initialized successfully')
-            plateDetailsSignal.set(this.plaqueInfos);
             this.goToStep(Plate_Settings_Step.FILL_PLATE);
 
           },
@@ -147,10 +152,8 @@ export class PlatePlanSettingsComponent implements OnDestroy {
           next:(resp: PlateModel) => {
             this.currentStepIndex = 1;
             this.isSubmittingInitalization = false;
-            this.plaqueInfos = resp;
-            this.plateFormGroup.reset(resp);
+            this.resetPlateValue(resp);
             this.notificationService.displayNotification(NotificationSeverity.SUCCESS, 'Update', 'Plate infos updated successfully')
-            plateDetailsSignal.set(this.plaqueInfos);
 
           },
           error:(err: any) => {
@@ -174,9 +177,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
         next:() => {
           this.isSubmittingPlatePlan = false;
           this.notificationService.displayNotification(NotificationSeverity.SUCCESS, 'Success', 'Plate plan updated successfully');
-          this.plaqueInitializedInfos = this.plaqueInfos;
-          this.plateFormGroup.reset(this.plaqueInfos);
-          plateDetailsSignal.set(this.plaqueInfos);
+          if(this.plaqueInfos) this.resetPlateValue(this.plaqueInfos);
           this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
         },
         error: () => {
@@ -219,8 +220,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
     ref.onClose.subscribe({
       next: (resp: { success: boolean, data: PlateModel }) => {
         if (resp?.success) {
-          this.plaqueInitializedInfos = resp.data;
-          plateDetailsSignal.set(resp.data);
+          this.resetPlateValue(resp.data);
           this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
           this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `Plate Plan`, 'Plate plan updated successfully' );
         }
@@ -241,8 +241,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
     ref.onClose.subscribe({
       next:( res: {success: boolean, data: PlateModel} ) => {
         if(res?.success) {
-          this.plaqueInitializedInfos = res.data;
-          plateDetailsSignal.set(res.data);
+          this.resetPlateValue(res.data);
           this.notificationService.displayNotification(NotificationSeverity.INFO, 'Result analysis file', "Upload successed. Please wait we're processing the results ")
         }
       }
@@ -257,18 +256,25 @@ export class PlatePlanSettingsComponent implements OnDestroy {
         case FORMAT.EXCEL:
           this.plateService.getRobotProcessResult(this.plaqueInfos?.id, type).subscribe(
             {
-              next:(val => {
-                console.log('val', val, type);
-              })
+              next:() => {
+                this.notificationService.displayNotification(NotificationSeverity.SUCCESS, 'Success', 'Download succeded');
+              },
+              error:() => {
+                this.notificationService.displayNotification(NotificationSeverity.ERROR, 'Error', 'Cannot process your request, please try again')
+              }
             }
           )
           break;
         case FORMAT.JSON:
           this.plateService.getRobotProcessResult(this.plaqueInfos?.id, type).subscribe(
             {
-              next:(val => {
-                console.log('val', val);
-              })
+              next:(res: PlateModel) => {
+                console.log('res', res);
+
+              },
+              error:() => {
+                this.notificationService.displayNotification(NotificationSeverity.ERROR, 'Error', 'Cannot process your request, please try again')
+              }
             }
           )
           break;
