@@ -189,9 +189,12 @@
             </div>
             <div [pTooltip]="!plaqueInfos?.excel_spectro_file ? 'Please upload result analysis to enable this button' : ''">
               <p-menu #menu [model]="items" [popup]="true"></p-menu>
-              <button [disabled]="!plaqueInfos?.excel_spectro_file" pButton type="button" (click)="menu.toggle($event)" icon="pi pi-sitemap" label="Process Result"></button>
+              <button [disabled]="!plaqueInfos?.excel_spectro_file" pButton type="button" (click)="menu.toggle($event)" icon="pi pi-sitemap" [loading]="displayingGraphic" label="Process Result"></button>
             </div>
           </div>
+          <div *ngIf="displayedGraphic" class="card">
+            <p-chart [data]="basicData" [options]="basicOptions"></p-chart>
+        </div>
         </div>
       </div>
     </div>

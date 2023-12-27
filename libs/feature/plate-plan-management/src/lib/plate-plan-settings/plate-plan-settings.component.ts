@@ -2,15 +2,29 @@ import { Component, OnDestroy, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SplitterModule } from 'primeng/splitter';
 import { AccordionModule } from 'primeng/accordion';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FileUploadModule } from 'primeng/fileupload';
-import { FORMAT, NotificationSeverity, Plate_Settings_Step } from '@ddsi-labs-apps/enums';
+import {
+  FORMAT,
+  NotificationSeverity,
+  Plate_Settings_Step,
+} from '@ddsi-labs-apps/enums';
 import { PlateModel, plateDetailsSignal } from '@ddsi-labs-apps/models';
 import { ActivatedRoute } from '@angular/router';
 import { PlatePlanPreviewBlockComponent } from '@ddsi-labs-apps/common-util';
-import { NotificationService, PlatePlanService, ApplicationRoutingService } from '@ddsi-labs-apps/services';
+import {
+  NotificationService,
+  PlatePlanService,
+  ApplicationRoutingService,
+  LayoutService,
+} from '@ddsi-labs-apps/services';
 import * as _ from 'lodash';
 import { MenuItem, MessageService, PrimeIcons } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -18,13 +32,26 @@ import { ImportPlatePlanComponent } from '../import-plate-plan/import-plate-plan
 import { ImportPlateAnalysisResultComponent } from '../import-plate-analysis-result/import-plate-analysis-result.component';
 import { MenuModule } from 'primeng/menu';
 import { TooltipModule } from 'primeng/tooltip';
-
+import { ChartModule } from 'primeng/chart';
+import { ChartData, ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'ddsi-labs-apps-plate-plan-settings',
   standalone: true,
-  imports: [CommonModule, SplitterModule,TooltipModule, AccordionModule, MenuModule, PlatePlanPreviewBlockComponent, ReactiveFormsModule, ButtonModule, InputTextModule, FileUploadModule],
-  providers:[MessageService, DialogService, NotificationService],
+  imports: [
+    CommonModule,
+    SplitterModule,
+    TooltipModule,
+    AccordionModule,
+    MenuModule,
+    PlatePlanPreviewBlockComponent,
+    ReactiveFormsModule,
+    ButtonModule,
+    InputTextModule,
+    FileUploadModule,
+    ChartModule,
+  ],
+  providers: [MessageService, DialogService, NotificationService],
   templateUrl: './plate-plan-settings.component.html',
   styleUrls: ['./plate-plan-settings.component.scss'],
 })
@@ -37,11 +64,11 @@ export class PlatePlanSettingsComponent implements OnDestroy {
         {
           label: 'Display Diagram',
           icon: PrimeIcons.CHART_BAR,
-          command:() => {
+          command: () => {
             this.getRobotAnalysisResultByType(FORMAT.JSON);
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       label: 'Downloads',
@@ -50,28 +77,27 @@ export class PlatePlanSettingsComponent implements OnDestroy {
         {
           label: 'Result in ZIP Format',
           icon: PrimeIcons.FILE,
-          command:() => {
+          command: () => {
             this.getRobotAnalysisResultByType(FORMAT.ZIP);
-          }
+          },
         },
         {
           label: 'Result in PNG Format',
           icon: PrimeIcons.IMAGE,
-          command:() => {
+          command: () => {
             this.getRobotAnalysisResultByType(FORMAT.PNG);
-          }
+          },
         },
         {
           label: 'Result in EXCEL Format',
           icon: PrimeIcons.FILE_EXCEL,
-          command:() => {
+          command: () => {
             this.getRobotAnalysisResultByType(FORMAT.EXCEL);
-          }
+          },
         },
-      ]
-    }
-
-  ]
+      ],
+    },
+  ];
   plateFormGroup: FormGroup = new FormGroup({});
   isSubmittingInitalization = false;
   currentStepIndex = 0;
@@ -80,29 +106,135 @@ export class PlatePlanSettingsComponent implements OnDestroy {
   idPlate?: number;
   isSubmittingPlatePlan = false;
   hasPlateDetailsChanged = false;
-  constructor(private dialogService: DialogService, private notificationService: NotificationService, private fb: FormBuilder, private plateService: PlatePlanService, private route: ActivatedRoute, private appRouting: ApplicationRoutingService){
+  displayedGraphic = false;
+  displayingGraphic = false;
+  basicData?: ChartData;
+  basicOptions?: ChartOptions;
+  themeConfig?: any;
+  inputDataChart: any[] = [];
+  constructor(
+    private dialogService: DialogService,
+    private notificationService: NotificationService,
+    private fb: FormBuilder,
+    private plateService: PlatePlanService,
+    private route: ActivatedRoute,
+    private appRouting: ApplicationRoutingService
+  ) {
     this.route.data.subscribe(({ plateDetails }) => {
       this.initializePlateData(plateDetails);
-      if(this.plaqueInfos) {
+      if (this.plaqueInfos) {
         this.goToStep(Plate_Settings_Step.FILL_PLATE);
-        if(this.plaqueInfos.patients?.length) {
+        if (this.plaqueInfos.patients?.length) {
           this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
         }
-        plateDetailsSignal.set(this.plaqueInfos)
+        plateDetailsSignal.set(this.plaqueInfos);
       }
-      });
-      this.initializeForm();
-
-
-
+    });
+    this.initializeForm();
 
     effect(() => {
-      if(plateDetailsSignal()) {
-        this.plaqueInfos = {...plateDetailsSignal()};
+      if (plateDetailsSignal()) {
+        this.plaqueInfos = { ...plateDetailsSignal() };
         this.hasPlateDetailsChanged = this.checkIfPlateHasChanged();
         this.initializeForm();
       }
-    })
+    });
+  }
+
+  initChartConfig() {
+    const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+        const primaryColor = documentStyle.getPropertyValue('--primary-color');
+        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    this.basicData = {
+      labels: this.getChartLabels(),
+      datasets: [
+        {
+          label: 'Result by Item',
+          data: this.getChartLabelsValue(),
+          // backgroundColor: documentStyle.getPropertyValue('--primary-500'),
+          type: 'bubble',
+          radius: function (context: any) {
+            const size = context?.raw.radius * 10;
+            return size;
+          },
+          // backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)'],
+          borderColor: [primaryColor],
+          // borderWidth: 1
+        },
+      ],
+    };
+
+    this.basicOptions = {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Graph of plate analysis result',
+        },
+        tooltip: {
+          callbacks: {
+            label: (ctx: any) => {
+              return `Test result ${ctx?.raw?.radius}`;
+            },
+          },
+        },
+        legend: {
+          labels: {
+            color: textColor,
+          },
+        },
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: textColorSecondary,
+            stepSize: 0.1,
+          },
+          grid: {
+            color: surfaceBorder,
+          },
+        },
+        x: {
+          beginAtZero: true,
+          display: true,
+          ticks: {
+            color: textColorSecondary,
+            stepSize: 1,
+          //   callback: (value, index, ticks) => {
+
+
+          //     return '$'+_+value;
+          // }
+            callback: (value, index, ticks) => {
+              if(index === 0) return '';
+              return this.inputDataChart[index-1]['control_name'] ? this.inputDataChart[index-1]['control_name'] : this.inputDataChart[index-1]['anon_name'];
+          }
+          },
+          grid: {
+            display: false,
+            color: surfaceBorder,
+          },
+        },
+      },
+    };
+  }
+
+  getChartLabels() {
+    return this.inputDataChart.map((elt) => {
+      return elt['control_name']
+        ? elt['control_name']
+        : elt['anon_name']
+        ? elt['anon_name']
+        : 'No Label';
+    });
+  }
+
+  getChartLabelsValue() {
+    return this.inputDataChart.map((elt, index) => {
+      return { x: index + 1, y: elt.test_result, radius: elt.test_result };
+    });
   }
   ngOnDestroy(): void {
     plateDetailsSignal.set(undefined);
@@ -116,7 +248,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
   initializeForm() {
     this.plateFormGroup = this.fb.group({
       id: [this.plaqueInfos?.id],
-      description: [this.plaqueInfos?.description,[Validators.required]],
+      description: [this.plaqueInfos?.description, [Validators.required]],
       // created_by: [this.plaqueInfos?.created_by,[Validators.required]]
     });
   }
@@ -130,38 +262,42 @@ export class PlatePlanSettingsComponent implements OnDestroy {
   }
   initializePlate() {
     this.plateFormGroup.markAllAsTouched();
-    if(this.plateFormGroup.valid) {
+    if (this.plateFormGroup.valid) {
       this.isSubmittingInitalization = true;
       const value: PlateModel = this.plateFormGroup.value;
-      if(!value.id) {
+      if (!value.id) {
         this.plateService.createPlate(value).subscribe({
-          next:(resp: PlateModel) => {
+          next: (resp: PlateModel) => {
             this.isSubmittingInitalization = false;
             this.resetPlateValue(resp);
-            this.notificationService.displayNotification(NotificationSeverity.SUCCESS, 'Initialization', 'Plate infos initialized successfully')
+            this.notificationService.displayNotification(
+              NotificationSeverity.SUCCESS,
+              'Initialization',
+              'Plate infos initialized successfully'
+            );
             this.goToStep(Plate_Settings_Step.FILL_PLATE);
-
           },
-          error:(err: any) => {
+          error: (err: any) => {
             this.isSubmittingInitalization = false;
-
-          }
-        })
+          },
+        });
       } else {
         this.plateService.updatePlate(value).subscribe({
-          next:(resp: PlateModel) => {
+          next: (resp: PlateModel) => {
             this.currentStepIndex = 1;
             this.isSubmittingInitalization = false;
             this.resetPlateValue(resp);
-            this.notificationService.displayNotification(NotificationSeverity.SUCCESS, 'Update', 'Plate infos updated successfully')
-
+            this.notificationService.displayNotification(
+              NotificationSeverity.SUCCESS,
+              'Update',
+              'Plate infos updated successfully'
+            );
           },
-          error:(err: any) => {
+          error: (err: any) => {
             this.isSubmittingInitalization = false;
             console.log('err', err);
-
-          }
-        })
+          },
+        });
       }
     }
   }
@@ -171,20 +307,30 @@ export class PlatePlanSettingsComponent implements OnDestroy {
   }
 
   savePlatePlan() {
-    if(this.plaqueInfos?.id) {
+    if (this.plaqueInfos?.id) {
       this.isSubmittingPlatePlan = true;
-      this.plateService.fillPlateWithItems(this.plaqueInfos?.id, this.plaqueInfos).subscribe({
-        next:() => {
-          this.isSubmittingPlatePlan = false;
-          this.notificationService.displayNotification(NotificationSeverity.SUCCESS, 'Success', 'Plate plan updated successfully');
-          if(this.plaqueInfos) this.resetPlateValue(this.plaqueInfos);
-          this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
-        },
-        error: () => {
-          this.isSubmittingPlatePlan = false;
-          this.notificationService.displayNotification(NotificationSeverity.ERROR, 'Success', 'Plate plan updated successfully')
-        }
-      })
+      this.plateService
+        .fillPlateWithItems(this.plaqueInfos?.id, this.plaqueInfos)
+        .subscribe({
+          next: () => {
+            this.isSubmittingPlatePlan = false;
+            this.notificationService.displayNotification(
+              NotificationSeverity.SUCCESS,
+              'Success',
+              'Plate plan updated successfully'
+            );
+            if (this.plaqueInfos) this.resetPlateValue(this.plaqueInfos);
+            this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
+          },
+          error: () => {
+            this.isSubmittingPlatePlan = false;
+            this.notificationService.displayNotification(
+              NotificationSeverity.ERROR,
+              'Success',
+              'Plate plan updated successfully'
+            );
+          },
+        });
     }
   }
 
@@ -211,18 +357,22 @@ export class PlatePlanSettingsComponent implements OnDestroy {
   opentModalImportPlatePlan() {
     const ref = this.dialogService.open(ImportPlatePlanComponent, {
       data: {
-        plaqueInfos: this.plaqueInfos
+        plaqueInfos: this.plaqueInfos,
       },
       header: `Import Plate plan`,
       autoZIndex: true,
       width: '445px',
     });
     ref.onClose.subscribe({
-      next: (resp: { success: boolean, data: PlateModel }) => {
+      next: (resp: { success: boolean; data: PlateModel }) => {
         if (resp?.success) {
           this.resetPlateValue(resp.data);
           this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
-          this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `Plate Plan`, 'Plate plan updated successfully' );
+          this.notificationService.displayNotification(
+            NotificationSeverity.SUCCESS,
+            `Plate Plan`,
+            'Plate plan updated successfully'
+          );
         }
       },
     });
@@ -231,7 +381,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
   openModalImportAnalysisResult() {
     const ref = this.dialogService.open(ImportPlateAnalysisResultComponent, {
       data: {
-        plaqueInfos: this.plaqueInfos
+        plaqueInfos: this.plaqueInfos,
       },
       header: `Import Analysis Result`,
       autoZIndex: true,
@@ -239,50 +389,72 @@ export class PlatePlanSettingsComponent implements OnDestroy {
     });
 
     ref.onClose.subscribe({
-      next:( res: {success: boolean, data: PlateModel} ) => {
-        if(res?.success) {
+      next: (res: { success: boolean; data: PlateModel }) => {
+        if (res?.success) {
           this.resetPlateValue(res.data);
-          this.notificationService.displayNotification(NotificationSeverity.INFO, 'Result analysis file', "Upload successed. Please wait we're processing the results ")
+          this.notificationService.displayNotification(
+            NotificationSeverity.INFO,
+            'Result analysis file',
+            "Upload successed. Please wait we're processing the results "
+          );
         }
-      }
-    })
+      },
+    });
   }
 
   getRobotAnalysisResultByType(type: FORMAT) {
-    if(this.plaqueInfos?.id) {
+    if (this.plaqueInfos?.id) {
       switch (type) {
         case FORMAT.ZIP:
         case FORMAT.PNG:
         case FORMAT.EXCEL:
-          this.plateService.getRobotProcessResult(this.plaqueInfos?.id, type).subscribe(
-            {
-              next:() => {
-                this.notificationService.displayNotification(NotificationSeverity.SUCCESS, 'Success', 'Download succeded');
+          this.plateService
+            .getRobotProcessResult(this.plaqueInfos?.id, type)
+            .subscribe({
+              next: () => {
+                this.notificationService.displayNotification(
+                  NotificationSeverity.SUCCESS,
+                  'Success',
+                  'Download succeded'
+                );
               },
-              error:() => {
-                this.notificationService.displayNotification(NotificationSeverity.ERROR, 'Error', 'Cannot process your request, please try again')
-              }
-            }
-          )
+              error: () => {
+                this.notificationService.displayNotification(
+                  NotificationSeverity.ERROR,
+                  'Error',
+                  'Cannot process your request, please try again'
+                );
+              },
+            });
           break;
         case FORMAT.JSON:
-          this.plateService.getRobotProcessResult(this.plaqueInfos?.id, type).subscribe(
-            {
-              next:(res: PlateModel) => {
-                console.log('res', res);
-
+          this.displayingGraphic = true;
+          this.plateService
+            .getRobotProcessResult(this.plaqueInfos?.id, type)
+            .subscribe({
+              next: (res: PlateModel) => {
+                this.resetPlateValue(res);
+                this.displayedGraphic = true;
+                this.displayingGraphic = false;
+                this.inputDataChart = [
+                  ...(this.plaqueInfos?.controls ?? []),
+                  ...(this.plaqueInfos?.patients ?? []),
+                ];
+                this.initChartConfig();
               },
-              error:() => {
-                this.notificationService.displayNotification(NotificationSeverity.ERROR, 'Error', 'Cannot process your request, please try again')
-              }
-            }
-          )
+              error: () => {
+                this.notificationService.displayNotification(
+                  NotificationSeverity.ERROR,
+                  'Error',
+                  'Cannot process your request, please try again'
+                );
+              },
+            });
           break;
 
         default:
           break;
       }
-
     }
   }
 }
