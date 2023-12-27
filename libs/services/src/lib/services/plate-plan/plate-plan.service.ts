@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { of, tap } from 'rxjs';
 import { PlateModel } from '@ddsi-labs-apps/models';
 import { ENV_KEY, FORMAT } from '@ddsi-labs-apps/enums';
 
@@ -70,9 +70,40 @@ export class PlatePlanService {
   getRobotProcessResult(idPlate: number, type: FORMAT) {
     const headers = new HttpHeaders().set('Content-type', type);;
     return this.http.get(
-      `${platesEndpoint}${idPlate}/process`, {headers}
+      `${platesEndpoint}${idPlate}/process`, {headers, responseType: 'blob' as 'json'}
+    ).pipe(
+      tap((blob: any) => {
+          if(type !== FORMAT.JSON) {
+            const extension = this.getFileExtension(type);
+            const fileName = `process_result_plate_${idPlate}.${extension}`;
+            this.downloadAsFile(blob, type, fileName );
+          }
+      })
     );
   }
+
+  getFileExtension(type: FORMAT) {
+    switch (type) {
+      case FORMAT.EXCEL:
+        return 'xlsx';
+      case FORMAT.PNG:
+        return 'png';
+      case FORMAT.ZIP:
+        return 'zip';
+      default:
+        break;
+    }
+    return
+  }
+
+  public downloadAsFile(blob: any, type: FORMAT, fileName: string) {
+     const link = document.createElement('a');
+     link.href = window.URL.createObjectURL(blob);
+     link.download = fileName;
+     document.body.appendChild(link);
+     link.click();
+     document.body.removeChild(link);
+ }
 
   uploadPlatePlan(idPlate: number,file: File) {
     const formData = new FormData();

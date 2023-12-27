@@ -67,9 +67,9 @@ export class GetActionMenuByPlateItemPipe implements PipeTransform {
     };
     const plateDetails: PlateModel = { ...plateDetailsSignal() };
     if (itemType === ITEM_TYPE.CONTROL)
-      plateDetails.controls = [...plateDetails.controls!, itemPosition];
+      plateDetails.controls = [...(plateDetails.controls ?? []), itemPosition];
     if (itemType === ITEM_TYPE.PATIENT)
-      plateDetails.patients = [...plateDetails.patients!, itemPosition];
+      plateDetails.patients = [...(plateDetails.patients ?? []), itemPosition];
     plateDetailsSignal.set(plateDetails);
 
   }
@@ -77,8 +77,8 @@ export class GetActionMenuByPlateItemPipe implements PipeTransform {
   replaceItemOnPlate(itemType: ITEM_TYPE, item: any, index: number) {
     const plateDetails: PlateModel = { ...plateDetailsSignal() };
     if (itemType === ITEM_TYPE.CONTROL) {
-      plateDetails.controls = [...plateDetails.controls!];
-      plateDetails.controls![index] = item;
+      plateDetails.controls = [...(plateDetails.controls ?? [])];
+      plateDetails.controls[index] = item;
     }
     if (itemType === ITEM_TYPE.PATIENT) {
       plateDetails.patients = [...plateDetails.patients!];

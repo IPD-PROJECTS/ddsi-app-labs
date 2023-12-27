@@ -139,7 +139,7 @@ export class PatientAddComponent {
     this.patientService.uploadListPatientsWithFile(importedPatientsFile).subscribe({
       next:() => {
         this.uploadingPatients = false;
-        this.displayNotificationMsg(true, 'Import', 'List of Patients successfully imported');
+        // this.displayNotificationMsg(true, 'Import', 'List of Patients successfully imported');
         this.fileUploader.clear();
         this.dynamicDialogRef.close({ success: true });
       },
