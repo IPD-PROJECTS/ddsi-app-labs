@@ -68,9 +68,9 @@ export class PlatePlanService {
   }
 
   getRobotProcessResult(idPlate: number, type: FORMAT) {
-    const headers = new HttpHeaders().set('Content-type', type);;
+    const headers = new HttpHeaders().set('Content-type', type);
     return this.http.get(
-      `${platesEndpoint}${idPlate}/process`, {headers, responseType: 'blob' as 'json'}
+      `${platesEndpoint}${idPlate}/process`, {headers, responseType: type !== FORMAT.JSON ? 'blob' as 'json' : 'json'}
     ).pipe(
       tap((blob: any) => {
           if(type !== FORMAT.JSON) {
