@@ -13,7 +13,9 @@ export class LabelOfPlateItemFilledPipe implements PipeTransform {
     let response = labelPosition;
     if(found) {
       if(found?.control_name) {
-        response += ' - '+found.control_name
+        response = found.control_name
+      } else if(found.anon_name) {
+        response = found.anon_name;
       }
     }
     return response;

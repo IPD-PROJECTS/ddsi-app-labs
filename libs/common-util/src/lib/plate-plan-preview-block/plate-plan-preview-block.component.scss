@@ -12,7 +12,13 @@
         padding: 0.75rem;
         width: inherit;
         &.filled {
-            background-color: blue;
+            background-color: var(--filled-color);
+            &.F {
+                background-color: var(--filled-color-Female);
+            }
+            &.M {
+                background-color: var(--filled-color-Male);
+            }
         }
     }
     .background-control-place {

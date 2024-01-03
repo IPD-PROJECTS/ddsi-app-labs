@@ -6,5 +6,8 @@ export const patientsManagementRoutes: Route[] = [
     path: 'list',
     component: PatientsListComponent,
     data: { breadcrumb: 'List Patients' }
+  },
+  {
+    path: '', redirectTo: 'list', pathMatch: 'full'
   }
 ];

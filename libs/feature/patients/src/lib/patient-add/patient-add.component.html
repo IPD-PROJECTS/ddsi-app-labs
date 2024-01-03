@@ -1,112 +1,188 @@
 <p-toast></p-toast>
 <div class="card">
-  <p-tabView #viewTab [(activeIndex)]="currentIndex">
-    <p-tabPanel header="Add a patient">
-      <form [formGroup]="formGroup" (ngSubmit)="submit()">
-        <div class="col-12">
-          <div class="grid formgrid p-fluid">
-            <!-- <div *ngIf="editMode" class="field mb-4 col-12">
-                            <label for="anon_name" class="font-medium text-900">Anon Name</label>
-                            <input id="anon_name" [readOnly]="true" formControlName="anon_name" [disabled]="editMode" type="text" pInputText>
-                        </div> -->
-
-            <div class="field mb-4 col-12">
-              <label for="first_name" class="font-medium text-900"
-                >Firstname</label
-              >
-              <input
-                id="first_name"
-                formControlName="first_name"
-                type="text"
-                pInputText
-              />
-            </div>
-            <div class="field mb-4 col-12">
-              <label for="last_name" class="font-medium text-900"
-                >Lastname</label
-              >
-              <input
-                id="last_name"
-                formControlName="last_name"
-                type="text"
-                pInputText
-              />
-            </div>
-            <div class="field mb-4 col-12">
-              <label for="sex" class="font-medium text-900"
-                >Genre (Masculin/Feminin)</label
-              >
-              <p-dropdown
-                formControlName="sex"
-                [options]="sexes"
-                placeholder="Select a genre"
-              ></p-dropdown>
-            </div>
-            <div class="field mb-4 col-12">
-              <label for="birth_date" class="font-medium text-900"
-                >BirthDate</label
-              >
-              <p-calendar
-                appendTo="body"
-                formControlName="birth_date"
-                [showIcon]="true"
-                [dateFormat]="'dd-mm-yy'"
-                styleClass="calendar"
-              ></p-calendar>
-            </div>
-
-            <div class="col-12">
-              <button
-                [loading]="isLoading"
-                pButton
-                pRipple
-                label="Submit"
-                class="w-auto mt-3"
-              ></button>
-            </div>
+  <ng-container *ngIf="tabIndex === 0">
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+      <div class="col-12">
+        <div class="grid formgrid p-fluid">
+          <div class="field col-12">
+            <label for="anon_name" class="font-medium text-900"
+              >Anon Name</label
+            >
+            <input
+              id="anon_name"
+              [readOnly]="true"
+              formControlName="anon_name"
+              type="text"
+              pInputText
+            />
           </div>
-        </div>
-      </form>
-    </p-tabPanel>
-    <p-tabPanel header="Import list of patients">
-      <p>
-        In this section you can import a excel file to add a list of
-        patients.Here is a link of a downloadable template file
-        <a href="assets/file_template/patients_list_template.xlsx">Download</a>
-      </p>
-      <div class="flex flex-column">
-        <div class="flex flex-column">
-          <div class="flex gap-3">
-            <p-fileUpload
-              #fileUploader
-              [invalidFileSizeMessageDetail]="'Max file size authorized: {0}'"
-              [invalidFileSizeMessageSummary]="
-                '{0}: Taille de fichier invalide'
+          <ng-container
+            *ngIf="
+              formGroup.get('anon_name')?.dirty ||
+              formGroup.get('anon_name')?.touched
+            "
+          >
+            <small
+              class="p-error mb-2"
+              *ngIf="
+                formGroup.controls['anon_name'].errors &&
+                formGroup.controls['anon_name'].errors['required']
               "
-              mode="basic"
-              name="cvFile"
-              styleClass="p-button-success"
-              chooseIcon="pi-upload"
-              chooseLabel="Import a list of patients"
-              accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-              [maxFileSize]="PATIENT_FILE_LIST_MAX_SIZE"
-              [customUpload]="true"
-              (onSelect)="onFileSelected($event)"
-            ></p-fileUpload>
+              >Ce champs est requis</small
+            >
+          </ng-container>
+          <div class="field col-12">
+            <label for="first_name" class="font-medium text-900"
+              >Firstname</label
+            >
+            <input
+              id="first_name"
+              formControlName="first_name"
+              type="text"
+              pInputText
+            />
+          </div>
+          <ng-container
+            *ngIf="
+              formGroup.get('first_name')?.dirty ||
+              formGroup.get('first_name')?.touched
+            "
+          >
+            <small
+              class="p-error mb-2"
+              *ngIf="
+                formGroup.controls['first_name'].errors &&
+                formGroup.controls['first_name'].errors['required']
+              "
+              >Ce champs est requis</small
+            >
+          </ng-container>
+          <div class="field col-12">
+            <label for="last_name" class="font-medium text-900">Lastname</label>
+            <input
+              id="last_name"
+              formControlName="last_name"
+              type="text"
+              pInputText
+            />
+          </div>
+          <ng-container
+            *ngIf="
+              formGroup.get('last_name')?.dirty ||
+              formGroup.get('last_name')?.touched
+            "
+          >
+            <small
+              class="p-error mb-2"
+              *ngIf="
+                formGroup.controls['last_name'].errors &&
+                formGroup.controls['last_name'].errors['required']
+              "
+              >Ce champs est requis</small
+            >
+          </ng-container>
+          <div class="field col-12">
+            <label for="sex" class="font-medium text-900"
+              >Genre (Masculin/Feminin)</label
+            >
+            <p-dropdown
+              formControlName="sex"
+              [options]="sexes"
+              placeholder="Select a genre"
+            ></p-dropdown>
+          </div>
+          <ng-container
+            *ngIf="
+              formGroup.get('sex')?.dirty ||
+              formGroup.get('sex')?.touched
+            "
+          >
+            <small
+              class="p-error mb-2"
+              *ngIf="
+                formGroup.controls['sex'].errors &&
+                formGroup.controls['sex'].errors['required']
+              "
+              >Ce champs est requis</small
+            >
+          </ng-container>
+          <div class="field col-12">
+            <label for="birth_date" class="font-medium text-900"
+              >BirthDate</label
+            >
+            <p-calendar
+              appendTo="body"
+              formControlName="birth_date"
+              [showIcon]="true"
+              [dateFormat]="'dd-mm-yy'"
+              styleClass="calendar"
+            ></p-calendar>
+          </div>
+          <ng-container
+            *ngIf="
+              formGroup.get('birth_date')?.dirty ||
+              formGroup.get('birth_date')?.touched
+            "
+          >
+            <small
+              class="p-error mb-2"
+              *ngIf="
+                formGroup.controls['birth_date'].errors &&
+                formGroup.controls['birth_date'].errors['required']
+              "
+              >Ce champs est requis</small
+            >
+          </ng-container>
+
+          <div class="col-12">
             <button
-              [loading]="uploadingPatients"
-              *ngIf="fileUploader._files.length"
+              [loading]="isLoading"
               pButton
-              class="p-button-text mr-4"
-              icon="pi pi-times"
-              (click)="fileUploader.clear()"
+              pRipple
+              label="Submit"
+              class="w-auto mt-3"
             ></button>
           </div>
-          <small *ngIf="hasErrorUploadingPatients" class="p-error my-3">
-            Error Occured, Please try again
-          </small>
         </div>
       </div>
-    </p-tabPanel>
-  </p-tabView>
+    </form>
+  </ng-container>
+  <ng-container *ngIf="tabIndex === 1">
+    <p>
+      In this section you can import a excel file to add a list of patients.Here
+      is a link of a downloadable template file
+      <a href="assets/file_template/patients_list_template.xlsx">Download</a>
+    </p>
+    <div class="flex flex-column">
+      <div class="flex flex-column">
+        <div class="flex gap-3">
+          <p-fileUpload
+            #fileUploader
+            [invalidFileSizeMessageDetail]="'Max file size authorized: {0}'"
+            [invalidFileSizeMessageSummary]="'{0}: Taille de fichier invalide'"
+            mode="basic"
+            name="cvFile"
+            styleClass="p-button-success"
+            chooseIcon="pi-upload"
+            chooseLabel="Import a list of patients"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            [maxFileSize]="PATIENT_FILE_LIST_MAX_SIZE"
+            [customUpload]="true"
+            (onSelect)="onFileSelected($event)"
+          ></p-fileUpload>
+          <button
+            [loading]="uploadingPatients"
+            *ngIf="fileUploader._files.length"
+            pButton
+            class="p-button-text mr-4"
+            icon="pi pi-times"
+            (click)="fileUploader.clear()"
+          ></button>
+        </div>
+        <small *ngIf="hasErrorUploadingPatients" class="p-error my-3">
+          Error Occured, Please try again
+        </small>
+      </div>
+    </div>
+  </ng-container>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, effect } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SplitterModule } from 'primeng/splitter';
 import { AccordionModule } from 'primeng/accordion';
@@ -23,7 +23,6 @@ import {
   NotificationService,
   PlatePlanService,
   ApplicationRoutingService,
-  LayoutService,
 } from '@ddsi-labs-apps/services';
 import * as _ from 'lodash';
 import { MenuItem, MessageService, PrimeIcons } from 'primeng/api';
@@ -35,6 +34,11 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ChartModule } from 'primeng/chart';
 import { ChartData, ChartOptions } from 'chart.js';
 
+enum PLATE_FILLING_COLOR {
+  defaultColor = 'yellow',
+  fillMaleColor = 'orange',
+  fillFemaleColor = 'pink'
+}
 @Component({
   selector: 'ddsi-labs-apps-plate-plan-settings',
   standalone: true,
@@ -56,6 +60,7 @@ import { ChartData, ChartOptions } from 'chart.js';
   styleUrls: ['./plate-plan-settings.component.scss'],
 })
 export class PlatePlanSettingsComponent implements OnDestroy {
+  PLATE_ITEMS_COLOR = PLATE_FILLING_COLOR;
   items: MenuItem[] | undefined = [
     {
       label: 'Graph',
@@ -112,6 +117,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
   basicOptions?: ChartOptions;
   themeConfig?: any;
   inputDataChart: any[] = [];
+  @ViewChild('plateDiagram') plateDiagramDiv!: ElementRef<HTMLDivElement>;
   constructor(
     private dialogService: DialogService,
     private notificationService: NotificationService,
@@ -124,8 +130,11 @@ export class PlatePlanSettingsComponent implements OnDestroy {
       this.initializePlateData(plateDetails);
       if (this.plaqueInfos) {
         this.goToStep(Plate_Settings_Step.FILL_PLATE);
-        if (this.plaqueInfos.patients?.length) {
+        if (this.plaqueInfos.patients?.length && this.plaqueInfos.controls?.length) {
           this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
+          if(this.plaqueInfos.excel_spectro_file) {
+            this.getRobotAnalysisResultByType(FORMAT.JSON);
+          }
         }
         plateDetailsSignal.set(this.plaqueInfos);
       }
@@ -396,7 +405,8 @@ export class PlatePlanSettingsComponent implements OnDestroy {
             NotificationSeverity.INFO,
             'Result analysis file',
             "Upload successed. Please wait we're processing the results "
-          );
+            );
+          this.getRobotAnalysisResultByType(FORMAT.JSON);
         }
       },
     });
@@ -436,13 +446,19 @@ export class PlatePlanSettingsComponent implements OnDestroy {
                 this.resetPlateValue(res);
                 this.displayedGraphic = true;
                 this.displayingGraphic = false;
+
+
                 this.inputDataChart = [
                   ...(this.plaqueInfos?.controls ?? []),
                   ...(this.plaqueInfos?.patients ?? []),
                 ];
                 this.initChartConfig();
+                setTimeout(() => {
+                  this.plateDiagramDiv?.nativeElement.scrollIntoView({behavior: 'smooth'});
+                });
               },
               error: () => {
+                this.displayingGraphic = false;
                 this.notificationService.displayNotification(
                   NotificationSeverity.ERROR,
                   'Error',

@@ -91,6 +91,10 @@ export enum FORMAT {
   JSON = 'application/json'
 }
 
+export enum GENDER {
+  MALE = 'M',
+  FEMALE = 'F'
+}
 @NgModule({
   imports: [CommonModule],
 })
