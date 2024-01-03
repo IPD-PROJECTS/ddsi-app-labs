@@ -7,7 +7,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
-import { TabView, TabViewModule } from 'primeng/tabview';
+import {  TabViewModule } from 'primeng/tabview';
 import { FileUpload, FileUploadModule } from 'primeng/fileupload';
 import { Patient } from '@ddsi-labs-apps/models';
 import { PatientService } from '@ddsi-labs-apps/services';
@@ -53,7 +53,6 @@ export class PatientAddComponent {
   uploadingPatients = false;
   hasErrorUploadingPatients = false;
   @ViewChild('fileUploader') fileUploader!: FileUpload;
-  @ViewChild('viewTab') viewTab!: TabView;
   currentIndex = 0;
   tabIndex = 0;
   constructor(
@@ -64,10 +63,9 @@ export class PatientAddComponent {
     private messageService: MessageService
   ) {
     const patient: Patient = dynamicDialogConfig.data?.patient;
-    const tabIndex: number = dynamicDialogConfig.data?.tabIndex;
-    this.initializeTabs(tabIndex);
+    this.tabIndex = dynamicDialogConfig.data?.tabIndex ?? 0;
     this.formGroup = this.fb.group({
-      anon_name: [patient?.anon_name || 'anon_name'],
+      anon_name: [patient?.anon_name, [Validators.required]],
       first_name: [patient?.first_name || null, [Validators.required]],
       last_name: [patient?.last_name || null, [Validators.required]],
       sex: [patient?.sex || null, [Validators.required]],
@@ -78,17 +76,11 @@ export class PatientAddComponent {
     });
   }
 
-
-  initializeTabs(currentTabIndex: number | undefined): void {
-    setTimeout(() => {
-      this.currentIndex = currentTabIndex || 0;
-    },100);
-  }
-
   submit() {
-    const value: Patient = this.formGroup.value;
-    this.isLoading = true;
+    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
+      const value: Patient = this.formGroup.value;
+      this.isLoading = true;
       value.birth_date = new Date(value.birth_date!)
         .toISOString()
         .split('T')[0];

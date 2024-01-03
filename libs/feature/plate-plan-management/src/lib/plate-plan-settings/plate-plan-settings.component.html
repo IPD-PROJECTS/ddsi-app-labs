@@ -118,6 +118,21 @@
               The first column of the plate is dedicated to the controls item:
               NEG, POS, WHITE
             </div>
+            <div>
+              <i class="pi pi-info-circle"></i>
+              We configure different color based on the control type and the patient gender.
+              <div>
+                <div>
+                  <i [ngStyle]="{color: PLATE_ITEMS_COLOR.defaultColor}" class="pi pi-circle-fill"></i> : For the controls item
+                </div>
+                <div>
+                  <i [ngStyle]="{color: PLATE_ITEMS_COLOR.fillMaleColor}" class="pi pi-circle-fill"></i> : For the items where patient is a Man.
+                </div>
+                <div>
+                  <i [ngStyle]="{color: PLATE_ITEMS_COLOR.fillFemaleColor}" class="pi pi-circle-fill"></i> : For the items where patient is a Woman.
+                </div>
+              </div>
+            </div>
           </p-accordionTab>
           <p-accordionTab
             [disabled]="!plaqueInfos?.id"
@@ -154,6 +169,7 @@
                   pButton
                   pRipple
                   class="p-button-secondary border-round"
+                  [disabled]="plaqueInfos?.excel_spectro_file"
                   label="Upload Plate Plan"
                   icon="pi pi-save"
                   (click)="opentModalImportPlatePlan()"
@@ -174,6 +190,9 @@
           <ddsi-labs-apps-plate-plan-preview-block
             [plateDetails]="plaqueInfos"
             [disabled]="!plaqueInfos"
+            [defaultFillColor]="PLATE_ITEMS_COLOR.defaultColor"
+            [fillColorMale]="PLATE_ITEMS_COLOR.fillMaleColor"
+            [fillColorFemale]="PLATE_ITEMS_COLOR.fillFemaleColor"
           ></ddsi-labs-apps-plate-plan-preview-block>
           <div class="flex justify-content-between">
             <div [pTooltip]="!plaqueInfos?.patients?.length ? 'Please finish the configuration of the plate plan by adding patients and controls to enable this button' : ''">
@@ -192,7 +211,7 @@
               <button [disabled]="!plaqueInfos?.excel_spectro_file" pButton type="button" (click)="menu.toggle($event)" icon="pi pi-sitemap" [loading]="displayingGraphic" label="Process Result"></button>
             </div>
           </div>
-          <div *ngIf="displayedGraphic" class="card">
+          <div *ngIf="displayedGraphic" class="card" id="plateDiagram" #plateDiagram>
             <p-chart [data]="basicData" [options]="basicOptions"></p-chart>
         </div>
         </div>

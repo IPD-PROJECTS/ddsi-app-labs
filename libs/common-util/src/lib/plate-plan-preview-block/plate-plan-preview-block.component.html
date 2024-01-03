@@ -20,7 +20,7 @@
               | checkStatusPlateItem
                 : ({ rowLabelType, rowIndex, colLabelType, colIndex }
                     | getLabelOfPlateItem
-                    | uppercase)).item}"
+                    | uppercase))?.item}"
         [popup]="true"
       ></p-menu>
       <div
@@ -69,7 +69,7 @@
                   : ({ rowLabelType, rowIndex, colLabelType, colIndex }
                       | getLabelOfPlateItem
                       | uppercase)
-              ).status
+              )?.class
             "
             [ngClass]="{
               'background-control-place': colIndex === COLUMN_INDEX_FOR_CONTROLS

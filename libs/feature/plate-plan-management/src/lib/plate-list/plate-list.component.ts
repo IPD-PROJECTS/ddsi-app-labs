@@ -79,11 +79,17 @@ export class PlateListComponent {
   }
 
   delete(item: PlateModel) {
+    this.loading = true;
     this.platePlanService.deletePlate(item).subscribe({
       next: () => {
+        this.loading = false;
         this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `Success`, `Item ${item.id} Deleted`);
         this.table.reset();
       },
+      error:() => {
+        this.loading = false;
+        this.notificationService.displayNotification(NotificationSeverity.ERROR, `Error`, `Error occured during deletion, please try again`);
+      }
     });
   }
 }
