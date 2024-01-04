@@ -19,6 +19,15 @@
             &.M {
                 background-color: var(--filled-color-Male);
             }
+            &.POS {
+                background-color: var(--filled-color-POS);
+            }
+            &.WHITE {
+                background-color: var(--filled-color-WHITE);
+            }
+            &.NEG {
+                background-color: var(--filled-color-NEG);
+            }
         }
     }
     .background-control-place {

@@ -37,6 +37,9 @@ export class CheckStatusPlateItemPipe implements PipeTransform {
         if(found.sex) {
           result = {...result, class: result.class + ' ' + found.sex}
         }
+        if(found.control_name) {
+          result = {...result, class: result.class + ' ' + found.control_name}
+        }
       }
     }
 

@@ -36,8 +36,11 @@ import { ChartData, ChartOptions } from 'chart.js';
 
 enum PLATE_FILLING_COLOR {
   defaultColor = 'yellow',
-  fillMaleColor = 'orange',
-  fillFemaleColor = 'pink'
+  fillMaleColor = 'blue',
+  fillFemaleColor = 'pink',
+  fillPOSColor = 'green',
+  fillWHITEColor = 'gray',
+  fillNEGColor = 'red'
 }
 @Component({
   selector: 'ddsi-labs-apps-plate-plan-settings',
