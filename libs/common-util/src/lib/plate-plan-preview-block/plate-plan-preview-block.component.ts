@@ -245,9 +245,12 @@ export class GetActionMenuByPlateItemPipe implements PipeTransform {
   styleUrls: ['./plate-plan-preview-block.component.scss'],
 })
 export class PlatePlanPreviewBlockComponent {
-  @Input() @HostBinding('style.--filled-color') defaultFillColor = 'red';
-  @Input() @HostBinding('style.--filled-color-Male') fillColorMale = 'orange';
+  @Input() @HostBinding('style.--filled-color') defaultFillColor = 'orange';
+  @Input() @HostBinding('style.--filled-color-Male') fillColorMale = 'blue';
   @Input() @HostBinding('style.--filled-color-Female') fillColorFemale = 'pink';
+  @Input() @HostBinding('style.--filled-color-POS') fillColorPOS = 'green';
+  @Input() @HostBinding('style.--filled-color-WHITE') fillColorWHITE = 'gray';
+  @Input() @HostBinding('style.--filled-color-NEG') fillColorNEG = 'red';
 
   COLUMN_INDEX_FOR_CONTROLS = COLUMN_INDEX_FOR_CONTROLS;
   @Input() rowLength = 8;
