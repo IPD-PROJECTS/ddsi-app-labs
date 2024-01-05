@@ -53,7 +53,7 @@
         <tr *ngIf="item_type === ITEM_TYPE.PATIENT">
           <th pResizableColumn>
             <div class="flex justify-content-between align-items-center">
-              ID
+              Anon Name
             </div>
           </th>
           <th pResizableColumn>
@@ -82,7 +82,7 @@
         </tr>
         <tr *ngIf="item_type === ITEM_TYPE.PATIENT" [pSelectableRow]="item" [ngClass]="{'disabled' : (item | isPatientAlreadyAdded : plateInfos?.patients)}" >
           <td>
-            {{ item.id }}
+            {{ item.anon_name }}
           </td>
 
           <td>

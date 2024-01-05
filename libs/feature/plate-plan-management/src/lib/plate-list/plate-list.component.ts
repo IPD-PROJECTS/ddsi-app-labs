@@ -37,9 +37,12 @@ export class PlateListComponent {
 
 
   fetchListPlatePlan(params: any) {
-    const endpoint_params = {
+    const endpoint_params: {limit: string, page: number, search?: string} = {
       limit: params?.rows,
       page: (params?.first / params?.rows)
+    };
+    if(params?.globalFilter) {
+      endpoint_params['search'] = params.globalFilter;
     }
     this.loading = true;
     this.platePlanService.getListPlates(endpoint_params).subscribe({
@@ -56,6 +59,8 @@ export class PlateListComponent {
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    console.log('event', event);
+
   }
 
   clear(table: Table) {

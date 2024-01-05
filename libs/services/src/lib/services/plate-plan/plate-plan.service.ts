@@ -17,12 +17,15 @@ export class PlatePlanService {
     private http: HttpClient
   ) {}
 
-  getListPlates(params?: any) {
-    const data: HttpParams = params
+  getListPlates(params?: {limit: string, page: number, search?: string}) {
+    let data: HttpParams = params
       ? new HttpParams()
           .append('p', params?.page + 1)
           .append('size', params?.limit)
       : new HttpParams();
+    if(params?.search) {
+      data = data.append('search', params.search);
+    }
     return this.http.get<{ results: PlateModel[]; count: number }>(
       `${platesEndpoint}`,
       { params: data }

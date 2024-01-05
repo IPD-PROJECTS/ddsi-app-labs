@@ -6,6 +6,7 @@
         [lazy]="true"
         (onLazyLoad)="fetchListPatient($event)"
         #dt1
+        [filterDelay]="500"
         [value]="listPatient"
         dataKey="id"
         [columns]="cols"

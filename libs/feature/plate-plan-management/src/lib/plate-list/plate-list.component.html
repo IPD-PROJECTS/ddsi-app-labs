@@ -3,6 +3,7 @@
       <h5>List Plate</h5>
       <p-table
         [lazy]="true"
+        [filterDelay]="500"
         (onLazyLoad)="fetchListPlatePlan($event)"
         [totalRecords]="itemCounts"
         [rowsPerPageOptions]="[5, 10, 20, 50]"

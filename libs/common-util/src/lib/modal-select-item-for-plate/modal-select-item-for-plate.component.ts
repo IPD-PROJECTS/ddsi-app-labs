@@ -52,7 +52,7 @@ isAlreadySelected(data: Patient) {
 
   lazyLoadTableItems(params: any) {
     if(this.item_type === ITEM_TYPE.CONTROL) {
-      this.fetchListPlatePlan(null)
+      this.fetchListControl(null)
     } else if(this.item_type === ITEM_TYPE.PATIENT) {
       this.fetchListPatient(params);
     }
@@ -63,9 +63,12 @@ isAlreadySelected(data: Patient) {
   }
 
   fetchListPatient(params: any) {
-    const endpoint_params = {
+    const endpoint_params: {limit: string, page: number, search?: string} = {
       limit: params?.rows,
       page: (params?.first / params?.rows)
+    };
+    if(params?.globalFilter) {
+      endpoint_params['search'] = params.globalFilter;
     }
     this.loading = true;
     this.patientService.getListPatients(endpoint_params).subscribe({
@@ -80,7 +83,7 @@ isAlreadySelected(data: Patient) {
     });
   }
 
-  fetchListPlatePlan(params: any) {
+  fetchListControl(params: any) {
     const endpoint_params = {
       limit: params?.rows,
       page: (params?.first / params?.rows)
@@ -98,7 +101,9 @@ isAlreadySelected(data: Patient) {
   }
 
   onGlobalFilter(table: Table, event: Event) {
-    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    if(this.item_type === ITEM_TYPE.PATIENT) {
+      table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
   }
 
   clear(table: Table) {
