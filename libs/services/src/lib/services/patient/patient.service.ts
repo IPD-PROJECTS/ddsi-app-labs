@@ -18,8 +18,11 @@ export class PatientService {
     return this.http.post(`${patientsEndpoint}/import/`, formData);
   }
 
-  getListPatients(params?: any) {
-    const data: HttpParams = new HttpParams().append('p', params?.page + 1).append('size', params?.limit)
+  getListPatients(params: {limit: string, page: number, search?: string}) {
+    let data: HttpParams = new HttpParams().append('p', params?.page + 1).append('size', params?.limit);
+    if(params.search) {
+      data = data.append('search', params.search);
+    }
     return this.http.get<{results: Patient[], count: number}>(`${patientsEndpoint}/`, { params: data});
   }
 
