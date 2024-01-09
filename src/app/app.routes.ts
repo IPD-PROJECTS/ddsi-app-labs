@@ -11,7 +11,7 @@ export const appRoutes: Route[] = [
                 path: '', redirectTo: 'plates', pathMatch: 'full'
             },
             {
-                path: 'plates', data: { breadcrumb: 'Plates' } , loadChildren: () => import('@ddsi-labs-apps/plate-management').then(m => m.PlateManagementModule)
+                path: 'plates', data: { breadcrumb: 'Plaques' } , loadChildren: () => import('@ddsi-labs-apps/plate-management').then(m => m.PlateManagementModule)
             }
         ]
     },

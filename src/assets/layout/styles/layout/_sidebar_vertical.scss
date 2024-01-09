@@ -44,7 +44,7 @@
                 color: var(--root-menuitem-text-color);
                 padding: 1rem 2rem;
             }
-    
+
             > a {
                 display: none;
             }
@@ -52,7 +52,7 @@
 
         a {
             user-select: none;
-            
+
             &.active-menuitem {
                 > .layout-submenu-toggler {
                     transform: rotate(-180deg);
@@ -72,7 +72,7 @@
             margin: 0;
             padding: 0;
             list-style-type: none;
-    
+
             a {
                 display: flex;
                 align-items: center;
@@ -87,51 +87,54 @@
                     margin-right: .5rem;
                     color: var(--menuitem-icon-color);
                 }
-    
+
                 .layout-submenu-toggler {
                     font-size: 75%;
                     margin-left: auto;
                     transition: transform var(--transition-duration);
                 }
-    
+
                 &.active-route {
                     font-weight: 700;
+                    i {
+                        font-weight: 700;
+                    }
                 }
 
                 &:hover {
                     background-color: var(--menuitem-hover-bg-color);
                 }
             }
-    
+
             ul {
                 overflow: hidden;
                 border-radius: var(--border-radius);
-    
+
                 li {
                     a {
                         padding-left: 2.5rem;
                     }
-    
+
                     li {
                         a {
                             padding-left: 3rem;
                         }
-    
+
                         li {
                             a {
                                 padding-left: 3.5rem;
                             }
-    
+
                             li {
                                 a {
                                     padding-left: 4rem;
                                 }
-    
+
                                 li {
                                     a {
                                         padding-left: 5.5rem;
                                     }
-    
+
                                     li {
                                         a {
                                             padding-left: 5rem;

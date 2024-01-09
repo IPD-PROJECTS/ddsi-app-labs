@@ -6,7 +6,7 @@
         <div class="grid formgrid p-fluid">
           <div class="field col-12">
             <label for="anon_name" class="font-medium text-900"
-              >Anon Name</label
+              >Nom d'anonymisation</label
             >
             <input
               id="anon_name"
@@ -33,7 +33,7 @@
           </ng-container>
           <div class="field col-12">
             <label for="first_name" class="font-medium text-900"
-              >Firstname</label
+              >Prénom</label
             >
             <input
               id="first_name"
@@ -58,7 +58,7 @@
             >
           </ng-container>
           <div class="field col-12">
-            <label for="last_name" class="font-medium text-900">Lastname</label>
+            <label for="last_name" class="font-medium text-900">Nom</label>
             <input
               id="last_name"
               formControlName="last_name"
@@ -108,7 +108,7 @@
           </ng-container>
           <div class="field col-12">
             <label for="birth_date" class="font-medium text-900"
-              >BirthDate</label
+              >Date de naissance</label
             >
             <p-calendar
               appendTo="body"
@@ -139,7 +139,7 @@
               [loading]="isLoading"
               pButton
               pRipple
-              label="Submit"
+              label="Enregistrer"
               class="w-auto mt-3"
             ></button>
           </div>
@@ -149,22 +149,21 @@
   </ng-container>
   <ng-container *ngIf="tabIndex === 1">
     <p>
-      In this section you can import a excel file to add a list of patients.Here
-      is a link of a downloadable template file
-      <a href="assets/file_template/patients_list_template.xlsx">Download</a>
+      Dans cette section, vous pouvez importer un fichier Excel pour ajouter une liste de patients. Voici un lien vers un fichier modèle téléchargeable:&nbsp;
+      <a href="assets/file_template/patients_list_template.xlsx">Télécharger le modèle</a>
     </p>
     <div class="flex flex-column">
       <div class="flex flex-column">
         <div class="flex gap-3">
           <p-fileUpload
             #fileUploader
-            [invalidFileSizeMessageDetail]="'Max file size authorized: {0}'"
+            [invalidFileSizeMessageDetail]="'Taille maximale de fichier autorisée: {0}'"
             [invalidFileSizeMessageSummary]="'{0}: Taille de fichier invalide'"
             mode="basic"
             name="cvFile"
             styleClass="p-button-success"
             chooseIcon="pi-upload"
-            chooseLabel="Import a list of patients"
+            chooseLabel="Importer une liste de patients"
             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
             [maxFileSize]="PATIENT_FILE_LIST_MAX_SIZE"
             [customUpload]="true"
@@ -180,7 +179,7 @@
           ></button>
         </div>
         <small *ngIf="hasErrorUploadingPatients" class="p-error my-3">
-          Error Occured, Please try again
+          Une erreur s'est produite. Veuillez réessayer encore
         </small>
       </div>
     </div>

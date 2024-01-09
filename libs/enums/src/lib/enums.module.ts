@@ -29,9 +29,9 @@ export enum PLATE_LABEL {
   patients = 'Nombre de patients',
   controls = 'Nombre de controls',
   description = 'Description',
-  created_at = 'Created at',
-  updated_at = 'Updated at',
-  created_by = 'Created by',
+  created_at = 'Date de création',
+  updated_at = 'Date de mise à jour',
+  created_by = 'Crée par',
 }
 
 export enum ENV_KEY {

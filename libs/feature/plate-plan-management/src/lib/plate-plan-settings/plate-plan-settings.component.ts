@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnDestroy, ViewChild, effect } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  ViewChild,
+  effect,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SplitterModule } from 'primeng/splitter';
 import { AccordionModule } from 'primeng/accordion';
@@ -32,7 +38,7 @@ import { ImportPlateAnalysisResultComponent } from '../import-plate-analysis-res
 import { MenuModule } from 'primeng/menu';
 import { TooltipModule } from 'primeng/tooltip';
 import { ChartModule } from 'primeng/chart';
-import { ChartData, ChartOptions } from 'chart.js';
+import { ChartData, ChartOptions, TooltipItem } from 'chart.js';
 
 enum PLATE_FILLING_COLOR {
   defaultColor = 'yellow',
@@ -40,7 +46,7 @@ enum PLATE_FILLING_COLOR {
   fillFemaleColor = 'pink',
   fillPOSColor = 'green',
   fillWHITEColor = 'gray',
-  fillNEGColor = 'red'
+  fillNEGColor = 'red',
 }
 @Component({
   selector: 'ddsi-labs-apps-plate-plan-settings',
@@ -120,6 +126,12 @@ export class PlatePlanSettingsComponent implements OnDestroy {
   basicOptions?: ChartOptions;
   themeConfig?: any;
   inputDataChart: any[] = [];
+  documentStyle = getComputedStyle(document.documentElement);
+
+  data: any;
+
+  options: any;
+
   @ViewChild('plateDiagram') plateDiagramDiv!: ElementRef<HTMLDivElement>;
   constructor(
     private dialogService: DialogService,
@@ -133,9 +145,12 @@ export class PlatePlanSettingsComponent implements OnDestroy {
       this.initializePlateData(plateDetails);
       if (this.plaqueInfos) {
         this.goToStep(Plate_Settings_Step.FILL_PLATE);
-        if (this.plaqueInfos.patients?.length && this.plaqueInfos.controls?.length) {
+        if (
+          this.plaqueInfos.patients?.length &&
+          this.plaqueInfos.controls?.length
+        ) {
           this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
-          if(this.plaqueInfos.excel_spectro_file) {
+          if (this.plaqueInfos.excel_spectro_file) {
             this.getRobotAnalysisResultByType(FORMAT.JSON);
           }
         }
@@ -153,84 +168,189 @@ export class PlatePlanSettingsComponent implements OnDestroy {
     });
   }
 
-  initChartConfig() {
-    const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
-        const primaryColor = documentStyle.getPropertyValue('--primary-color');
-        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-    this.basicData = {
+  buildChart() {
+    const textColor = this.documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = this.documentStyle.getPropertyValue(
+      '--text-color-secondary'
+    );
+    const surfaceBorder =
+      this.documentStyle.getPropertyValue('--surface-border');
+
+    this.data = {
       labels: this.getChartLabels(),
       datasets: [
         {
-          label: 'Result by Item',
-          data: this.getChartLabelsValue(),
-          // backgroundColor: documentStyle.getPropertyValue('--primary-500'),
+          label: 'Resultats analyses',
           type: 'bubble',
+          data: this.getChartLabelsValue(),
+          fill: false,
+          borderColor: this.documentStyle.getPropertyValue('--pink-500'),
+          tension: 0.4,
           radius: function (context: any) {
             const size = context?.raw.radius * 10;
             return size;
           },
-          // backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)'],
-          borderColor: [primaryColor],
-          // borderWidth: 1
         },
+        ...this.getChartThresholds(),
       ],
     };
 
-    this.basicOptions = {
+    this.options = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.6,
       plugins: {
         title: {
           display: true,
-          text: 'Graph of plate analysis result',
-        },
-        tooltip: {
-          callbacks: {
-            label: (ctx: any) => {
-              return `Test result ${ctx?.raw?.radius}`;
-            },
-          },
+          text: "Graphe du resultat de l'analyse de la plaque",
         },
         legend: {
           labels: {
             color: textColor,
           },
         },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            color: textColorSecondary,
-            stepSize: 0.1,
-          },
-          grid: {
-            color: surfaceBorder,
+        tooltip: {
+          callbacks: {
+            label: (ctx: TooltipItem<any>) => {
+              console.log('ctx', ctx);
+              if (ctx.datasetIndex === 0) {
+                return `Test result `;
+              }
+              return undefined;
+            },
           },
         },
+      },
+      scales: {
         x: {
-          beginAtZero: true,
-          display: true,
           ticks: {
             color: textColorSecondary,
-            stepSize: 1,
-          //   callback: (value, index, ticks) => {
-
-
-          //     return '$'+_+value;
-          // }
-            callback: (value, index, ticks) => {
-              if(index === 0) return '';
-              return this.inputDataChart[index-1]['control_name'] ? this.inputDataChart[index-1]['control_name'] : this.inputDataChart[index-1]['anon_name'];
-          }
           },
           grid: {
-            display: false,
             color: surfaceBorder,
+            drawBorder: false,
+          },
+        },
+        y: {
+          ticks: {
+            color: textColorSecondary,
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false,
           },
         },
       },
     };
+  }
+
+  // initChartConfig() {
+  //   const documentStyle = getComputedStyle(document.documentElement);
+  //   const textColor = documentStyle.getPropertyValue('--text-color');
+  //   const primaryColor = documentStyle.getPropertyValue('--primary-color');
+  //   const textColorSecondary = documentStyle.getPropertyValue(
+  //     '--text-color-secondary'
+  //   );
+  //   const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+  //   this.basicData = {
+  //     labels: this.getChartLabels(),
+  //     datasets: [
+  //       {
+  //         label: 'Resultat par élément',
+  //         data: this.getChartLabelsValue(),
+  //         type: 'bubble',
+  //         radius: function (context: any) {
+  //           const size = context?.raw.radius * 10;
+  //           return size;
+  //         },
+  //         borderColor: [primaryColor],
+  //       },
+  //     //   {
+  //     //     label: 'First Dataset',
+  //     //     data: [65, 59, 80, 81, 56, 55, 40],
+  //     //     fill: false,
+  //     //     type: 'line',
+  //     //     borderColor: documentStyle.getPropertyValue('--blue-500'),
+  //     //     tension: 0.4
+  //     // },
+  //       {
+  //         type: 'line',
+  //         data: [
+  //           1, 1, 1, 1, 1, 1, 1
+  //         ],
+  //         borderWidth: 5,
+  //         label: 'Controls Seuils',
+  //         borderColor: 'red',
+  //         tension: 0.3
+  //       }
+  //     ],
+  //   };
+
+  //   this.basicOptions = {
+  //     maintainAspectRatio: true,
+  //     plugins: {
+  //       title: {
+  //         display: true,
+  //         text: "Graphe du resultat de l'analyse de la plaque",
+  //       },
+  //       tooltip: {
+  //         callbacks: {
+  //           label: (ctx: any) => {
+  //             return `Test result ${ctx?.raw?.radius}`;
+  //           },
+  //         },
+  //       },
+  //       legend: {
+  //         labels: {
+  //           color: textColor,
+  //         },
+  //       },
+  //     },
+  //     scales: {
+  //       y: {
+  //         beginAtZero: true,
+  //         ticks: {
+  //           color: textColorSecondary,
+  //           stepSize: 0.1,
+  //         },
+  //         grid: {
+  //           color: surfaceBorder,
+  //         },
+  //       },
+  //       x: {
+  //         beginAtZero: true,
+  //         display: true,
+  //         ticks: {
+  //           color: textColorSecondary,
+  //           stepSize: 1,
+  //           callback: (_, index) => {
+  //             if (index === 0) return '';
+  //             return this.inputDataChart[index - 1]['control_name']
+  //               ? this.inputDataChart[index - 1]['control_name']
+  //               : this.inputDataChart[index - 1]['anon_name'];
+  //           },
+  //         },
+  //         grid: {
+  //           display: true,
+  //           color: surfaceBorder,
+  //         },
+  //       },
+  //     },
+  //   };
+  // }
+
+  getChartThresholds() {
+    return this.inputDataChart
+      .filter((elt) => elt['control_name'])
+      .map((elt) => {
+        return {
+          label: `${elt['control_name']} Threshold`,
+          type: 'line',
+          data: Array(this.inputDataChart.length).fill(elt['test_result']),
+          fill: false,
+          borderColor: this.documentStyle.getPropertyValue('--blue-500'),
+          tension: 0.4,
+        };
+      });
   }
 
   getChartLabels() {
@@ -284,8 +404,8 @@ export class PlatePlanSettingsComponent implements OnDestroy {
             this.resetPlateValue(resp);
             this.notificationService.displayNotification(
               NotificationSeverity.SUCCESS,
-              'Initialization',
-              'Plate infos initialized successfully'
+              'Initialisation',
+              'Infos de la plaque initalisés avec succés'
             );
             this.goToStep(Plate_Settings_Step.FILL_PLATE);
           },
@@ -301,8 +421,8 @@ export class PlatePlanSettingsComponent implements OnDestroy {
             this.resetPlateValue(resp);
             this.notificationService.displayNotification(
               NotificationSeverity.SUCCESS,
-              'Update',
-              'Plate infos updated successfully'
+              'Mise à jour',
+              'Infos de la  plaque mises à jour avec succés'
             );
           },
           error: (err: any) => {
@@ -329,7 +449,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
             this.notificationService.displayNotification(
               NotificationSeverity.SUCCESS,
               'Success',
-              'Plate plan updated successfully'
+              'Plan de plaque mis à jour avec succés'
             );
             if (this.plaqueInfos) this.resetPlateValue(this.plaqueInfos);
             this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
@@ -338,8 +458,8 @@ export class PlatePlanSettingsComponent implements OnDestroy {
             this.isSubmittingPlatePlan = false;
             this.notificationService.displayNotification(
               NotificationSeverity.ERROR,
-              'Success',
-              'Plate plan updated successfully'
+              'Erreur',
+              'Une erreur est survenue, veuillez réessayer'
             );
           },
         });
@@ -371,7 +491,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
       data: {
         plaqueInfos: this.plaqueInfos,
       },
-      header: `Import Plate plan`,
+      header: `Import d'un plan de plaque`,
       autoZIndex: true,
       width: '445px',
     });
@@ -382,8 +502,8 @@ export class PlatePlanSettingsComponent implements OnDestroy {
           this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
           this.notificationService.displayNotification(
             NotificationSeverity.SUCCESS,
-            `Plate Plan`,
-            'Plate plan updated successfully'
+            `Plan de plaque`,
+            'Plan de plaque mis à jour avec succés'
           );
         }
       },
@@ -395,7 +515,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
       data: {
         plaqueInfos: this.plaqueInfos,
       },
-      header: `Import Analysis Result`,
+      header: `Import du fichier résultat de l'analyses`,
       autoZIndex: true,
       width: '445px',
     });
@@ -406,9 +526,9 @@ export class PlatePlanSettingsComponent implements OnDestroy {
           this.resetPlateValue(res.data);
           this.notificationService.displayNotification(
             NotificationSeverity.INFO,
-            'Result analysis file',
-            "Upload successed. Please wait we're processing the results "
-            );
+            "Import du fichier résultat d'analyse",
+            'Upload effectué avec succés '
+          );
           this.getRobotAnalysisResultByType(FORMAT.JSON);
         }
       },
@@ -427,15 +547,15 @@ export class PlatePlanSettingsComponent implements OnDestroy {
               next: () => {
                 this.notificationService.displayNotification(
                   NotificationSeverity.SUCCESS,
-                  'Success',
-                  'Download succeded'
+                  'Téléchargement',
+                  'Terminé'
                 );
               },
               error: () => {
                 this.notificationService.displayNotification(
                   NotificationSeverity.ERROR,
                   'Error',
-                  'Cannot process your request, please try again'
+                  "Une erreur s'est produite, veuillez réessayer"
                 );
               },
             });
@@ -450,22 +570,23 @@ export class PlatePlanSettingsComponent implements OnDestroy {
                 this.displayedGraphic = true;
                 this.displayingGraphic = false;
 
-
                 this.inputDataChart = [
                   ...(this.plaqueInfos?.controls ?? []),
                   ...(this.plaqueInfos?.patients ?? []),
                 ];
-                this.initChartConfig();
+                this.buildChart();
                 setTimeout(() => {
-                  this.plateDiagramDiv?.nativeElement.scrollIntoView({behavior: 'smooth'});
+                  this.plateDiagramDiv?.nativeElement.scrollIntoView({
+                    behavior: 'smooth',
+                  });
                 });
               },
               error: () => {
                 this.displayingGraphic = false;
                 this.notificationService.displayNotification(
                   NotificationSeverity.ERROR,
-                  'Error',
-                  'Cannot process your request, please try again'
+                  'Erreur',
+                  "Une erreur s'est produite, veuillez réessayer"
                 );
               },
             });

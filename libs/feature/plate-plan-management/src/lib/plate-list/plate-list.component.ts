@@ -75,7 +75,7 @@ export class PlateListComponent {
   onDeleteItem(event: any, item: PlateModel) {
     this.confirmService.confirm({
       target: event.target as EventTarget,
-      message: 'Are you sure that you want to proceed?',
+      message: 'Êtes vous sûr de vouloir continuer?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.delete(item);
