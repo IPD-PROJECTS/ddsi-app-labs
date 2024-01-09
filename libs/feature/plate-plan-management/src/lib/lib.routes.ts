@@ -5,12 +5,12 @@ import { PlateListComponent } from './plate-list/plate-list.component';
 export const platePlanManagementRoutes: Route[] = [
   {
     path: 'list',
-    data: { breadcrumb: 'List' },
+    data: { breadcrumb: 'Liste de plaques' },
     component: PlateListComponent,
   },
   {
     path: 'create',
-    data: { breadcrumb: 'Create' },
+    data: { breadcrumb: 'Créer' },
     loadComponent: () =>
       import('../lib/plate-plan-settings/plate-plan-settings.component').then(
         (c) => c.PlatePlanSettingsComponent
@@ -18,7 +18,7 @@ export const platePlanManagementRoutes: Route[] = [
   },
   {
     path: 'edit/:id',
-    data: { breadcrumb: 'Edit' },
+    data: { breadcrumb: 'Editer' },
     resolve: {
       plateDetails: PlateDetailResolve
     },

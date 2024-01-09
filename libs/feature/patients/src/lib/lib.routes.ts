@@ -5,7 +5,7 @@ export const patientsManagementRoutes: Route[] = [
   {
     path: 'list',
     component: PatientsListComponent,
-    data: { breadcrumb: 'List Patients' }
+    data: { breadcrumb: 'Liste de Patients' }
   },
   {
     path: '', redirectTo: 'list', pathMatch: 'full'

@@ -36,14 +36,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     constructor(private layoutService: LayoutService) {
       this.weeks = [{
-        label: 'Last Week',
+        label: 'Semaine Passée',
         value: 0,
-        data: [[4, 8, 1, 6, 10, 11, 6], [28, 48, 40, 19, 86, 27, 90]]
+        data: [[4, 8, 1, 6, 10, 11, 0], [28, 48, 40, 19, 86, 27, 90]]
     },
     {
-        label: 'This Week',
+        label: 'Cette Semaine',
         value: 1,
-        data: [[0, 3, 11, 21, 10, 9, 3], [48, 78, 10, 29, 76, 77, 10]]
+        data: [[0, 3, 11, 21, 10, 9, 0], [48, 78, 10, 29, 76, 77, 10]]
     }];
 
     this.selectedWeek = this.weeks[0];
@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
             datasets: [
                 {
-                    label: 'Plate Analysed',
+                    label: 'Plaques Crées',
                     backgroundColor: documentStyle.getPropertyValue('--primary-500'),
                     barThickness: 12,
                     borderRadius: 12,

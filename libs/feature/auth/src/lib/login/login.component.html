@@ -22,8 +22,8 @@
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure soluta dolorum iusto esse amet. Ad soluta voluptates unde, exercitationem labore in enim? Quae, nesciunt quas. Ab iure aspernatur soluta rerum.
         </div>
         <div class="my-4">
-            <div class="text-900 text-xl font-bold mb-2">Log in</div>
-            <span class="text-600 font-medium">Please enter your details</span>
+            <div class="text-900 text-xl font-bold mb-2">Je me connecte</div>
+            <span class="text-600 font-medium">Veuillez remplir les champs</span>
         </div>
         <div class="flex flex-column">
             <span class="p-input-icon-left w-full mb-4">
@@ -32,16 +32,16 @@
             </span>
             <span class="p-input-icon-left w-full mb-4">
                 <i class="pi pi-lock"></i>
-                <input id="password" type="password" pInputText class="w-full" placeholder="Password">
+                <input id="password" type="password" pInputText class="w-full" placeholder="Mot de passe">
             </span>
             <div class="mb-4 flex flex-wrap gap-3">
                 <div>
                     <p-checkbox name="checkbox" value="val" [(ngModel)]="rememberMe" styleClass="mr-2" [binary]="true"></p-checkbox>
-                    <label for="checkbox" class="text-900 font-medium mr-8">Remember Me</label>
+                    <label for="checkbox" class="text-900 font-medium mr-8">Resté connecté</label>
                 </div>
-                <a class="text-600 cursor-pointer hover:text-primary cursor-pointer ml-auto transition-colors transition-duration-300">Reset password</a>
+                <a class="text-600 cursor-pointer hover:text-primary cursor-pointer ml-auto transition-colors transition-duration-300">Réinitialiser votre mot de passe</a>
             </div>
-            <button pButton pRipple label="Log In" class="w-full" [routerLink]="['/apps']"></button>
+            <button pButton pRipple label="Je me connecte" class="w-full" [routerLink]="['/apps']"></button>
         </div>
     </div>
 </div>

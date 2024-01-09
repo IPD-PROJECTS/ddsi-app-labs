@@ -38,16 +38,16 @@ export class PatientsListComponent {
       field: 'id', header: 'ID'
     },
     {
-      field: 'anon_name', header: 'Anon Name'
+      field: 'anon_name', header: "Nom d'anonymisation"
     },
     {
-      field: 'first_name', header: 'Firstname'
+      field: 'first_name', header: 'Prénom'
     },
     {
-      field: 'last_name', header: 'Lastname'
+      field: 'last_name', header: 'Nom'
     },
     {
-      field: 'birth_date', header: 'Birthdate'
+      field: 'birth_date', header: 'Date de naissance'
     },
   ];
   listPatient: Patient[] = [];
@@ -75,7 +75,7 @@ export class PatientsListComponent {
 
   addPatient(editMode: boolean = false, patient?: Patient) {
     const ref = this.dialogService.open(PatientAddComponent, {
-      header: `${editMode ? 'Edit' : 'Add'} Patient`,
+      header: `${editMode ? 'Editer' : 'Ajouter'} un patient`,
       autoZIndex: true,
       data: {
         editMode,
@@ -88,7 +88,7 @@ export class PatientsListComponent {
       next: (data: { success: boolean }) => {
         if (data?.success) {
           this.table.reset();
-          this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `${editMode ? 'Edit' : 'Creation'} `, 'Action is fully effective');
+          this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `${editMode ? 'Edit' : 'Creation'} `, 'Opération effectuée avec succés');
 
         }
       },
@@ -98,7 +98,7 @@ export class PatientsListComponent {
   onDeleteItem(event: any, item: Patient) {
     this.confirmService.confirm({
       target: event.target as EventTarget,
-      message: 'Are you sure that you want to proceed?',
+      message: 'Êtes vous sûr de vouloir continuer ?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.delete(item);
@@ -109,7 +109,7 @@ export class PatientsListComponent {
   delete(item: Patient) {
     this.patientService.deletePatient(item).subscribe({
       next: (resp) => {
-        this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `Success`, `Item ${item.id} Deleted`);
+        this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `Succés`, `Elément ${item.id} a été bien supprimé`);
         this.table.reset();
       },
     });
@@ -147,7 +147,7 @@ export class PatientsListComponent {
       data: {
         tabIndex: 1,
       },
-      header: `Import list of Patients`,
+      header: `Importer une liste de patients`,
       autoZIndex: true,
       width: '445px',
     });
@@ -155,7 +155,7 @@ export class PatientsListComponent {
       next: (data: { success: boolean }) => {
         if (data?.success) {
           this.table.reset();
-          this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `Creation`, 'Action is fully effective' );
+          this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `Creation`, 'Opération effectuée avec succés' );
         }
       },
     });

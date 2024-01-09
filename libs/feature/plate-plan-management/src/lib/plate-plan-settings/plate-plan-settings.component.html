@@ -4,22 +4,22 @@
       pButton
       pRipple
       class="p-button-primary p-button-outlined border-round mb-3"
-      label="Back"
+      label="Retour"
       (click)="goBack()"
       icon="pi pi-fw pi-arrow-left"
     ></button>
     <div class="grid">
       <div class="col-12 lg:col-3">
         <p-accordion [activeIndex]="currentStepIndex">
-          <p-accordionTab header="Init Plate Infos">
+          <p-accordionTab header="Initialisation des infos d'une plaque">
             <form [formGroup]="plateFormGroup" (ngSubmit)="initializePlate()">
               <div class="col-12">
                 <span class="block text-900 font-bold text-xl mb-4"
-                  >Initialisation of a plaque</span
+                  >Initialisation d'une plaque</span
                 >
                 <p class="p-0 text-600 line-height-3 mb-3">
-                  You have to initialise a plaque before going to the step plate
-                  plan
+                  Vous devez initialiser une plaque avant de passer à l'étape du
+                  plan de plaque
                 </p>
                 <div class="flex flex-column">
                   <div class="col-12">
@@ -88,7 +88,9 @@
                       pButton
                       pRipple
                       class="p-button-primary border-round w-full"
-                      [label]="plaqueInfos?.id ? 'Update' : 'Save'"
+                      [label]="
+                        plaqueInfos?.id ? 'Mettre à jour' : 'Enregistrer'
+                      "
                       icon="pi pi-fw pi-check"
                     ></button>
                   </div>
@@ -98,60 +100,79 @@
           </p-accordionTab>
           <p-accordionTab
             [disabled]="!plaqueInfos?.id"
-            header="Set Plate Plane Infos"
+            header="Initialisation d'un plan de plaque"
           >
-          <span class="block text-900 font-bold text-xl mb-4"
-                >Configuration of a plate plan</span
-              >
+            <span class="block text-900 font-bold text-xl mb-4"
+              >Configuration d'un plan de plaque</span
+            >
             <p>
-              This section is enabled once the plate has been initialised
-              successfully.
+              Cette section est activée une fois que la plaque a été initialisée
+              avec succès.
             </p>
-            <p>The plate plan can be filled through 3 options:</p>
+            <p>Une plaque peut être remplie de 3 manières:</p>
             <ul>
-              <li>Manually</li>
-              <li>Import of a file which contain a plate plan</li>
-              <li>Automatically</li>
+              <li>Manuellement: Ajout de manière unitaire de chaque élément du plan de plaque</li>
+              <li>Import d'un fichier contenant le plan de  plaque</li>
+              <li>Automatiquement</li>
             </ul>
             <div>
               <i class="pi pi-info-circle"></i>
-              The first column of the plate is dedicated to the controls item:
+              La première colonne de la plaque est consacrée aux éléments de contrôle:
               NEG, POS, WHITE
             </div>
             <div>
               <i class="pi pi-info-circle"></i>
-              We configure different color based on the control type and the patient gender.
+              Nous configurons différentes couleurs en fonction du type d'élément de contrôle et du sexe du patient.
               <div>
                 <div>
-                  <i [ngStyle]="{color: PLATE_ITEMS_COLOR.fillPOSColor}" class="pi pi-circle-fill"></i> : For the controls item POS
+                  <i
+                    [ngStyle]="{ color: PLATE_ITEMS_COLOR.fillPOSColor }"
+                    class="pi pi-circle-fill"
+                  ></i>
+                  : Elément de controle de type POS
                 </div>
                 <div>
-                  <i [ngStyle]="{color: PLATE_ITEMS_COLOR.fillNEGColor}" class="pi pi-circle-fill"></i> : For the controls item NEG
+                  <i
+                    [ngStyle]="{ color: PLATE_ITEMS_COLOR.fillNEGColor }"
+                    class="pi pi-circle-fill"
+                  ></i>
+                  : Elément de controle de type NEG
                 </div>
                 <div>
-                  <i [ngStyle]="{color: PLATE_ITEMS_COLOR.fillWHITEColor}" class="pi pi-circle-fill"></i> : For the controls item WHITE
+                  <i
+                    [ngStyle]="{ color: PLATE_ITEMS_COLOR.fillWHITEColor }"
+                    class="pi pi-circle-fill"
+                  ></i>
+                  : Elément de controle de type WHITE
                 </div>
                 <div>
-                  <i [ngStyle]="{color: PLATE_ITEMS_COLOR.fillMaleColor}" class="pi pi-circle-fill"></i> : For the items where patient is a Man.
+                  <i
+                    [ngStyle]="{ color: PLATE_ITEMS_COLOR.fillMaleColor }"
+                    class="pi pi-circle-fill"
+                  ></i>
+                  : Elément de la plaque dont le patient associé est un homme.
                 </div>
                 <div>
-                  <i [ngStyle]="{color: PLATE_ITEMS_COLOR.fillFemaleColor}" class="pi pi-circle-fill"></i> : For the items where patient is a Woman.
+                  <i
+                    [ngStyle]="{ color: PLATE_ITEMS_COLOR.fillFemaleColor }"
+                    class="pi pi-circle-fill"
+                  ></i>
+                  : Elément de la plaque dont le patient associé est une femme.
                 </div>
               </div>
             </div>
           </p-accordionTab>
           <p-accordionTab
             [disabled]="!plaqueInfos?.id"
-            header="Process Plate analysis result"
+            header="Traitement des résultats fournis par le robot"
           >
             <div class="col-12">
               <span class="block text-900 font-bold text-xl mb-4"
-                >Processing result of the analysis of a plate</span
+                >Résultat de l'analyse d'une plaque</span
               >
               <p class="p-0 mb-3">
-                You can upload the result analysis file with the button
-                <i><b>Upload result analysis file</b></i> to visualise the
-                result the plate analysis
+                Vous pouvez charger le fichier d'analyse des résultats à l'aide du bouton
+                <i><b>Uploader le fichier d'analyse des résultats</b></i> pour visualiser de manière plus conviviale
               </p>
             </div>
           </p-accordionTab>
@@ -176,8 +197,8 @@
                   pRipple
                   class="p-button-secondary border-round"
                   [disabled]="plaqueInfos?.excel_spectro_file"
-                  label="Upload Plate Plan"
-                  icon="pi pi-save"
+                  label="Uploader un fichier de plan de plaque"
+                  icon="pi pi-upload"
                   (click)="opentModalImportPlatePlan()"
                 ></button>
               </div>
@@ -186,7 +207,7 @@
                 [loading]="isSubmittingPlatePlan"
                 pRipple
                 class="p-button-primary border-round"
-                label="Save Plate Plan"
+                label="Enregistrer le plan de plaque"
                 icon="pi pi-save"
                 [disabled]="!hasPlateDetailsChanged"
                 (click)="savePlatePlan()"
@@ -202,28 +223,52 @@
             [fillColorPOS]="PLATE_ITEMS_COLOR.fillPOSColor"
             [fillColorWHITE]="PLATE_ITEMS_COLOR.fillWHITEColor"
             [fillColorNEG]="PLATE_ITEMS_COLOR.fillNEGColor"
-
           ></ddsi-labs-apps-plate-plan-preview-block>
           <div class="flex justify-content-between">
-            <div [pTooltip]="!plaqueInfos?.patients?.length ? 'Please finish the configuration of the plate plan by adding patients and controls to enable this button' : ''">
+            <div
+              [pTooltip]="
+                !plaqueInfos?.patients?.length
+                  ? 'Veuillez terminer la configuration du plan d\'assiette en ajoutant les patients et les contrôles pour activer ce bouton.'
+                  : ''
+              "
+            >
               <button
                 pButton
                 [disabled]="!plaqueInfos?.patients?.length"
                 pRipple
                 class="p-button-warning border-round flex-shrink-0"
-                label="Upload result analysis file"
+                label="Uploader le fichier des résultats"
                 icon="pi pi-upload"
                 (click)="openModalImportAnalysisResult()"
               ></button>
             </div>
-            <div [pTooltip]="!plaqueInfos?.excel_spectro_file ? 'Please upload result analysis to enable this button' : ''">
+            <div
+              [pTooltip]="
+                !plaqueInfos?.excel_spectro_file
+                  ? 'Veuillez uploader le fichier des résultats du robot pour activer ce bouton'
+                  : ''
+              "
+            >
               <p-menu #menu [model]="items" [popup]="true"></p-menu>
-              <button [disabled]="!plaqueInfos?.excel_spectro_file" pButton type="button" (click)="menu.toggle($event)" icon="pi pi-sitemap" [loading]="displayingGraphic" label="Process Result"></button>
+              <button
+                [disabled]="!plaqueInfos?.excel_spectro_file"
+                pButton
+                type="button"
+                (click)="menu.toggle($event)"
+                icon="pi pi-sitemap"
+                [loading]="displayingGraphic"
+                label="Afficher les résultats"
+              ></button>
             </div>
           </div>
-          <div *ngIf="displayedGraphic" class="card" id="plateDiagram" #plateDiagram>
-            <p-chart [data]="basicData" [options]="basicOptions"></p-chart>
-        </div>
+          <div
+            *ngIf="displayedGraphic"
+            class="card"
+            id="plateDiagram"
+            #plateDiagram
+          >
+            <p-chart [data]="data" [options]="options"></p-chart>
+          </div>
         </div>
       </div>
     </div>

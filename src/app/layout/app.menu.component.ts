@@ -17,49 +17,49 @@ export class AppMenuComponent implements OnInit {
   ngOnInit() {
     this.model = [
       {
-        label: 'Plate Workspace',
+        label: 'Espace Plaques',
         icon: 'fa-solid fa-flask-vial',
         items: [
           {
-            label: 'Summary',
-            icon: 'pi pi-fw pi-home',
+            label: 'Dashboard',
+            icon: 'pi pi-home',
             routerLink: ['/apps/plates'],
           },
           {
-            label: 'Patient Management',
+            label: 'Gestion des Patients',
             icon: 'fa-solid fa-user',
             routerLink: ['/apps/plates/patients'],
 
           },
           {
-            label: 'Plate Management',
+            label: 'Gestion des Plaques',
             icon: 'fa-solid fa-magnifying-glass-chart',
             routerLink:[ '/apps/plates/plate-plan/list'],
           },
           {
-            label: 'User management',
+            label: 'Gestion des Utilisateurs',
             icon: 'fa-solid fa-user-nurse',
             routerLink:[ '/apps/plates/users/list']
           }
         ],
       },
       {
-        label: 'Pet Workspace',
+        label: 'Espace Animalerie',
         icon: 'fa-solid fa-paw',
         items: [
           {
-            label: 'Summary',
+            label: 'Dashboard',
             icon: 'pi pi-fw pi-home',
             routerLink: ['/apps/pets'],
           },
           {
-            label: 'Pets Management',
+            label: 'Gestion des animaux',
             icon: 'fa-solid fa-list-check',
             routerLink: ['/apps/pets/list'],
 
           },
           {
-            label: 'User management',
+            label: 'Gestion des Utilisateurs',
             icon: 'fa-solid fa-user-nurse',
             routerLink:[ '/apps/plates/users/list']
           }

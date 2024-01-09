@@ -1,6 +1,6 @@
 <div class="col-12">
     <div class="card">
-      <h5>List Plate</h5>
+      <h5>Liste de plaques</h5>
       <p-table
         [lazy]="true"
         [filterDelay]="500"
@@ -27,13 +27,13 @@
                 type="text"
                 #filter
                 (input)="onGlobalFilter(dt1, $event)"
-                placeholder="Search"
+                placeholder="Recherche"
                 class="w-full"
               />
             </span>
             <button
               pButton
-              label="Add New Plate"
+              label="Ajouter une nouvelle plaque"
               icon="pi pi-plus"
               (click)="addNewPlatePlan()"
               class="mb-2"
@@ -42,7 +42,7 @@
         </ng-template>
         <ng-template pTemplate="header">
           <tr>
-            <th pResizableColumn style="min-width: 12rem">
+            <th pResizableColumn>
               <div class="flex justify-content-between align-items-center">
                 {{ PLATE_PLAN_LABEL.id }}
               </div>
@@ -53,12 +53,12 @@
                 {{ PLATE_PLAN_LABEL.description }}
               </div>
             </th>
-            <th pResizableColumn style="min-width: 10rem">
+            <th pResizableColumn>
               <div class="flex justify-content-between align-items-center">
                 {{ PLATE_PLAN_LABEL.patients }}
               </div>
             </th>
-            <th pResizableColumn style="min-width: 10rem">
+            <th pResizableColumn>
               <div class="flex justify-content-between align-items-center">
                 {{ PLATE_PLAN_LABEL.controls }}
               </div>
@@ -127,9 +127,9 @@
                   [link]="true"
                   [raised]="true"
                   class="p-link"
-                  icon="pi pi-folder"
+                  icon="fa-regular fa-folder-open"
                   (onClick)="addNewPlatePlan(item.id)"
-                  label="Open Plate"
+                  label="Ouvrir une plaque"
                 ></p-button>
                 <p-confirmPopup defaultFocus="reject" ></p-confirmPopup>
                 <p-button
@@ -148,17 +148,17 @@
         </ng-template>
         <ng-template pTemplate="summary">
           <div class="flex align-items-center justify-content-between">
-              In total there are {{ itemCounts }} items.
+              Il y'a {{ itemCounts }} éléments au total.
           </div>
       </ng-template>
         <ng-template pTemplate="emptymessage">
           <tr>
-            <td colspan="8">No Plate found.</td>
+            <td colspan="8">Aucune plaque trouvée.</td>
           </tr>
         </ng-template>
         <ng-template pTemplate="loadingbody">
           <tr>
-            <td colspan="8">Loading plate plan. Please wait.</td>
+            <td colspan="8">Chargement des plaques, veuillez patienter.</td>
           </tr>
         </ng-template>
       </p-table>
