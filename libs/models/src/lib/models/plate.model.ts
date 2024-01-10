@@ -8,6 +8,7 @@ export interface PlateModel {
   updated_at?: string;
   plate_type?: number;
   created_by?: string;
+  test?: number;
   controls?: any[];
   patients?: any[];
   excel_spectro_file?: any;

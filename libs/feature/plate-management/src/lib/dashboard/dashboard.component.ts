@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ChartModule } from 'primeng/chart';
 import { DropdownModule } from 'primeng/dropdown';
 import { Subscription } from 'rxjs';
-import { LayoutService } from '@ddsi-labs-apps/services';
+import { LayoutService, PlateStatsService } from '@ddsi-labs-apps/services';
 
 @Component({
   selector: 'ddsi-labs-apps-dashboard',
@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     cols: any[] = [];
 
-    constructor(private layoutService: LayoutService) {
+    constructor(private layoutService: LayoutService, private appStats: PlateStatsService) {
       this.weeks = [{
         label: 'Semaine Passée',
         value: 0,
@@ -53,8 +53,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-
+        this.fetchPlatesMainStats();
         this.initCharts();
+    }
+
+    fetchPlatesMainStats() {
+        this.appStats.getPlatesDashboardStats().subscribe({
+            next:(res: any) => {
+                console.log('res', res);
+
+            }
+        })
     }
 
     initCharts() {

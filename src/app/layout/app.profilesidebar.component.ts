@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LayoutService } from '@ddsi-labs-apps/services';
+import { AuthenticationService, LayoutService, LocalStorageService, STORAGE_KEYS } from '@ddsi-labs-apps/services';
 import { CommonModule } from '@angular/common';
 import { SidebarModule } from 'primeng/sidebar';
 import { Router, RouterModule } from '@angular/router';
@@ -11,8 +11,10 @@ import { Router, RouterModule } from '@angular/router';
     templateUrl: './app.profilesidebar.component.html'
 })
 export class AppProfileSidebarComponent {
-
-    constructor(public layoutService: LayoutService, private router: Router) { }
+    userName = "";
+    constructor(public layoutService: LayoutService, private router: Router, private authService: AuthenticationService, private storage: LocalStorageService) {
+        this.userName = storage.getFromLocalStorage(STORAGE_KEYS.USERNAME);
+    }
 
     get visible(): boolean {
         return this.layoutService.state.profileSidebarVisible;
@@ -22,7 +24,8 @@ export class AppProfileSidebarComponent {
         this.layoutService.state.profileSidebarVisible = _val;
     }
 
-    goToLogin() {
+    logout() {
+        this.authService.logout();
         this.router.navigate(['/login']).then((_) => this.visible = false)
     }
 }

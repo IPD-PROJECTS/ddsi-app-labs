@@ -13,15 +13,21 @@ import { PlateModel, ControlModel, Patient } from '@ddsi-labs-apps/models';
 @Component({
   selector: 'ddsi-labs-apps-modal-select-item-for-plate',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, InputTextModule, IsPatientAlreadyAddedPipe],
-  providers:[IsPatientAlreadyAddedPipe],
+  imports: [
+    CommonModule,
+    TableModule,
+    ButtonModule,
+    InputTextModule,
+    IsPatientAlreadyAddedPipe,
+  ],
+  providers: [IsPatientAlreadyAddedPipe],
   templateUrl: './modal-select-item-for-plate.component.html',
   styleUrls: ['./modal-select-item-for-plate.component.scss'],
 })
 export class ModalSelectItemForPlateComponent {
   item_type: ITEM_TYPE = ITEM_TYPE.CONTROL;
   plateInfos?: PlateModel;
-  selectedItem ?: (ControlModel | Patient);
+  selectedItem?: ControlModel | Patient;
   ITEM_TYPE = ITEM_TYPE;
   list: (PlateModel | Patient)[] = [];
   PLATE_PLAN_LABEL = PLATE_LABEL;
@@ -32,7 +38,12 @@ export class ModalSelectItemForPlateComponent {
 
   @ViewChild('filter') filter!: ElementRef;
 
-  constructor(private controlService: ControlsService, private patientService: PatientService, private dynamicDialogConf: DynamicDialogConfig, private dynamicDialogRef: DynamicDialogRef) {
+  constructor(
+    private controlService: ControlsService,
+    private patientService: PatientService,
+    private dynamicDialogConf: DynamicDialogConfig,
+    private dynamicDialogRef: DynamicDialogRef
+  ) {
     const data = this.dynamicDialogConf.data;
     this.isRowSelectable = this.isRowSelectable.bind(this);
     this.item_type = data?.item_type;
@@ -40,39 +51,42 @@ export class ModalSelectItemForPlateComponent {
     this.selectedItem = data?.selectedItem;
   }
 
+  isRowSelectable(event: { data: Patient }) {
+    return this.item_type === ITEM_TYPE.CONTROL
+      ? true
+      : this.isAlreadySelected(event.data);
+  }
 
-  isRowSelectable(event: {data: Patient}) {
-    return this.item_type === ITEM_TYPE.CONTROL ? true : this.isAlreadySelected(event.data);
-}
-
-isAlreadySelected(data: Patient) {
-  const found = this.plateInfos?.patients?.find((elt: {id: string}) => elt.id === data.id);
-  return !found;
-}
+  isAlreadySelected(data: Patient) {
+    const found = this.plateInfos?.patients?.find(
+      (elt: { id: string }) => elt.id === data.id
+    );
+    return !found;
+  }
 
   lazyLoadTableItems(params: any) {
-    if(this.item_type === ITEM_TYPE.CONTROL) {
-      this.fetchListControl(null)
-    } else if(this.item_type === ITEM_TYPE.PATIENT) {
+    if (this.item_type === ITEM_TYPE.CONTROL) {
+      this.fetchListControl(null);
+    } else if (this.item_type === ITEM_TYPE.PATIENT) {
       this.fetchListPatient(params);
     }
   }
 
   submitSelection() {
-    this.dynamicDialogRef.close({ selected: this.selectedItem});
+    this.dynamicDialogRef.close({ selected: this.selectedItem });
   }
 
   fetchListPatient(params: any) {
-    const endpoint_params: {limit: string, page: number, search?: string} = {
+    const endpoint_params: { limit: string; page: number; search?: string } = {
       limit: params?.rows,
-      page: (params?.first / params?.rows)
+      page: params?.first / params?.rows,
     };
-    if(params?.globalFilter) {
+    if (params?.globalFilter) {
       endpoint_params['search'] = params.globalFilter;
     }
     this.loading = true;
     this.patientService.getListPatients(endpoint_params).subscribe({
-      next: (resp: { count: number, results: any[]}) => {
+      next: (resp: { count: number; results: any[] }) => {
         this.loading = false;
         this.itemCounts = resp.count;
         this.list = resp.results;
@@ -86,22 +100,22 @@ isAlreadySelected(data: Patient) {
   fetchListControl(params: any) {
     const endpoint_params = {
       limit: params?.rows,
-      page: (params?.first / params?.rows)
-    }
+      page: params?.first / params?.rows,
+    };
     this.loading = true;
     this.controlService.getListControl(endpoint_params).subscribe({
-      next:(resp: any) => {
+      next: (resp: any) => {
         this.list = resp;
         this.loading = false;
       },
-      error:(err) => {
+      error: (err) => {
         this.loading = false;
-      }
+      },
     });
   }
 
   onGlobalFilter(table: Table, event: Event) {
-    if(this.item_type === ITEM_TYPE.PATIENT) {
+    if (this.item_type === ITEM_TYPE.PATIENT) {
       table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
   }
@@ -110,5 +124,4 @@ isAlreadySelected(data: Patient) {
     table.clear();
     this.filter.nativeElement.value = '';
   }
-
 }

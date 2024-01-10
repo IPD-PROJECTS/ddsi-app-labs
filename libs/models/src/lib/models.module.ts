@@ -7,6 +7,7 @@ export * from '../lib/models/plate-type.model'
 export * from '../lib/models/plate.model'
 export * from '../lib/models/position.model'
 export * from '../lib/models/appConfig.model'
+export * from '../lib/models/authentication.model'
 @NgModule({
   imports: [CommonModule],
 })

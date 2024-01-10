@@ -8,6 +8,14 @@ export class ApplicationRoutingService {
 
   constructor(private router: Router) { }
 
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+
+  goToPlatesApp() {
+    this.router.navigate(['/apps/plates']);
+  }
+
   goToListPlateTypePage() {
     this.router.navigate(['/apps/plates/list-plate-type']);
   }

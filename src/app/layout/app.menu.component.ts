@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { MenuModule } from 'primeng/menu';
 import { AppMenuitemComponent } from './app.menuitem.component';
 import { MenuItem } from 'primeng/api';
+import { ENV_KEY } from '@ddsi-labs-apps/enums';
 
 @Component({
   selector: 'app-menu',
@@ -28,7 +29,7 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Gestion des Patients',
             icon: 'fa-solid fa-user',
-            routerLink: ['/apps/plates/patients'],
+            routerLink: ['/apps/plates/patients/list'],
 
           },
           {
@@ -39,7 +40,9 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Gestion des Utilisateurs',
             icon: 'fa-solid fa-user-nurse',
-            routerLink:[ '/apps/plates/users/list']
+            replaceUrl: false,
+            target: '_blank',
+            url:`${process.env[ENV_KEY.BASE_URL]}/adm`
           }
         ],
       },

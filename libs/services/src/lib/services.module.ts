@@ -10,6 +10,15 @@ export * from '../lib/services/plate-type/plate-type.service'
 export * from '../lib/services/process-result/process-result.service'
 export * from '../lib/services/plate-plan/plate-plan.service'
 export * from '../lib/services/layout/app.layout.service'
+export * from '../lib/services/authentication/authentication.service'
+export * from '../lib/services/plate-stats/plate-stats.service'
+
+export * from '../lib/interceptor/auth/auth.interceptor'
+export * from '../lib/interceptor/error/error.interceptor'
+
+export * from '../lib/guard/authenticated/authenticated.guard'
+export * from '../lib/guard/login/already-logged-in.guard'
+export * from '../lib/guard/login/can-login.guard'
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],

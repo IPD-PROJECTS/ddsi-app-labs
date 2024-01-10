@@ -10,7 +10,6 @@
             >
             <input
               id="anon_name"
-              [readOnly]="true"
               formControlName="anon_name"
               type="text"
               pInputText
@@ -142,6 +141,9 @@
               label="Enregistrer"
               class="w-auto mt-3"
             ></button>
+            <small *ngIf="hasError" class="p-error my-3">
+              {{errorMsg}}
+            </small>
           </div>
         </div>
       </div>
@@ -178,8 +180,8 @@
             (click)="fileUploader.clear()"
           ></button>
         </div>
-        <small *ngIf="hasErrorUploadingPatients" class="p-error my-3">
-          Une erreur s'est produite. Veuillez réessayer encore
+        <small *ngIf="hasError" class="p-error my-3">
+          {{errorMsg}}
         </small>
       </div>
     </div>
