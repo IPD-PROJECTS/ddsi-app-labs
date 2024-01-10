@@ -51,7 +51,8 @@ export class PatientAddComponent {
 
   importedPatientsFile?: any;
   uploadingPatients = false;
-  hasErrorUploadingPatients = false;
+  hasError = false;
+  errorMsg?: string;
   @ViewChild('fileUploader') fileUploader!: FileUpload;
   currentIndex = 0;
   tabIndex = 0;
@@ -103,9 +104,10 @@ export class PatientAddComponent {
             this.isLoading = false;
             this.onSuccess(true);
           },
-          error: () => {
+          error: (err: any) => {
             this.isLoading = false;
             this.onSuccess(false);
+            this.errorMsg = err?.error['error'];
           },
         });
       }
@@ -127,7 +129,7 @@ export class PatientAddComponent {
   onFileSelected(event: any) {
     const importedPatientsFile = event?.currentFiles?.length ? event?.currentFiles[0] : null;
     this.uploadingPatients = true;
-    this.hasErrorUploadingPatients = false;
+    this.hasError = false;
     this.patientService.uploadListPatientsWithFile(importedPatientsFile).subscribe({
       next:() => {
         this.uploadingPatients = false;
@@ -135,9 +137,10 @@ export class PatientAddComponent {
         this.fileUploader.clear();
         this.dynamicDialogRef.close({ success: true });
       },
-      error:() => {
+      error:(err: any) => {
         this.uploadingPatients = false;
-        this.hasErrorUploadingPatients = true;
+        this.hasError = true;
+        this.errorMsg = err?.error['error'];
         this.displayNotificationMsg(false, 'Failed', 'Error during import, please try again')
 
       }

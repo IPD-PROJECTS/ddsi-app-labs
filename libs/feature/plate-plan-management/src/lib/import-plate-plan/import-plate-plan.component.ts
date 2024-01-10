@@ -19,6 +19,7 @@ export class ImportPlatePlanComponent {
   PLATE_PLAN_FILE_MAX_SIZE = PLATE_PLAN_FILE_MAX_SIZE;
   uploadingFile = false;
   hasErrorUploading = false;
+  errorMsg?:string;
   constructor(private platePlanService: PlatePlanService, private conf: DynamicDialogConfig, private dialogRef: DynamicDialogRef){}
 
   onFileSelected(event: any) {
@@ -33,9 +34,10 @@ export class ImportPlatePlanComponent {
             this.uploadingFile = false;
             this.dialogRef.close({success: true, data: res});
           },
-          error: () => {
+          error: (err: any) => {
             this.uploadingFile = false;
             this.hasErrorUploading = true;
+            this.errorMsg = err.error['error'];
           }
       })
     }

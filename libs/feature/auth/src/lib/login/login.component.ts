@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CheckboxModule } from 'primeng/checkbox';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { LayoutService } from '@ddsi-labs-apps/services';
+import { ApplicationRoutingService, AuthenticationService, LayoutService } from '@ddsi-labs-apps/services';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 @Component({
@@ -16,16 +16,44 @@ import { InputTextModule } from 'primeng/inputtext';
     RouterModule,
     ButtonModule,
     InputTextModule,
+    ReactiveFormsModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  rememberMe: boolean = false;
-
-  constructor(private layoutService: LayoutService) {}
+  formGroup: FormGroup = new FormGroup({});
+  isLoading = false;
+  hasError = false;
+  errorMsg?: string;
+  constructor(private appRouting: ApplicationRoutingService, private layoutService: LayoutService, private authService: AuthenticationService, private fb: FormBuilder) {
+    this.formGroup = fb.group({
+      username:['', [Validators.required]],
+      password:['', [Validators.required]],
+      rememberMe: [false]
+    });
+  }
 
   get dark(): boolean {
     return this.layoutService.config.colorScheme !== 'light';
+  }
+
+  processAuthentication() {
+    this.formGroup.markAllAsTouched();
+    if(this.formGroup.valid) {
+      this.isLoading = true;
+      const data = this.formGroup.value;
+      this.authService.login(data).subscribe({
+        next:() => {
+          this.isLoading = false;
+          this.appRouting.goToPlatesApp();
+        },
+        error:() => {
+          this.isLoading = false;
+          this.hasError = true;
+          this.errorMsg = 'Une erreur est survenue lors de votre authentication. <br /> Veuillez réessayer'
+        }
+      })
+    }
   }
 }

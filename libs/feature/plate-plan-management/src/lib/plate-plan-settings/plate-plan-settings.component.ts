@@ -168,189 +168,19 @@ export class PlatePlanSettingsComponent implements OnDestroy {
     });
   }
 
-  buildChart() {
-    const textColor = this.documentStyle.getPropertyValue('--text-color');
-    const textColorSecondary = this.documentStyle.getPropertyValue(
-      '--text-color-secondary'
-    );
-    const surfaceBorder =
-      this.documentStyle.getPropertyValue('--surface-border');
 
-    this.data = {
-      labels: this.getChartLabels(),
-      datasets: [
-        {
-          label: 'Resultats analyses',
-          type: 'bubble',
-          data: this.getChartLabelsValue(),
-          fill: false,
-          borderColor: this.documentStyle.getPropertyValue('--pink-500'),
-          tension: 0.4,
-          radius: function (context: any) {
-            const size = context?.raw.radius * 10;
-            return size;
-          },
-        },
-        ...this.getChartThresholds(),
-      ],
-    };
 
-    this.options = {
-      maintainAspectRatio: false,
-      aspectRatio: 0.6,
-      plugins: {
-        title: {
-          display: true,
-          text: "Graphe du resultat de l'analyse de la plaque",
-        },
-        legend: {
-          labels: {
-            color: textColor,
-          },
-        },
-        tooltip: {
-          callbacks: {
-            label: (ctx: TooltipItem<any>) => {
-              console.log('ctx', ctx);
-              if (ctx.datasetIndex === 0) {
-                return `Test result `;
-              }
-              return undefined;
-            },
-          },
-        },
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false,
-          },
-        },
-        y: {
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false,
-          },
-        },
-      },
-    };
-  }
-
-  // initChartConfig() {
-  //   const documentStyle = getComputedStyle(document.documentElement);
-  //   const textColor = documentStyle.getPropertyValue('--text-color');
-  //   const primaryColor = documentStyle.getPropertyValue('--primary-color');
-  //   const textColorSecondary = documentStyle.getPropertyValue(
-  //     '--text-color-secondary'
-  //   );
-  //   const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-  //   this.basicData = {
-  //     labels: this.getChartLabels(),
-  //     datasets: [
-  //       {
-  //         label: 'Resultat par élément',
-  //         data: this.getChartLabelsValue(),
-  //         type: 'bubble',
-  //         radius: function (context: any) {
-  //           const size = context?.raw.radius * 10;
-  //           return size;
-  //         },
-  //         borderColor: [primaryColor],
-  //       },
-  //     //   {
-  //     //     label: 'First Dataset',
-  //     //     data: [65, 59, 80, 81, 56, 55, 40],
-  //     //     fill: false,
-  //     //     type: 'line',
-  //     //     borderColor: documentStyle.getPropertyValue('--blue-500'),
-  //     //     tension: 0.4
-  //     // },
-  //       {
-  //         type: 'line',
-  //         data: [
-  //           1, 1, 1, 1, 1, 1, 1
-  //         ],
-  //         borderWidth: 5,
-  //         label: 'Controls Seuils',
-  //         borderColor: 'red',
-  //         tension: 0.3
-  //       }
-  //     ],
-  //   };
-
-  //   this.basicOptions = {
-  //     maintainAspectRatio: true,
-  //     plugins: {
-  //       title: {
-  //         display: true,
-  //         text: "Graphe du resultat de l'analyse de la plaque",
-  //       },
-  //       tooltip: {
-  //         callbacks: {
-  //           label: (ctx: any) => {
-  //             return `Test result ${ctx?.raw?.radius}`;
-  //           },
-  //         },
-  //       },
-  //       legend: {
-  //         labels: {
-  //           color: textColor,
-  //         },
-  //       },
-  //     },
-  //     scales: {
-  //       y: {
-  //         beginAtZero: true,
-  //         ticks: {
-  //           color: textColorSecondary,
-  //           stepSize: 0.1,
-  //         },
-  //         grid: {
-  //           color: surfaceBorder,
-  //         },
-  //       },
-  //       x: {
-  //         beginAtZero: true,
-  //         display: true,
-  //         ticks: {
-  //           color: textColorSecondary,
-  //           stepSize: 1,
-  //           callback: (_, index) => {
-  //             if (index === 0) return '';
-  //             return this.inputDataChart[index - 1]['control_name']
-  //               ? this.inputDataChart[index - 1]['control_name']
-  //               : this.inputDataChart[index - 1]['anon_name'];
-  //           },
-  //         },
-  //         grid: {
-  //           display: true,
-  //           color: surfaceBorder,
-  //         },
-  //       },
-  //     },
-  //   };
-  // }
-
-  getChartThresholds() {
-    return this.inputDataChart
-      .filter((elt) => elt['control_name'])
-      .map((elt) => {
-        return {
-          label: `${elt['control_name']} Threshold`,
-          type: 'line',
-          data: Array(this.inputDataChart.length).fill(elt['test_result']),
-          fill: false,
-          borderColor: this.documentStyle.getPropertyValue('--blue-500'),
-          tension: 0.4,
-        };
-      });
+  getControlColor(controlName: string) {
+    switch (controlName) {
+      case 'WHITE':
+        return PLATE_FILLING_COLOR.fillWHITEColor;
+      case 'POS':
+        return PLATE_FILLING_COLOR.fillPOSColor;
+      case 'NEG':
+        return PLATE_FILLING_COLOR.fillNEGColor;
+      default:
+        return 'blue';
+    }
   }
 
   getChartLabels() {
@@ -574,7 +404,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
                   ...(this.plaqueInfos?.controls ?? []),
                   ...(this.plaqueInfos?.patients ?? []),
                 ];
-                this.buildChart();
+                this.buildChartData();
                 setTimeout(() => {
                   this.plateDiagramDiv?.nativeElement.scrollIntoView({
                     behavior: 'smooth',
@@ -596,5 +426,99 @@ export class PlatePlanSettingsComponent implements OnDestroy {
           break;
       }
     }
+  }
+
+  buildChartData() {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue(
+      '--text-color-secondary'
+    );
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
+    this.data = {
+      labels: this.getChartLabels(),
+      datasets: [
+        {
+          label: 'Resultats analyses',
+          type: 'bubble',
+          data: this.getChartLabelsValue(),
+          fill: false,
+          borderColor: this.documentStyle.getPropertyValue('--blue-500'),
+          tension: 0.4,
+          radius: function (context: any) {
+            const size = Math.round(context?.raw.radius * 15);
+            return size;
+          },
+        },
+        ...this.getChartThresholds(),
+      ],
+    };
+
+    this.options = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.6,
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor,
+          },
+        },
+        tooltip: {
+          callbacks: {
+            label: (ctx: any) => {
+              if (ctx.datasetIndex === 0) {
+                return `Test result ${ctx.raw['radius']}`;
+              }
+              return '';
+            },
+          },
+        },
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          ticks: {
+            color: textColorSecondary,
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false,
+          },
+        },
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: textColorSecondary,
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false,
+          },
+        },
+      },
+    };
+  }
+
+  getChartThresholds() {
+    const result = this.inputDataChart
+      .filter((elt) => elt['control_name'])
+      .map((elt) => {
+        return {
+          label: `${elt['control_name']} Threshold`,
+          type: 'line',
+          data: Array(this.inputDataChart.length).fill(elt['test_result']),
+          fill: false,
+          borderColor: this.documentStyle.getPropertyValue(`--${this.getControlColor(elt['control_name'])}-500`),
+          tension: 0.4,
+          elements: {
+            point: {
+              radius: 0,
+            },
+          }
+        };
+      });
+    return result;
   }
 }

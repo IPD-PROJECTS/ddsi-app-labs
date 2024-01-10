@@ -3,6 +3,11 @@ import * as SecureLS from 'secure-ls';
 
 const ls = new SecureLS({encodingType: 'aes'});
 
+export const STORAGE_KEYS = {
+  AUTH_INFOS : 'auth',
+  USERNAME: 'username'
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +18,7 @@ export class LocalStorageService {
   }
 
   getFromLocalStorage(key: string) {
-    ls.get(key);
+    return ls.get(key);
   }
 
   deleteKeyFromLocalStorage(key: string) {

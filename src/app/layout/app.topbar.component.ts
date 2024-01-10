@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { LayoutService } from '@ddsi-labs-apps/services';
+import { LayoutService, LocalStorageService, STORAGE_KEYS } from '@ddsi-labs-apps/services';
 import { CommonModule } from '@angular/common';
 import { AppMenuComponent } from './app.menu.component';
 import { InputTextModule } from "primeng/inputtext";
@@ -12,10 +12,12 @@ import { AvatarModule } from 'primeng/avatar';
     templateUrl: './app.topbar.component.html'
 })
 export class AppTopbarComponent {
-
+    userName = "";
     @ViewChild('menubutton') menuButton!: ElementRef;
 
-    constructor(public layoutService: LayoutService) { }
+    constructor(public layoutService: LayoutService, private storage: LocalStorageService) {
+        this.userName = storage.getFromLocalStorage(STORAGE_KEYS.USERNAME);
+     }
 
     onMenuButtonClick() {
         this.layoutService.onMenuToggle();
