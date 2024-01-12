@@ -8,8 +8,9 @@ export const canLoginGuard: CanActivateFn = (route, state) => {
   const authInfos: LoginResponse = localStorage.getFromLocalStorage(STORAGE_KEYS.AUTH_INFOS);
 
   if(authInfos) {
+
     appNav.goToPlatesApp();
-    return true;
+    return false;
   }
   return true;
 };

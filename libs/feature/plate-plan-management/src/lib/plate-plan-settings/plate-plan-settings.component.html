@@ -234,7 +234,7 @@
             >
               <button
                 pButton
-                [disabled]="!plaqueInfos?.patients?.length"
+                [disabled]="!plaqueInfos?.patients?.length || plaqueInfos?.excel_spectro_file"
                 pRipple
                 class="p-button-warning border-round flex-shrink-0"
                 label="Uploader le fichier des résultats"
