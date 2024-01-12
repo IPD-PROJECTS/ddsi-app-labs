@@ -3,10 +3,10 @@ import { LayoutComponent } from './layout/layout.component';
 import { authenticatedGuard, canLoginGuard } from '@ddsi-labs-apps/services';
 
 export const appRoutes: Route[] = [
-    {
-        path: 'login', loadChildren: () => import('@ddsi-labs-apps/auth').then(c => c.AuthModule),
-        // canActivate:[canLoginGuard]
-    },
+    // {
+    //     path: 'login', loadChildren: () => import('@ddsi-labs-apps/auth').then(c => c.AuthModule),
+    //     canActivate:[canLoginGuard]
+    // },
     {
         path: 'apps', component: LayoutComponent, children: [
             {
@@ -19,6 +19,10 @@ export const appRoutes: Route[] = [
         canActivate:[authenticatedGuard],
     },
     {
-        path: '', redirectTo: 'login', pathMatch: 'full',
+        path: '', pathMatch: 'full', loadChildren: () => import('@ddsi-labs-apps/auth').then(c => c.AuthModule),
+        canActivate:[canLoginGuard]
+    },
+    {
+        path: '**', redirectTo: ''
     }
 ];
