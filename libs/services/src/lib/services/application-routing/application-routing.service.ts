@@ -13,7 +13,7 @@ export class ApplicationRoutingService {
   }
 
   goToPlatesApp() {
-    this.router.navigate(['/apps/plates']);
+    this.router.navigate(['/apps']);
   }
 
   goToListPlateTypePage() {

@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
-import { authenticatedGuard } from '@ddsi-labs-apps/services';
+import { authenticatedGuard, canLoginGuard } from '@ddsi-labs-apps/services';
 
 export const appRoutes: Route[] = [
     {
@@ -19,6 +19,6 @@ export const appRoutes: Route[] = [
         canActivate:[authenticatedGuard],
     },
     {
-        path: '', redirectTo: 'login', pathMatch: 'full'
+        path: '', redirectTo: 'login', pathMatch: 'full',
     }
 ];
