@@ -26,6 +26,6 @@ export class AppProfileSidebarComponent {
 
     logout() {
         this.authService.logout();
-        this.router.navigate(['/login']).then((_) => this.visible = false)
+        this.router.navigate(['/']).then((_) => this.visible = false)
     }
 }
