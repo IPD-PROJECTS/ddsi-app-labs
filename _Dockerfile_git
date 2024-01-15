@@ -4,7 +4,7 @@ FROM alpine/git:latest as cloneProject
 
 WORKDIR /clone-project
 
-RUN git clone https://ipd-bigbadwolf:ATBBM8zQsGeaDZebwz9tNxCP3qxk80745C46@bitbucket.org/ipd-ddsi/gestion-plaques-frontend.git
+RUN git clone https://${gitCredentials}@bitbucket.org/ipd-ddsi/gestion-plaques-frontend.git
 
 
 
