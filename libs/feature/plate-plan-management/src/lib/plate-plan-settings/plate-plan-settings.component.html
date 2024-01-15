@@ -51,6 +51,34 @@
                       >
                     </ng-container>
                   </div>
+                  <div class="col-12">
+                    <label for="sex" class="font-medium mb-3"
+                      >Type de test à effectuer</label
+                    >
+                    <p-dropdown
+                      formControlName="test"
+                      [options]="listPlateTests"
+                      optionLabel="name"
+                      optionValue="id"
+                      placeholder="Select a test"
+                      styleClass="w-full mt-3"
+                    ></p-dropdown>
+                  </div>
+                  <ng-container
+                    *ngIf="
+                      plateFormGroup.get('test')?.dirty ||
+                      plateFormGroup.get('test')?.touched
+                    "
+                  >
+                    <small
+                      class="p-error mb-2"
+                      *ngIf="
+                        plateFormGroup.controls['test'].errors &&
+                        plateFormGroup.controls['test'].errors['required']
+                      "
+                      >Ce champs est requis</small
+                    >
+                  </ng-container>
                   <!-- <div class="col-12">
                       <div class="p-float-label">
                         <input

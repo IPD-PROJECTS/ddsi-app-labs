@@ -6,6 +6,7 @@ import { ENV_KEY, FORMAT } from '@ddsi-labs-apps/enums';
 
 const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;
 const platesEndpoint = `${BASE_URL}/api/v1/plates/`;
+const platesTestEndpoint = `${BASE_URL}/api/v1/test-types/`;
 
 
 
@@ -30,6 +31,10 @@ export class PlatePlanService {
       `${platesEndpoint}`,
       { params: data }
     );
+  }
+
+  getPlatesTestList() {
+    return this.http.get<{name: string, description: string}[]>(`${platesTestEndpoint}`);
   }
 
   uploadRoboAnalysisResult(id: any, file: File) {

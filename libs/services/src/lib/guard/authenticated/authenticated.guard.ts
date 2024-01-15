@@ -11,6 +11,7 @@ export const authenticatedGuard: CanActivateFn = (route, state) => {
   if(authInfos) {
     return true;
   } else {
+    appNav.goToLogin();
     return false;
   }
 };
