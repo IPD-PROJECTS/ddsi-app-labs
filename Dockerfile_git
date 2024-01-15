@@ -1,0 +1,43 @@
+# Stage: Clone project
+
+FROM alpine/git:latest as cloneProject
+
+WORKDIR /clone-project
+
+RUN git clone https://ipd-bigbadwolf:ATBBM8zQsGeaDZebwz9tNxCP3qxk80745C46@bitbucket.org/ipd-ddsi/gestion-plaques-frontend.git
+
+
+
+# Stage: Build project
+
+FROM node:16-alpine as builder
+
+ARG BASE_API=https://deploy.nskm.xyz
+
+WORKDIR /usr/src
+
+COPY --from=cloneProject /clone-project/gestion-plaques-frontend /usr/src
+
+RUN ls /usr/src
+
+RUN npm install
+
+ENV NX_BASE_API_URL=${BASE_API}
+
+RUN npm run build
+
+
+
+# Stage: Copy project dist folder to nginx server
+
+FROM nginx:alpine as production-build
+
+COPY nginx.conf /etc/nginx/nginx.conf
+
+RUN rm -rf /usr/share/nginx/html/*
+
+COPY --from=builder /usr/src/dist/ddsi-labs-apps /usr/share/nginx/html
+
+EXPOSE 8080
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
