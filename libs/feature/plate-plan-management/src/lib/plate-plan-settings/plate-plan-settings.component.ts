@@ -38,7 +38,8 @@ import { ImportPlateAnalysisResultComponent } from '../import-plate-analysis-res
 import { MenuModule } from 'primeng/menu';
 import { TooltipModule } from 'primeng/tooltip';
 import { ChartModule } from 'primeng/chart';
-import { ChartData, ChartOptions, TooltipItem } from 'chart.js';
+import { ChartData, ChartOptions } from 'chart.js';
+import { DropdownModule } from 'primeng/dropdown';
 
 enum PLATE_FILLING_COLOR {
   defaultColor = 'yellow',
@@ -63,6 +64,7 @@ enum PLATE_FILLING_COLOR {
     InputTextModule,
     FileUploadModule,
     ChartModule,
+    DropdownModule
   ],
   providers: [MessageService, DialogService, NotificationService],
   templateUrl: './plate-plan-settings.component.html',
@@ -127,10 +129,10 @@ export class PlatePlanSettingsComponent implements OnDestroy {
   themeConfig?: any;
   inputDataChart: any[] = [];
   documentStyle = getComputedStyle(document.documentElement);
-
   data: any;
 
   options: any;
+  listPlateTests: {id?: number, name: string, description: string}[] = [];
 
   @ViewChild('plateDiagram') plateDiagramDiv!: ElementRef<HTMLDivElement>;
   constructor(
@@ -157,6 +159,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
         plateDetailsSignal.set(this.plaqueInfos);
       }
     });
+    this.getListPlatesTest();
     this.initializeForm();
 
     effect(() => {
@@ -211,8 +214,17 @@ export class PlatePlanSettingsComponent implements OnDestroy {
     this.plateFormGroup = this.fb.group({
       id: [this.plaqueInfos?.id],
       description: [this.plaqueInfos?.description, [Validators.required]],
+      test: [this.plaqueInfos?.test, [Validators.required]]
       // created_by: [this.plaqueInfos?.created_by,[Validators.required]]
     });
+  }
+
+  getListPlatesTest() {
+    this.plateService.getPlatesTestList().subscribe({
+      next:(res) => {
+        this.listPlateTests = res;
+      }
+    })
   }
 
   resetPlateValue(data: PlateModel) {

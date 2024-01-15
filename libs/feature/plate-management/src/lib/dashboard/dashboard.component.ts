@@ -6,17 +6,17 @@ import { ChartModule } from 'primeng/chart';
 import { DropdownModule } from 'primeng/dropdown';
 import { Subscription } from 'rxjs';
 import { LayoutService, PlateStatsService } from '@ddsi-labs-apps/services';
-
+import { DashboardStatesModel } from '@ddsi-labs-apps/models';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @Component({
   selector: 'ddsi-labs-apps-dashboard',
   standalone: true,
-  imports: [CommonModule, KnobModule, FormsModule, ChartModule,DropdownModule],
+  imports: [CommonModule, KnobModule, FormsModule, ChartModule,DropdownModule, ProgressSpinnerModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  knobValue: number = 90;
-
+    knobValue = 0;
     selectedWeek: any;
 
     weeks: any[] = [];
@@ -34,6 +34,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     cols: any[] = [];
 
+    dashboardStats?: DashboardStatesModel;
+    loadingStats = false;
     constructor(private layoutService: LayoutService, private appStats: PlateStatsService) {
       this.weeks = [{
         label: 'Semaine Passée',
@@ -58,10 +60,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     fetchPlatesMainStats() {
+        this.loadingStats = true;
         this.appStats.getPlatesDashboardStats().subscribe({
-            next:(res: any) => {
-                console.log('res', res);
-
+            next:(res: DashboardStatesModel) => {
+                this.loadingStats = false;
+                this.dashboardStats = res;
+                this.knobValue = ((this.dashboardStats.results.plates_count - this.dashboardStats.results.plates_without_result_file) / this.dashboardStats.results.plates_count) * 100
+            },
+            error: () => {
+                this.loadingStats = false;
             }
         })
     }
