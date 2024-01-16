@@ -5,13 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { ChartModule } from 'primeng/chart';
 import { DropdownModule } from 'primeng/dropdown';
 import { Subscription } from 'rxjs';
-import { LayoutService, PlateStatsService } from '@ddsi-labs-apps/services';
+import { AppRunningConfigService, LayoutService, PlateStatsService } from '@ddsi-labs-apps/services';
 import { DashboardStatesModel } from '@ddsi-labs-apps/models';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @Component({
   selector: 'ddsi-labs-apps-dashboard',
   standalone: true,
   imports: [CommonModule, KnobModule, FormsModule, ChartModule,DropdownModule, ProgressSpinnerModule],
+  providers:[AppRunningConfigService],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })

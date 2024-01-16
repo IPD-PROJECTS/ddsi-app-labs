@@ -13,8 +13,6 @@ RUN ls /usr/src
 
 RUN npm install
 
-ENV NX_BASE_API_URL=${BASE_API}
-
 COPY . ./
 
 RUN npm run build

@@ -1,18 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ENV_KEY } from '@ddsi-labs-apps/enums';
 import { DashboardStatesModel } from '@ddsi-labs-apps/models';
+import { AppRunningConfigService } from '../app-running-config/app-running-config.service';
 
-const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;
-const statsEndpoint = `${BASE_URL}/api/v1/stats/`;
+
+const statsEndpoint = `api/v1/stats/`;
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlateStatsService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private appConfig: AppRunningConfigService) {}
 
   getPlatesDashboardStats() {
-    return this.http.get<DashboardStatesModel>(`${statsEndpoint}`);
+    const baseUrl = this.appConfig.getAppInputConfig()?.apiUrl;
+    return this.http.get<DashboardStatesModel>(`${baseUrl}/${statsEndpoint}`);
   }
 }
