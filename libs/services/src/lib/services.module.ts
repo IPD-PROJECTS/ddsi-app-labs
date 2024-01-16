@@ -19,6 +19,7 @@ export * from '../lib/interceptor/error/error.interceptor'
 export * from '../lib/guard/authenticated/authenticated.guard'
 export * from '../lib/guard/login/already-logged-in.guard'
 export * from '../lib/guard/login/can-login.guard'
+export * from '../lib/services/app-running-config/app-running-config.service'
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],

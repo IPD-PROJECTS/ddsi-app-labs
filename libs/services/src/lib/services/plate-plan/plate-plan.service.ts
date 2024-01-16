@@ -2,11 +2,11 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of, tap } from 'rxjs';
 import { PlateModel } from '@ddsi-labs-apps/models';
-import { ENV_KEY, FORMAT } from '@ddsi-labs-apps/enums';
+import { FORMAT } from '@ddsi-labs-apps/enums';
+import { AppRunningConfigService } from '../app-running-config/app-running-config.service';
 
-const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;
-const platesEndpoint = `${BASE_URL}/api/v1/plates/`;
-const platesTestEndpoint = `${BASE_URL}/api/v1/test-types/`;
+const platesEndpoint = `api/v1/plates/`;
+const platesTestEndpoint = `api/v1/test-types/`;
 
 
 
@@ -14,9 +14,12 @@ const platesTestEndpoint = `${BASE_URL}/api/v1/test-types/`;
   providedIn: 'root',
 })
 export class PlatePlanService {
+  baseUrl = this.appConfig.getAppInputConfig()?.apiUrl;
   constructor(
-    private http: HttpClient
-  ) {}
+    private http: HttpClient,
+    private appConfig: AppRunningConfigService
+  ) {
+  }
 
   getListPlates(params?: {limit: string, page: number, search?: string}) {
     let data: HttpParams = params
@@ -28,38 +31,38 @@ export class PlatePlanService {
       data = data.append('search', params.search);
     }
     return this.http.get<{ results: PlateModel[]; count: number }>(
-      `${platesEndpoint}`,
+      `${this.baseUrl}/${platesEndpoint}`,
       { params: data }
     );
   }
 
   getPlatesTestList() {
-    return this.http.get<{name: string, description: string}[]>(`${platesTestEndpoint}`);
+    return this.http.get<{name: string, description: string}[]>(`${this.baseUrl}/${platesTestEndpoint}`);
   }
 
   uploadRoboAnalysisResult(id: any, file: File) {
     const formData = new FormData();
     formData.append('excel_spectro_file', file)
-    return this.http.patch(`${platesEndpoint}${id}`, formData);
+    return this.http.patch(`${this.baseUrl}/${platesEndpoint}${id}`, formData);
   }
 
   updatePlate(data: PlateModel) {
-    return this.http.patch(`${platesEndpoint}${data.id}`, data);
+    return this.http.patch(`${this.baseUrl}/${platesEndpoint}${data.id}`, data);
   }
 
   getPlateDetailsById(id: string | null) {
     if (id) {
-      return this.http.get(`${platesEndpoint}${id}`);
+      return this.http.get(`${this.baseUrl}/${platesEndpoint}${id}`);
     }
     return of();
   }
 
   deletePlate(data: PlateModel) {
-    return this.http.delete(`${platesEndpoint}${data.id}`);
+    return this.http.delete(`${this.baseUrl}/${platesEndpoint}${data.id}`);
   }
 
   createPlate(data: PlateModel) {
-    return this.http.post(`${platesEndpoint}`, data);
+    return this.http.post(`${this.baseUrl}/${platesEndpoint}`, data);
   }
 
 
@@ -70,7 +73,7 @@ export class PlatePlanService {
       controls: plateDetailsUpdated.controls
     }
     return this.http.post(
-      `${platesEndpoint}${idPlate}/fill`,
+      `${this.baseUrl}/${platesEndpoint}${idPlate}/fill`,
       data
     );
   }
@@ -78,7 +81,7 @@ export class PlatePlanService {
   getRobotProcessResult(idPlate: number, type: FORMAT) {
     const headers = new HttpHeaders().set('Content-type', type);
     return this.http.get(
-      `${platesEndpoint}${idPlate}/process`, {headers, responseType: type !== FORMAT.JSON ? 'blob' as 'json' : 'json'}
+      `${this.baseUrl}/${platesEndpoint}${idPlate}/process`, {headers, responseType: type !== FORMAT.JSON ? 'blob' as 'json' : 'json'}
     ).pipe(
       tap((blob: any) => {
           if(type !== FORMAT.JSON) {
@@ -116,6 +119,6 @@ export class PlatePlanService {
   uploadPlatePlan(idPlate: number,file: File) {
     const formData = new FormData();
     formData.append('plate_file', file);
-    return this.http.post(`${platesEndpoint}${idPlate}/import/`, formData)
+    return this.http.post(`${this.baseUrl}/${platesEndpoint}${idPlate}/import/`, formData)
   }
 }
