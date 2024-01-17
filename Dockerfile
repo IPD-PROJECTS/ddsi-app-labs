@@ -2,14 +2,11 @@
 
 FROM node:16-alpine as builder
 
-ARG BASE_API=https://deploy.nskm.xyz
-
 WORKDIR /usr/src
 
 COPY package*.json ./
 
 RUN ls /usr/src
-
 
 RUN npm install
 
@@ -21,7 +18,11 @@ RUN npm run build
 
 FROM nginx:alpine as production-build
 
-COPY nginx.conf /etc/nginx/nginx.conf
+ENV BASE_URL=https://deploy.nskm.xyz
+
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+
+COPY docker/entrypoint.sh /entrypoint.sh
 
 RUN rm -rf /usr/share/nginx/html/*
 
@@ -29,4 +30,5 @@ COPY --from=builder /usr/src/dist/ddsi-labs-apps /usr/share/nginx/html
 
 EXPOSE 8080
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+
+ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
