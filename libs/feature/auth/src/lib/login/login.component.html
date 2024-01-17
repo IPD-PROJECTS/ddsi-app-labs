@@ -145,6 +145,11 @@
           type="submit"
         ></button>
       </div>
+      <small
+            class="p-error my-2"
+            *ngIf="hasError"
+            > {{errorMsg}} </small
+          >
     </form>
   </div>
 </div>
