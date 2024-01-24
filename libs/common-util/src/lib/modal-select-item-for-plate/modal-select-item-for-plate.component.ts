@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { ControlsService } from '@ddsi-labs-apps/services';
-import { ITEM_TYPE, PLATE_ATTRIBUTE, PLATE_LABEL } from '@ddsi-labs-apps/enums';
+import { ControlsService, NotificationService } from '@ddsi-labs-apps/services';
+import { ITEM_TYPE, NotificationSeverity, PLATE_ATTRIBUTE, PLATE_LABEL } from '@ddsi-labs-apps/enums';
 import { PatientService } from '@ddsi-labs-apps/services';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IsPatientAlreadyAddedPipe } from '@ddsi-labs-apps/pipes';
 import { PlateModel, ControlModel, Patient } from '@ddsi-labs-apps/models';
+import { PatientAddComponent } from '../common-util.module';
 
 @Component({
   selector: 'ddsi-labs-apps-modal-select-item-for-plate',
@@ -37,12 +38,14 @@ export class ModalSelectItemForPlateComponent {
   loading: boolean = true;
 
   @ViewChild('filter') filter!: ElementRef;
-
+  @ViewChild('dt1') table?: Table;
   constructor(
     private controlService: ControlsService,
     private patientService: PatientService,
     private dynamicDialogConf: DynamicDialogConfig,
-    private dynamicDialogRef: DynamicDialogRef
+    private dynamicDialogRef: DynamicDialogRef,
+    private dialogService: DialogService,
+    private notificationService: NotificationService
   ) {
     const data = this.dynamicDialogConf.data;
     this.isRowSelectable = this.isRowSelectable.bind(this);
@@ -123,5 +126,24 @@ export class ModalSelectItemForPlateComponent {
   clear(table: Table) {
     table.clear();
     this.filter.nativeElement.value = '';
+  }
+
+  opentModalImport() {
+    const ref = this.dialogService.open(PatientAddComponent, {
+      data: {
+        tabIndex: 1,
+      },
+      header: `Importer une liste de patients`,
+      autoZIndex: true,
+      width: '445px',
+    });
+    ref.onClose.subscribe({
+      next: (data: { success: boolean }) => {
+        if (data?.success) {
+          this.table?.reset();
+          this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `Creation`, 'Opération effectuée avec succés' );
+        }
+      },
+    });
   }
 }

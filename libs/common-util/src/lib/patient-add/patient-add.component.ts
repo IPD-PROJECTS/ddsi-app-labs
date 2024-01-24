@@ -13,7 +13,7 @@ import { Patient } from '@ddsi-labs-apps/models';
 import { PatientService } from '@ddsi-labs-apps/services';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { PATIENT_FILE_LIST_MAX_SIZE } from '@ddsi-labs-apps/common-util'
+import { PATIENT_FILE_LIST_MAX_SIZE } from '../constantes';
 @Component({
   selector: 'ddsi-labs-apps-patient-add',
   standalone: true,
@@ -67,12 +67,11 @@ export class PatientAddComponent {
     this.tabIndex = dynamicDialogConfig.data?.tabIndex ?? 0;
     this.formGroup = this.fb.group({
       anon_name: [patient?.anon_name, [Validators.required]],
-      first_name: [patient?.first_name || null, [Validators.required]],
-      last_name: [patient?.last_name || null, [Validators.required]],
-      sex: [patient?.sex || null, [Validators.required]],
+      first_name: [patient?.first_name || null],
+      last_name: [patient?.last_name || null],
+      sex: [patient?.sex || null],
       birth_date: [
         patient?.birth_date ? new Date(`${patient.birth_date}`) : null,
-        [Validators.required],
       ],
     });
   }
@@ -80,11 +79,11 @@ export class PatientAddComponent {
   submit() {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
-      const value: Patient = this.formGroup.value;
+      const value = this.formGroup.value;
       this.isLoading = true;
-      value.birth_date = new Date(value.birth_date!)
+      value.birth_date = value.birth_date ? new Date(value.birth_date)
         .toISOString()
-        .split('T')[0];
+        .split('T')[0] : null;
       if (this.editMode) {
         value.id = this.dynamicDialogConfig.data.patient?.id;
 

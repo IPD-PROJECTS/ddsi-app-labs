@@ -6,7 +6,6 @@ export const authenticatedGuard: CanActivateFn = (route, state) => {
   const localStorage = new LocalStorageService();
   const appNav = new ApplicationRoutingService(new Router())
   const authInfos: LoginResponse = localStorage.getFromLocalStorage(STORAGE_KEYS.AUTH_INFOS);
-  console.log('authenticatedGuard ');
 
   if(authInfos) {
     return true;

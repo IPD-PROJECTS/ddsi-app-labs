@@ -7,14 +7,16 @@
       let first = first
     "
   >
-    <ng-container
+    <div
       *ngFor="
         let j of [].constructor(colLength);
         let colIndex = index;
         let firstCol = first
       "
+      class=""
     >
-      <p-menu [hidden]="disableMenu"
+      <p-menu
+        [hidden]="disableMenu"
         #menu
         [model]="{rowIndex, colIndex} | getActionMenuByPlateItem: {plateDetails, contentItemFilled: (plateDetails
               | checkStatusPlateItem
@@ -24,18 +26,17 @@
         [popup]="true"
       ></p-menu>
       <div
-        class="flex flex-column align-items-center justify-content-center col" [ngClass]="{'ml\-3' : firstCol}"
+        class="flex flex-column justify-content-center col"
+        [ngClass]="{ 'ml\-3': firstCol }"
       >
-        <div *ngIf="first">
+        <div *ngIf="first" class="text-center">
           {{
             colLabelType !== 'Letter'
               ? colIndex + 1
               : (colIndex | nextCaracter | uppercase)
           }}
         </div>
-        <div
-          class="flex align-items-center btn-container"
-        >
+        <div class="flex align-items-center btn-container">
           <span *ngIf="firstCol" class="row-label">
             {{
               rowLabelType !== 'Letter'
@@ -43,12 +44,11 @@
                 : (rowIndex | nextCaracter | uppercase)
             }}
           </span>
-
           <p-button
             pRipple
             [disabled]="disabled"
             [raised]="true"
-            (click)="menu.toggle($event)"
+            (click)="!closePlate ? menu.toggle($event): null"
             [pTooltip]="
               plateDetails
                 | labelOfPlateItemFilled
@@ -71,14 +71,11 @@
                       | uppercase)
               )?.class
             "
-            [ngClass]="{
-              'background-control-place': colIndex === COLUMN_INDEX_FOR_CONTROLS
-            }"
             [rounded]="true"
             [outlined]="true"
           ></p-button>
         </div>
       </div>
-    </ng-container>
+    </div>
   </div>
 </div>

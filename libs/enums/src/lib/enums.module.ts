@@ -95,6 +95,12 @@ export enum GENDER {
   MALE = 'M',
   FEMALE = 'F'
 }
+
+export enum CONTROLS {
+  NEG = 'NEG',
+  POS = 'POS',
+  WHITE = 'BLANC'
+}
 @NgModule({
   imports: [CommonModule],
 })

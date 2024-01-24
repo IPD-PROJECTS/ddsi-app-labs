@@ -9,7 +9,7 @@
       icon="pi pi-fw pi-arrow-left"
     ></button>
     <div class="grid">
-      <div class="col-12 lg:col-3">
+      <div class="col-12 lg:col">
         <p-accordion [activeIndex]="currentStepIndex">
           <p-accordionTab header="Initialisation des infos d'une plaque">
             <form [formGroup]="plateFormGroup" (ngSubmit)="initializePlate()">
@@ -53,6 +53,36 @@
                   </div>
                   <div class="col-12">
                     <label for="sex" class="font-medium mb-3"
+                      >Type de plaque</label
+                    >
+                    <p-dropdown
+                      formControlName="plate_type"
+                      [options]="typePlateList"
+                      [readonly]="!!plaqueInfos"
+                      [disabled]="!!plaqueInfos"
+                      optionLabel="label"
+                      optionValue="id"
+                      placeholder="Selectionner un type de plaque"
+                      styleClass="w-full mt-3"
+                    ></p-dropdown>
+                    <ng-container
+                      *ngIf="
+                        plateFormGroup.get('plate_type')?.dirty ||
+                        plateFormGroup.get('plate_type')?.touched
+                      "
+                    >
+                      <small
+                        class="p-error mb-2"
+                        *ngIf="
+                          plateFormGroup.controls['plate_type'].errors &&
+                          plateFormGroup.controls['plate_type'].errors['required']
+                        "
+                        >Ce champs est requis</small
+                      >
+                    </ng-container>
+                  </div>
+                  <div class="col-12">
+                    <label for="sex" class="font-medium mb-3"
                       >Type de test à effectuer</label
                     >
                     <p-dropdown
@@ -63,51 +93,23 @@
                       placeholder="Select a test"
                       styleClass="w-full mt-3"
                     ></p-dropdown>
-                  </div>
-                  <ng-container
-                    *ngIf="
-                      plateFormGroup.get('test')?.dirty ||
-                      plateFormGroup.get('test')?.touched
-                    "
-                  >
-                    <small
-                      class="p-error mb-2"
+                    <ng-container
                       *ngIf="
-                        plateFormGroup.controls['test'].errors &&
-                        plateFormGroup.controls['test'].errors['required']
+                        plateFormGroup.get('test')?.dirty ||
+                        plateFormGroup.get('test')?.touched
                       "
-                      >Ce champs est requis</small
                     >
-                  </ng-container>
-                  <!-- <div class="col-12">
-                      <div class="p-float-label">
-                        <input
-                          pInputText
-                          formControlName="created_by"
-                          aria-describedby="created-by-help"
-                          class="w-full"
-                          id="created_by"
-                        />
-                        <label htmlFor="name">Owner</label>
-                      </div>
-                      <ng-container
+                      <small
+                        class="p-error mb-2"
                         *ngIf="
-                          plateFormGroup.get('created_by')?.dirty ||
-                          plateFormGroup.get('created_by')?.touched
+                          plateFormGroup.controls['test'].errors &&
+                          plateFormGroup.controls['test'].errors['required']
                         "
+                        >Ce champs est requis</small
                       >
-                        <small
-                          class="p-error"
-                          *ngIf="
-                            plateFormGroup.controls['created_by'].errors &&
-                            plateFormGroup.controls['created_by'].errors[
-                              'required'
-                            ]
-                          "
-                          >Ce champs est requis</small
-                        >
-                      </ng-container>
-                    </div> -->
+                    </ng-container>
+                  </div>
+
                   <div class="col-12">
                     <button
                       type="submit"
@@ -206,7 +208,7 @@
           </p-accordionTab>
         </p-accordion>
       </div>
-      <div class="col-12 lg:col-9 flex gap-2 flex-column overflow-auto">
+      <div class="col-12 lg:col-6 flex gap-2 flex-column overflow-auto">
         <h5>Preview</h5>
         <div class="col flex flex-column gap-2">
           <div
@@ -242,9 +244,12 @@
               ></button>
             </div>
           </div>
-          <ddsi-labs-apps-plate-plan-preview-block
+          <ddsi-labs-apps-plate-plan-preview-block *ngIf="typePlateList"
             [plateDetails]="plaqueInfos"
             [disabled]="!plaqueInfos"
+            [closePlate]="closePlateUpdate"
+            [rowLength]="(plateFormGroup.get('plate_type')?.value| plateTypeById: typePlateList)?.number_rows || 8"
+            [colLength]="(plateFormGroup.get('plate_type')?.value| plateTypeById: typePlateList)?.number_cols || 12"
             [defaultFillColor]="PLATE_ITEMS_COLOR.defaultColor"
             [fillColorMale]="PLATE_ITEMS_COLOR.fillMaleColor"
             [fillColorFemale]="PLATE_ITEMS_COLOR.fillFemaleColor"
@@ -256,13 +261,13 @@
             <div
               [pTooltip]="
                 !plaqueInfos?.patients?.length
-                  ? 'Veuillez terminer la configuration du plan d\'assiette en ajoutant les patients et les contrôles pour activer ce bouton.'
+                  ? 'Veuillez terminer la configuration du plan de plaque en ajoutant les patients et les contrôles pour activer ce bouton.'
                   : ''
               "
             >
               <button
                 pButton
-                [disabled]="!plaqueInfos?.patients?.length || plaqueInfos?.excel_spectro_file"
+                [disabled]="!plaqueInfos?.patients?.length || closePlateUpdate"
                 pRipple
                 class="p-button-warning border-round flex-shrink-0"
                 label="Uploader le fichier des résultats"
@@ -279,7 +284,7 @@
             >
               <p-menu #menu [model]="items" [popup]="true"></p-menu>
               <button
-                [disabled]="!plaqueInfos?.excel_spectro_file"
+                [disabled]="closePlateUpdate"
                 pButton
                 type="button"
                 (click)="menu.toggle($event)"

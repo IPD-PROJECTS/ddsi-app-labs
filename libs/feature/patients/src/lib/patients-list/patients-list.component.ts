@@ -12,7 +12,7 @@ import { NotificationService, PatientService } from '@ddsi-labs-apps/services';
 import { ConfirmationService } from 'primeng/api';
 import { NotificationSeverity, PATIENT_ATTRIBUTE, TableColumn } from '@ddsi-labs-apps/enums';
 import { Patient } from '@ddsi-labs-apps/models';
-import { PatientAddComponent } from '../patient-add/patient-add.component';
+import { PatientAddComponent } from '@ddsi-labs-apps/common-util';
 @Component({
   selector: 'ddsi-labs-apps-patients-list',
   standalone: true,
@@ -73,7 +73,7 @@ export class PatientsListComponent {
     this.filter.nativeElement.value = '';
   }
 
-  addPatient(editMode: boolean = false, patient?: Patient) {
+  addPatient(editMode = false, patient?: Patient) {
     const ref = this.dialogService.open(PatientAddComponent, {
       header: `${editMode ? 'Editer' : 'Ajouter'} un patient`,
       autoZIndex: true,
@@ -132,6 +132,8 @@ export class PatientsListComponent {
         this.listPatient = resp.results;
       },
       error: (err) => {
+        console.log('err', err);
+
         this.loading = false;
       },
     });
