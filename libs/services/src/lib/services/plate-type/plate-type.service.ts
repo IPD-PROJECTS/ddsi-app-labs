@@ -1,30 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PlateTypeModel } from '@ddsi-labs-apps/models';
-import { ENV_KEY } from '@ddsi-labs-apps/enums';
+import { AppRunningConfigService } from '../app-running-config/app-running-config.service';
 
-const BASE_URL = `${process.env[ENV_KEY.BASE_URL]}`;
-const plateTypesEndpoint = `${BASE_URL}/api/v1/plate-types/`
+const plateTypesEndpoint = `api/v1/plate-types/`
 @Injectable({
   providedIn: 'root'
 })
 export class PlateTypeService {
-
-  constructor(private http: HttpClient) { }
+  baseUrl = this.appConfig.getAppInputConfig()?.apiUrl;
+  constructor(private http: HttpClient,private appConfig: AppRunningConfigService) { }
 
   getListPlateType(params?: any) {
-    return this.http.get<PlateTypeModel[]>(`${plateTypesEndpoint}`);
+    return this.http.get<PlateTypeModel[]>(`${this.baseUrl}/${plateTypesEndpoint}`);
   }
 
 
   updatePlateType(data: PlateTypeModel) {
-    return this.http.put(`${plateTypesEndpoint}/${data.id}`, data);
+    return this.http.put(`${this.baseUrl}/${plateTypesEndpoint}/${data.id}`, data);
   }
 
   deletePlateType(data: PlateTypeModel) {
-    return this.http.delete(`${plateTypesEndpoint}/${data.id}`);
+    return this.http.delete(`${this.baseUrl}/${plateTypesEndpoint}/${data.id}`);
   }
   createPlateType(data: PlateTypeModel) {
-    return this.http.post(`${plateTypesEndpoint}`, data);
+    return this.http.post(`${this.baseUrl}/${plateTypesEndpoint}`, data);
   }
 }

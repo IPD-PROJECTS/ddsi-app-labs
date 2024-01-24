@@ -1,3 +1,7 @@
+:host {
+    display: flex;
+    justify-content: center;
+}
 .plate-preview {
     border-radius: 5px;
     border: 1px solid;
@@ -22,13 +26,16 @@
             &.POS {
                 background-color: var(--filled-color-POS);
             }
-            &.WHITE {
+            &.BLANC {
                 background-color: var(--filled-color-WHITE);
             }
             &.NEG {
                 background-color: var(--filled-color-NEG);
             }
         }
+    }
+    ::ng-deep .p-menu {
+        width: unset;
     }
     .background-control-place {
         background-color: gainsboro;

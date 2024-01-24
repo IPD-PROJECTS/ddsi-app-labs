@@ -1,13 +1,27 @@
-<p>Please select a control or patient</p>
+<p>
+  Merci de selectionner
+  {{ item_type === ITEM_TYPE.CONTROL ? 'un control' : 'un patient' }}
+</p>
 
 <div class="col-12">
   <div class="card">
-    <h5>
-      List {{ item_type === ITEM_TYPE.CONTROL ? 'Controls' : 'Patients' }}
-    </h5>
+    <div class="flex justify-content-between align-items-baseline flex-wrap mb-3">
+      <h5>
+        Liste de {{ item_type === ITEM_TYPE.CONTROL ? 'Controls' : 'Patients' }}
+      </h5>
+      <button
+        *ngIf="item_type === ITEM_TYPE.PATIENT"
+        pButton
+        class="p-button-success"
+        icon="pi pi-upload"
+        label="Importer une liste de patients"
+        (click)="opentModalImport()"
+      ></button>
+    </div>
     <p-table
       [lazy]="true"
-      selectionMode="single" [(selection)]="selectedItem"
+      selectionMode="single"
+      [(selection)]="selectedItem"
       (onLazyLoad)="lazyLoadTableItems($event)"
       [totalRecords]="itemCounts"
       [rowsPerPageOptions]="[5, 10, 20, 50]"
@@ -38,8 +52,14 @@
               class="w-full"
             />
           </span>
-          <p-button [disabled]="!selectedItem" (onClick)="submitSelection()" label="Validate choice" icon="pi pi-check"></p-button>
-
+          <div class="flex flex-wrap">
+            <p-button
+              [disabled]="!selectedItem"
+              (onClick)="submitSelection()"
+              label="Validate votre selection"
+              icon="pi pi-check"
+            ></p-button>
+          </div>
         </div>
       </ng-template>
       <ng-template pTemplate="header">
@@ -80,7 +100,13 @@
             {{ item.control_name }}
           </td>
         </tr>
-        <tr *ngIf="item_type === ITEM_TYPE.PATIENT" [pSelectableRow]="item" [ngClass]="{'disabled' : (item | isPatientAlreadyAdded : plateInfos?.patients)}" >
+        <tr
+          *ngIf="item_type === ITEM_TYPE.PATIENT"
+          [pSelectableRow]="item"
+          [ngClass]="{
+            disabled: (item | isPatientAlreadyAdded : plateInfos?.patients)
+          }"
+        >
           <td>
             {{ item.anon_name }}
           </td>

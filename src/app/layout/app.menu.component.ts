@@ -38,6 +38,11 @@ export class AppMenuComponent implements OnInit {
             routerLink:[ '/apps/plates/plate-plan/list'],
           },
           {
+            label: 'Gestion des types de plaques',
+            icon: 'fa-solid fa-magnifying-glass-chart',
+            routerLink:[ '/apps/plates/list-plate-type'],
+          },
+          {
             label: 'Gestion des Utilisateurs',
             icon: 'fa-solid fa-user-nurse',
             replaceUrl: false,

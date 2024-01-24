@@ -11,6 +11,7 @@ import { AccordionModule } from 'primeng/accordion';
 import {
   FormBuilder,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -18,17 +19,19 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FileUploadModule } from 'primeng/fileupload';
 import {
+  CONTROLS,
   FORMAT,
   NotificationSeverity,
   Plate_Settings_Step,
 } from '@ddsi-labs-apps/enums';
-import { PlateModel, plateDetailsSignal } from '@ddsi-labs-apps/models';
+import { PlateModel, PlateTypeModel, plateDetailsSignal } from '@ddsi-labs-apps/models';
 import { ActivatedRoute } from '@angular/router';
 import { PlatePlanPreviewBlockComponent } from '@ddsi-labs-apps/common-util';
 import {
   NotificationService,
   PlatePlanService,
   ApplicationRoutingService,
+  PlateTypeService,
 } from '@ddsi-labs-apps/services';
 import * as _ from 'lodash';
 import { MenuItem, MessageService, PrimeIcons } from 'primeng/api';
@@ -40,6 +43,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ChartModule } from 'primeng/chart';
 import { ChartData, ChartOptions } from 'chart.js';
 import { DropdownModule } from 'primeng/dropdown';
+import { PlateTypeByIdPipe } from '@ddsi-labs-apps/pipes';
 
 enum PLATE_FILLING_COLOR {
   defaultColor = 'yellow',
@@ -60,11 +64,13 @@ enum PLATE_FILLING_COLOR {
     MenuModule,
     PlatePlanPreviewBlockComponent,
     ReactiveFormsModule,
+    FormsModule,
     ButtonModule,
     InputTextModule,
     FileUploadModule,
     ChartModule,
-    DropdownModule
+    DropdownModule,
+    PlateTypeByIdPipe
   ],
   providers: [MessageService, DialogService, NotificationService],
   templateUrl: './plate-plan-settings.component.html',
@@ -133,7 +139,9 @@ export class PlatePlanSettingsComponent implements OnDestroy {
 
   options: any;
   listPlateTests: {id?: number, name: string, description: string}[] = [];
-
+  typePlateList: PlateTypeModel[] = [];
+  selectedPlateType?: PlateTypeModel;
+  closePlateUpdate = false;
   @ViewChild('plateDiagram') plateDiagramDiv!: ElementRef<HTMLDivElement>;
   constructor(
     private dialogService: DialogService,
@@ -141,7 +149,8 @@ export class PlatePlanSettingsComponent implements OnDestroy {
     private fb: FormBuilder,
     private plateService: PlatePlanService,
     private route: ActivatedRoute,
-    private appRouting: ApplicationRoutingService
+    private appRouting: ApplicationRoutingService,
+    private plateType: PlateTypeService
   ) {
     this.route.data.subscribe(({ plateDetails }) => {
       this.initializePlateData(plateDetails);
@@ -159,27 +168,26 @@ export class PlatePlanSettingsComponent implements OnDestroy {
         plateDetailsSignal.set(this.plaqueInfos);
       }
     });
-    this.getListPlatesTest();
+    this.fetchPlateSettingsData();
     this.initializeForm();
 
     effect(() => {
       if (plateDetailsSignal()) {
         this.plaqueInfos = { ...plateDetailsSignal() };
         this.hasPlateDetailsChanged = this.checkIfPlateHasChanged();
-        this.initializeForm();
       }
     });
   }
 
 
 
-  getControlColor(controlName: string) {
+  getControlColor(controlName: CONTROLS) {
     switch (controlName) {
-      case 'WHITE':
+      case CONTROLS.WHITE:
         return PLATE_FILLING_COLOR.fillWHITEColor;
-      case 'POS':
+      case CONTROLS.POS:
         return PLATE_FILLING_COLOR.fillPOSColor;
-      case 'NEG':
+      case CONTROLS.NEG:
         return PLATE_FILLING_COLOR.fillNEGColor;
       default:
         return 'blue';
@@ -214,11 +222,24 @@ export class PlatePlanSettingsComponent implements OnDestroy {
     this.plateFormGroup = this.fb.group({
       id: [this.plaqueInfos?.id],
       description: [this.plaqueInfos?.description, [Validators.required]],
-      test: [this.plaqueInfos?.test, [Validators.required]]
-      // created_by: [this.plaqueInfos?.created_by,[Validators.required]]
+      test: [this.plaqueInfos?.test, [Validators.required]],
+      plate_type: [this.plaqueInfos?.plate_type, [Validators.required]]
     });
   }
 
+  fetchPlateSettingsData() {
+    this.getPlateType();
+    this.getListPlatesTest();
+  }
+
+
+  getPlateType() {
+    this.plateType.getListPlateType().subscribe({
+      next:(data: PlateTypeModel[]) => {
+        this.typePlateList = data;
+      }
+    })
+  }
   getListPlatesTest() {
     this.plateService.getPlatesTestList().subscribe({
       next:(res) => {
@@ -411,7 +432,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
                 this.resetPlateValue(res);
                 this.displayedGraphic = true;
                 this.displayingGraphic = false;
-
+                this.closePlateUpdate = true;
                 this.inputDataChart = [
                   ...(this.plaqueInfos?.controls ?? []),
                   ...(this.plaqueInfos?.patients ?? []),

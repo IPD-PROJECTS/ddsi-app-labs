@@ -1,7 +1,7 @@
 <div class="card">
     <p>
-        In this section you can import the excel file result of the analysis.Here is a link of a downloadable template file
-        <a href="assets/file_template/import_plate_plan_template.xlsx">Download</a>
+      Dans cette section, vous pouvez importer le résultat de l'analyse dans un fichier Excel. Voici un lien vers un modèle de fichier téléchargeable
+        <a href="assets/file_template/import_plate_plan_template.xlsx">Télécharger</a>
       </p>
       <div class="flex flex-column">
         <div class="flex flex-column">
@@ -14,7 +14,7 @@
                   name="cvFile"
                   styleClass="p-button-success"
                   chooseIcon="pi-upload"
-                  chooseLabel="Import Plate result file"
+                  chooseLabel="Importer un fichier de resultat d'analyse"
                   accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                   [maxFileSize]="PLATE_PLAN_FILE_MAX_SIZE"
                   [customUpload]="true"
@@ -30,7 +30,7 @@
             ></button>
           </div>
           <small *ngIf="hasErrorUploading" class="p-error my-3">
-            Error Occured, Please try again
+            Une erreur est survenue, veuillez réessayer
           </small>
         </div>
       </div>

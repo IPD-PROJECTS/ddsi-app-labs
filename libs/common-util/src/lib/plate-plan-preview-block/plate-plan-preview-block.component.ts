@@ -144,15 +144,75 @@ export class GetActionMenuByPlateItemPipe implements PipeTransform {
     position: { rowIndex: number; colIndex: number },
     data: { plateDetails: PlateModel | undefined; contentItemFilled: any }
   ): MenuItem[] {
-    let response;
-    const canDisplayMenu = !data.plateDetails?.excel_spectro_file;
-    if (position.colIndex === COLUMN_INDEX_FOR_CONTROLS) {
+    let response = [
+      {
+        label: 'Controls',
+        items: [
+          {
+            label: `Ajouter un Control`,
+            icon: 'pi pi-plus',
+            command: () => {
+              if (data.plateDetails)
+                this.openModalFillPlate(data.plateDetails, {
+                  position,
+                  type: ITEM_TYPE.CONTROL,
+                  item: data.contentItemFilled,
+                });
+            },
+          },
+          {
+            label: 'Supprimer Control',
+            icon: 'pi pi-times',
+            disabled: !data.contentItemFilled,
+            command: () => {
+              if (data.plateDetails)
+                this.removeItemFromPlatePlan(
+                  data.contentItemFilled,
+                  data.plateDetails,
+                  ITEM_TYPE.CONTROL
+                );
+            },
+          },
+        ],
+      },
+      {
+        label: 'Patients',
+        items: [
+          {
+            label: `Ajouter un patient`,
+            icon: 'pi pi-plus',
+            command: () => {
+              if (data.plateDetails)
+                this.openModalFillPlate(data.plateDetails, {
+                  position,
+                  type: ITEM_TYPE.PATIENT,
+                  item: data.contentItemFilled,
+                });
+            },
+          },
+          {
+            label: 'Supprimer un patient',
+            icon: 'pi pi-times',
+            disabled: !data.contentItemFilled,
+            command: () => {
+              if (data.plateDetails)
+                this.removeItemFromPlatePlan(
+                  data.contentItemFilled,
+                  data.plateDetails,
+                  ITEM_TYPE.PATIENT
+                );
+            },
+          },
+        ],
+      }
+    ];
+    if (data.contentItemFilled?.control_name) {
       response = [
         {
           label: 'Controls',
           items: [
             {
-              label: `${data.contentItemFilled ? 'Replace' : 'Add'} Control`,
+              label: `Remplacer un control`,
               icon: 'pi pi-plus',
               command: () => {
                 if (data.plateDetails)
@@ -164,7 +224,7 @@ export class GetActionMenuByPlateItemPipe implements PipeTransform {
               },
             },
             {
-              label: 'Remove Control',
+              label: 'Supprimer un control',
               icon: 'pi pi-times',
               disabled: !data.contentItemFilled,
               command: () => {
@@ -179,13 +239,13 @@ export class GetActionMenuByPlateItemPipe implements PipeTransform {
           ],
         },
       ];
-    } else {
+    } else if(data.contentItemFilled?.anon_name) {
       response = [
         {
           label: 'Patients',
           items: [
             {
-              label: `${data.contentItemFilled ? 'Replace' : 'Add'} Patients`,
+              label: `Remplacer un patient`,
               icon: 'pi pi-plus',
               command: () => {
                 if (data.plateDetails)
@@ -197,7 +257,7 @@ export class GetActionMenuByPlateItemPipe implements PipeTransform {
               },
             },
             {
-              label: 'Remove Patients',
+              label: 'Supprimer un patients',
               icon: 'pi pi-times',
               disabled: !data.contentItemFilled,
               command: () => {
@@ -213,7 +273,7 @@ export class GetActionMenuByPlateItemPipe implements PipeTransform {
         },
       ];
     }
-    return canDisplayMenu ? response : [];
+    return response;
   }
 }
 
@@ -260,4 +320,5 @@ export class PlatePlanPreviewBlockComponent {
   @Input() disabled = false;
   @Input() plateDetails?: PlateModel;
   @Input() disableMenu = false;
+  @Input() closePlate = false;
 }

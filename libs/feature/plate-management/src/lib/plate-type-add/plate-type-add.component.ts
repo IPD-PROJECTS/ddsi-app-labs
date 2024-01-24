@@ -51,7 +51,7 @@ isSubmitting = false;
       label: ['', Validators.required],
       plateFillingType: [null, Validators.required],
       rowLength: [8, [Validators.required, Validators.min(2), Validators.max(20)]],
-      colLength: [12, [Validators.required, Validators.min(2), Validators.max(20)]],
+      colLength: [12, [Validators.required, Validators.min(1), Validators.max(20)]],
       rowLabelType: ['Letter', [Validators.required]],
       colLabelType: ['Number', [Validators.required]],
       numberOfWhiteCtrl: [1, [Validators.min(1)]],
@@ -76,13 +76,13 @@ isSubmitting = false;
       };
       this.isSubmitting = true;
       this.plateTypeService.createPlateType(data).subscribe({
-        next:(resp) => {
+        next:() => {
           this.isSubmitting = false;
           this.displayNotificationMsg('Plate successfully registered', true, 'Success');
           this.createPlateTypeForm.disable();
           this.reRouteToListPage();
         },
-        error:(err) => {
+        error:() => {
           this.isSubmitting = false;
         }
       })

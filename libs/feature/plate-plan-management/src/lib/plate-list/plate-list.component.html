@@ -97,14 +97,14 @@
             </td>
             <td>
               <p-badge
-                [value]="item[PLATE_ATTRIBUTE.patients].length"
+                [value]="item[PLATE_ATTRIBUTE.patients]?.length"
                 size="large"
                 severity="success"
               ></p-badge>
             </td>
             <td>
               <p-badge
-                [value]="item[PLATE_ATTRIBUTE.controls].length"
+                [value]="item[PLATE_ATTRIBUTE.controls]?.length"
                 size="large"
                 severity="info"
               ></p-badge>
