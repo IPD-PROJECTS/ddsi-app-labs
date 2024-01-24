@@ -30,7 +30,7 @@
                 >
               </ng-container>
             </div>
-            <div class="col-12 mt-4">
+            <!-- <div class="col-12 mt-4">
               <div class="p-float-label">
                 <p-dropdown
                   id="plateFillingType"
@@ -57,7 +57,7 @@
                   >Ce champs est requis</small
                 >
               </ng-container>
-            </div>
+            </div> -->
             <div class="col-12 lg:col-6 lg:mt-2">
               <span class="text-900 font-bold p-3"> Row Configuration </span>
               <div class="col-12 field">
@@ -194,6 +194,28 @@
               </div>
             </div>
           </div>
+          <div
+        class="flex flex-column sm:flex-row xl:w-6 justify-content-between align-items-center gap-3 py-2 mt-4"
+      >
+        <button
+        type="button"
+        (click)="goToListPage()"
+          pButton
+          pRipple
+          class="p-button-danger flex-1 w-full p-button-outlined"
+          label="Discard"
+          icon="pi pi-fw pi-trash"
+        ></button>
+        <button
+        type="submit"
+        [loading]="isSubmitting"
+          pButton
+          pRipple
+          class="p-button-primary flex-1 w-full border-round"
+          label="Save"
+          icon="pi pi-fw pi-check"
+        ></button>
+      </div>
         </div>
 
         <div class="flex-1 w-full lg:w-3 flex flex-column row-gap-3">
@@ -219,27 +241,6 @@
           </div>
         </div>
       </div>
-      <div
-        class="flex flex-column sm:flex-row xl:w-3 justify-content-between align-items-center gap-3 py-2 mt-4"
-      >
-        <button
-        type="button"
-        (click)="goToListPage()"
-          pButton
-          pRipple
-          class="p-button-danger flex-1 w-full p-button-outlined"
-          label="Discard"
-          icon="pi pi-fw pi-trash"
-        ></button>
-        <button
-        type="submit"
-        [loading]="isSubmitting"
-          pButton
-          pRipple
-          class="p-button-primary flex-1 w-full border-round"
-          label="Save"
-          icon="pi pi-fw pi-check"
-        ></button>
-      </div>
+
     </form>
   </div>
