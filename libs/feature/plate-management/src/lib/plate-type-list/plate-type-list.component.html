@@ -1,15 +1,12 @@
 <div class="col-12">
     <div class="card">
-        <h5>List Plate Type</h5>
+        <h5>Liste des types de plaque</h5>
         <p-table [resizableColumns]="true" #dt1 [value]="listPlatesType" dataKey="id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" responsiveLayout="scroll">
             <ng-template pTemplate="caption">
 
-                <div class="flex  justify-content-between flex-wrap">
-                    <span class="p-input-icon-left mb-2">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search" class="w-full"/>
-                    </span>
-                    <button pButton label="Add New Plate Type" icon="pi pi-plus" (click)="addNewPlateType()" class="mb-2" ></button>
+                <div class="flex  justify-content-end flex-wrap">
+
+                    <button pButton label="Ajouter un nouveau type" icon="pi pi-plus" (click)="addNewPlateType()" class="mb-2" ></button>
 
                 </div>
             </ng-template>

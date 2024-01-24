@@ -49,7 +49,7 @@ isSubmitting = false;
   constructor(private fb: FormBuilder, private messageService: MessageService, private appRouting: ApplicationRoutingService, private plateTypeService: PlateTypeService) {
     this.createPlateTypeForm = fb.group({
       label: ['', Validators.required],
-      plateFillingType: [null, Validators.required],
+      plateFillingType: [null],
       rowLength: [8, [Validators.required, Validators.min(2), Validators.max(20)]],
       colLength: [12, [Validators.required, Validators.min(1), Validators.max(20)]],
       rowLabelType: ['Letter', [Validators.required]],

@@ -59,11 +59,11 @@ export enum PLATE_TYPE_ATTRIBUTE {
 
 export enum PLATE_TYPE_ATTRIBUTE_LABEL {
   name = 'Label',
-  number_rows = 'Number of rows',
-  number_cols = 'Number of cols',
-  created_at = 'Created at',
-  updated_at = 'Updated at',
-  author = 'Last Updated by'
+  number_rows = 'Nombre de lignes',
+  number_cols = 'Nombre de colonnes',
+  created_at = 'Crée le',
+  updated_at = 'Mise à jour le',
+  author = 'Auteur'
 }
 
 export enum PATIENT_ATTRIBUTE {
