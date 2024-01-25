@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { MenuModule } from 'primeng/menu';
 import { AppMenuitemComponent } from './app.menuitem.component';
 import { MenuItem } from 'primeng/api';
-import { ENV_KEY } from '@ddsi-labs-apps/enums';
+import { AppRunningConfigService } from '@ddsi-labs-apps/services';
 
 @Component({
   selector: 'app-menu',
@@ -14,7 +14,10 @@ import { ENV_KEY } from '@ddsi-labs-apps/enums';
 })
 export class AppMenuComponent implements OnInit {
   model: MenuItem[] = [];
-
+  baseUrl?: string;
+  constructor(private appRunningConfig: AppRunningConfigService){
+    this.baseUrl = appRunningConfig.appConfig?.apiUrl;
+  }
   ngOnInit() {
     this.model = [
       {
@@ -47,7 +50,7 @@ export class AppMenuComponent implements OnInit {
             icon: 'fa-solid fa-user-nurse',
             replaceUrl: false,
             target: '_blank',
-            url:`${process.env[ENV_KEY.BASE_URL]}/adm`
+            url:`${this.baseUrl}/adm`
           }
         ],
       },
@@ -58,18 +61,18 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Dashboard',
             icon: 'pi pi-fw pi-home',
-            routerLink: ['/apps/pets'],
+            routerLink: ['/apps'],
           },
           {
             label: 'Gestion des animaux',
             icon: 'fa-solid fa-list-check',
-            routerLink: ['/apps/pets/list'],
+            routerLink: ['/apps'],
 
           },
           {
             label: 'Gestion des Utilisateurs',
             icon: 'fa-solid fa-user-nurse',
-            routerLink:[ '/apps/plates/users/list']
+            routerLink:[ '/apps']
           }
         ],
       },

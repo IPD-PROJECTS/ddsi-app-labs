@@ -28,7 +28,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   refreshTokenMethod(
-    request: HttpRequest<any>,
+    request: HttpRequest<unknown>,
     next: HttpHandler
   ) {
     return this.authService.refreshAccessToken().pipe(

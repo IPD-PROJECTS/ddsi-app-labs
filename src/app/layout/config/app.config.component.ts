@@ -100,8 +100,6 @@ export class AppConfigComponent implements OnInit {
     }
 
     changeColorScheme(colorScheme: string) {
-        console.log('click');
-
         const themeLink = <HTMLLinkElement>document.getElementById('theme-link');
         const themeLinkHref = themeLink.getAttribute('href');
         const currentColorScheme = 'theme-' + this.layoutService.config.colorScheme;
