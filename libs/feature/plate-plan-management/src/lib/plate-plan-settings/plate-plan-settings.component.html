@@ -59,7 +59,6 @@
                       formControlName="plate_type"
                       [options]="typePlateList"
                       [readonly]="!!plaqueInfos"
-                      [disabled]="!!plaqueInfos"
                       optionLabel="label"
                       optionValue="id"
                       placeholder="Selectionner un type de plaque"
@@ -189,6 +188,13 @@
                   ></i>
                   : Elément de la plaque dont le patient associé est une femme.
                 </div>
+                <div>
+                  <i
+                    [ngStyle]="{ color: PLATE_ITEMS_COLOR.defaultColor }"
+                    class="pi pi-circle-fill"
+                  ></i>
+                  : Elément de la plaque dont on n'a pas d'infos sur le genre Homme/Femme.
+                </div>
               </div>
             </div>
           </p-accordionTab>
@@ -284,7 +290,7 @@
             >
               <p-menu #menu [model]="items" [popup]="true"></p-menu>
               <button
-                [disabled]="closePlateUpdate"
+                [disabled]="!plaqueInfos?.excel_spectro_file"
                 pButton
                 type="button"
                 (click)="menu.toggle($event)"
