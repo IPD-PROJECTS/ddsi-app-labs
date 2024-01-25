@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppConfig, LayoutState } from '@ddsi-labs-apps/models';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { LocalStorageService, STORAGE_KEYS } from '../local-storage/local-storage.service';
 
 @Injectable({
     providedIn: 'root',
@@ -36,6 +37,14 @@ export class LayoutService {
 
     overlayOpen$ = this.overlayOpen.asObservable();
 
+    constructor(private storage: LocalStorageService){
+        const savedConfig: {config: AppConfig, state: LayoutState} = this.storage.getFromLocalStorage(STORAGE_KEYS.APP_LAYOUT_CONFIG);
+        if(savedConfig) {
+            this.config = savedConfig.config;
+            this.state = savedConfig.state;
+        }
+
+    }
     onMenuToggle() {
         if (this.isOverlay()) {
             this.state.overlayMenuActive = !this.state.overlayMenuActive;
