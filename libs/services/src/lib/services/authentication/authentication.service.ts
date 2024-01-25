@@ -1,6 +1,6 @@
-import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { LocalStorageService, STORAGE_KEYS } from '../local-storage/local-storage.service';
 import { AppRunningConfigService } from '../app-running-config/app-running-config.service';
 import { Observable } from 'rxjs';
@@ -30,13 +30,17 @@ export class AuthenticationService {
 
 
 
-  refreshAccessToken() {
+  refreshAccessToken(): Observable<HttpEvent<unknown>> {
     const data = this.localStorage.getFromLocalStorage(STORAGE_KEYS.AUTH_INFOS);
-
-    return this.http.post(`${this.baseUrl}/${authEndpoint}refresh/`, { refresh: data?.refresh }, {observe :'response'}).pipe(
-     tap((res: any) => {
-      this.localStorage.saveToLocalStorage(STORAGE_KEYS.AUTH_INFOS, { ...data, access: res.body?.access });
-     })
-    )
+    const req = new HttpRequest('POST', `${this.baseUrl}/${authEndpoint}refresh/`, { refresh: data?.refresh }) 
+    return this.http.request(req).pipe(
+      map((event: HttpEvent<any>) => {              
+        if (event instanceof HttpResponse) {
+          // Handle successful response
+          this.localStorage.saveToLocalStorage(STORAGE_KEYS.AUTH_INFOS, { ...data, access: event.body?.access });
+        }
+        return event;
+      })
+    );
   }
 }

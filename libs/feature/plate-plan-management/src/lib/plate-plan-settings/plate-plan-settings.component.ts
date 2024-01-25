@@ -223,7 +223,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
       id: [this.plaqueInfos?.id],
       description: [this.plaqueInfos?.description, [Validators.required]],
       test: [this.plaqueInfos?.test, [Validators.required]],
-      plate_type: [this.plaqueInfos?.plate_type, [Validators.required]]
+      plate_type: [{ value: this.plaqueInfos?.plate_type, disabled: this.plaqueInfos?.plate_type}, [Validators.required]]
     });
   }
 
