@@ -1,4 +1,3 @@
-<p-toast></p-toast>
 <div class="card">
   <ng-container *ngIf="tabIndex === 0">
     <form [formGroup]="formGroup" (ngSubmit)="submit()">
@@ -141,10 +140,13 @@
               label="Enregistrer"
               class="w-auto mt-3"
             ></button>
-            <small *ngIf="hasError" class="p-error my-3">
-              {{errorMsg}}
-            </small>
           </div>
+          <small *ngIf="hasError" class="p-error my-3">
+            {{errorMsg}}
+          </small>
+          <small *ngFor="let item of error | keyvalue" class="p-error my-3">
+            {{item.value.join(' | ')}}
+          </small>
         </div>
       </div>
     </form>
@@ -182,6 +184,9 @@
         </div>
         <small *ngIf="hasError" class="p-error my-3">
           {{errorMsg}}
+        </small>
+        <small *ngFor="let item of error | keyvalue" class="p-error my-3">
+          {{item.value.join(' | ')}}
         </small>
       </div>
     </div>

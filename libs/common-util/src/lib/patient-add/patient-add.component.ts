@@ -53,6 +53,7 @@ export class PatientAddComponent {
   uploadingPatients = false;
   hasError = false;
   errorMsg?: string;
+  error?: {[key: string]: string[]};
   @ViewChild('fileUploader') fileUploader!: FileUpload;
   currentIndex = 0;
   tabIndex = 0;
@@ -84,17 +85,19 @@ export class PatientAddComponent {
       value.birth_date = value.birth_date ? new Date(value.birth_date)
         .toISOString()
         .split('T')[0] : null;
+        this.error = undefined;
+        this.errorMsg = undefined;
       if (this.editMode) {
         value.id = this.dynamicDialogConfig.data.patient?.id;
-
         this.patientService.updatePatient(value).subscribe({
           next: () => {
             this.isLoading = false;
             this.onSuccess(true);
           },
-          error: () => {
+          error: (err: any) => {
             this.isLoading = false;
             this.onSuccess(false);
+            this.error = err?.error;
           },
         });
       } else {
@@ -106,6 +109,7 @@ export class PatientAddComponent {
           error: (err: any) => {
             this.isLoading = false;
             this.onSuccess(false);
+            this.error = err?.error;
             this.errorMsg = err?.error['error'];
           },
         });
