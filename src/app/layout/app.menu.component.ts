@@ -48,7 +48,6 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Gestion des Utilisateurs',
             icon: 'fa-solid fa-user-nurse',
-            replaceUrl: false,
             target: '_blank',
             url:`${this.baseUrl}/adm`
           }
