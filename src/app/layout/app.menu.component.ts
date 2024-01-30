@@ -48,31 +48,30 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Gestion des Utilisateurs',
             icon: 'fa-solid fa-user-nurse',
-            replaceUrl: false,
             target: '_blank',
             url:`${this.baseUrl}/adm`
           }
         ],
       },
       {
-        label: 'Espace Animalerie',
-        icon: 'fa-solid fa-paw',
+        label: 'Espace Echantillons à Analyser',
+        icon: 'fa-solid fa-vial',
         items: [
           {
             label: 'Dashboard',
             icon: 'pi pi-fw pi-home',
-            routerLink: ['/apps'],
+            routerLink: ['/apps/labs-samples'],
           },
           {
-            label: 'Gestion des animaux',
+            label: 'Gestion des Echantillons',
             icon: 'fa-solid fa-list-check',
-            routerLink: ['/apps'],
+            routerLink: ['/apps/labs-samples/list'],
 
           },
           {
             label: 'Gestion des Utilisateurs',
             icon: 'fa-solid fa-user-nurse',
-            routerLink:[ '/apps']
+            // routerLink:[ '/apps/labs-samples']
           }
         ],
       },

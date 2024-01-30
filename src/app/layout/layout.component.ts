@@ -3,7 +3,6 @@ import {
   OnDestroy,
   Renderer2,
   ViewChild,
-  effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription, filter } from 'rxjs';
@@ -15,9 +14,7 @@ import { MenuService } from './app.menu.service';
 import { AppProfileSidebarComponent } from './app.profilesidebar.component';
 import { AppConfigComponent } from './config/app.config.component';
 import { AppBreadcrumbComponent } from './app.breadcrumb.component';
-import { ToastModule } from 'primeng/toast';
-import { Message, MessageService } from 'primeng/api';
-import { notificationSignal } from '@ddsi-labs-apps/models';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'ddsi-labs-apps-layout',
@@ -29,8 +26,7 @@ import { notificationSignal } from '@ddsi-labs-apps/models';
     AppProfileSidebarComponent,
     AppTopbarComponent,
     AppSidebarComponent,
-    RouterModule,
-    ToastModule,
+    RouterModule
   ],
   providers: [MessageService],
   templateUrl: './layout.component.html',
@@ -51,7 +47,7 @@ export class LayoutComponent implements OnDestroy {
     public layoutService: LayoutService,
     public renderer: Renderer2,
     public router: Router
-  ) {
+  ) {    
     this.overlayMenuOpenSubscription =
       this.layoutService.overlayOpen$.subscribe(() => {
         if (!this.menuOutsideClickListener) {
@@ -84,13 +80,6 @@ export class LayoutComponent implements OnDestroy {
       .subscribe(() => {
         this.hideMenu();
       });
-
-    effect(() => {
-      const notification: Message | undefined = notificationSignal();
-      if (notification) {
-        this.messageService.add(notification);
-      }
-    });
   }
 
   blockBodyScroll(): void {

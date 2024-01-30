@@ -404,10 +404,12 @@ export class PlatePlanSettingsComponent implements OnDestroy {
         case FORMAT.ZIP:
         case FORMAT.PNG:
         case FORMAT.EXCEL:
+          this.displayingGraphic = true;
           this.plateService
             .getRobotProcessResult(this.plaqueInfos?.id, type)
             .subscribe({
               next: () => {
+                this.displayingGraphic = false;
                 this.notificationService.displayNotification(
                   NotificationSeverity.SUCCESS,
                   'Téléchargement',
@@ -415,6 +417,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
                 );
               },
               error: () => {
+                this.displayingGraphic = false;
                 this.notificationService.displayNotification(
                   NotificationSeverity.ERROR,
                   'Error',

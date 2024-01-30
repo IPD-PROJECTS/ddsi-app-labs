@@ -37,7 +37,7 @@ export class ImportPlatePlanComponent {
           error: (err: any) => {
             this.uploadingFile = false;
             this.hasErrorUploading = true;
-            this.errorMsg = err.error['error'];
+            this.errorMsg = err.error['error'] || err.error['detail'] || 'Une erreur est survenue, veuillez réessayer';
           }
       })
     }
