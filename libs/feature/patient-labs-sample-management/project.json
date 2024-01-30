@@ -1,7 +1,7 @@
 {
-  "name": "patients-management",
+  "name": "patient-labs-sample-management",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/feature/patients/src",
+  "sourceRoot": "libs/feature/patient-labs-sample-management/src",
   "prefix": "ddsi-labs-apps",
   "tags": [],
   "projectType": "library",
@@ -10,7 +10,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/feature/patients/jest.config.ts"
+        "jestConfig": "libs/feature/patient-labs-sample-management/jest.config.ts"
       }
     },
     "lint": {

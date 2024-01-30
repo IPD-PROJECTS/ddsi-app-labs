@@ -19,6 +19,9 @@
       "@ddsi-labs-apps/common-util": ["libs/common-util/src/index.ts"],
       "@ddsi-labs-apps/enums": ["libs/enums/src/index.ts"],
       "@ddsi-labs-apps/models": ["libs/models/src/index.ts"],
+      "@ddsi-labs-apps/patient-labs-sample-management": [
+        "libs/feature/patient-labs-sample-management/src/index.ts"
+      ],
       "@ddsi-labs-apps/patients-management": [
         "libs/feature/patients/src/index.ts"
       ],
