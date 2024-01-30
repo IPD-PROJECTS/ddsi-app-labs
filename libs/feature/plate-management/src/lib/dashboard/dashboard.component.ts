@@ -66,7 +66,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             next:(res: DashboardStatesModel) => {
                 this.loadingStats = false;
                 this.dashboardStats = res;
-                this.knobValue = ((this.dashboardStats.results.plates_count - this.dashboardStats.results.plates_without_result_file) / this.dashboardStats.results.plates_count) * 100
+                this.knobValue = Math.ceil(((this.dashboardStats.results.plates_count - this.dashboardStats.results.plates_without_result_file) / this.dashboardStats.results.plates_count) * 100)
             },
             error: () => {
                 this.loadingStats = false;
