@@ -1,6 +1,6 @@
 # Stage: Build project
 
-FROM node:16-alpine as builder
+FROM node:18.19-alpine as builder
 
 WORKDIR /usr/src
 
