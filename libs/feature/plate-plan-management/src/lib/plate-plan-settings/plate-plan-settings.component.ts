@@ -24,7 +24,7 @@ import {
   NotificationSeverity,
   Plate_Settings_Step,
 } from '@ddsi-labs-apps/enums';
-import { PlateModel, PlateTypeModel, plateDetailsSignal } from '@ddsi-labs-apps/models';
+import { PlateModel, PlateTypeModel, PlateTypeTestModel, plateDetailsSignal } from '@ddsi-labs-apps/models';
 import { ActivatedRoute } from '@angular/router';
 import { PlatePlanPreviewBlockComponent } from '@ddsi-labs-apps/common-util';
 import {
@@ -125,7 +125,6 @@ export class PlatePlanSettingsComponent implements OnDestroy {
   currentStepIndex = 0;
   plaqueInfos?: PlateModel;
   plaqueInitializedInfos?: PlateModel;
-  idPlate?: number;
   isSubmittingPlatePlan = false;
   hasPlateDetailsChanged = false;
   displayedGraphic = false;
@@ -138,11 +137,12 @@ export class PlatePlanSettingsComponent implements OnDestroy {
   data: any;
 
   options: any;
-  listPlateTests: {id?: number, name: string, description: string}[] = [];
+  listPlateTests: PlateTypeTestModel[] = [];
   typePlateList: PlateTypeModel[] = [];
   selectedPlateType?: PlateTypeModel;
   closePlateUpdate = false;
   @ViewChild('plateDiagram') plateDiagramDiv!: ElementRef<HTMLDivElement>;
+  errorMsgValidatingPlate?: string;
   constructor(
     private dialogService: DialogService,
     private notificationService: NotificationService,
@@ -303,29 +303,38 @@ export class PlatePlanSettingsComponent implements OnDestroy {
 
   savePlatePlan() {
     if (this.plaqueInfos?.id) {
-      this.isSubmittingPlatePlan = true;
-      this.plateService
-        .fillPlateWithItems(this.plaqueInfos?.id, this.plaqueInfos)
-        .subscribe({
-          next: () => {
-            this.isSubmittingPlatePlan = false;
-            this.notificationService.displayNotification(
-              NotificationSeverity.SUCCESS,
-              'Success',
-              'Plan de plaque mis à jour avec succés'
-            );
-            if (this.plaqueInfos) this.resetPlateValue(this.plaqueInfos);
-            this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
-          },
-          error: () => {
-            this.isSubmittingPlatePlan = false;
-            this.notificationService.displayNotification(
-              NotificationSeverity.ERROR,
-              'Erreur',
-              'Une erreur est survenue, veuillez réessayer'
-            );
-          },
-        });
+      // this.plaqueInfos.test_details = { id: '1', description: '', name: 'Elisa', number_of_whites: 1, number_of_negatives: 1, number_of_positives: 1};
+      const isPlatePlanValid = this.plateService.checkPlatePlanValidity(this.plaqueInfos);
+      if(isPlatePlanValid) {
+        this.errorMsgValidatingPlate = undefined;
+        this.isSubmittingPlatePlan = true;
+        this.plateService
+          .fillPlateWithItems(this.plaqueInfos?.id, this.plaqueInfos)
+          .subscribe({
+            next: () => {
+              this.isSubmittingPlatePlan = false;
+              this.notificationService.displayNotification(
+                NotificationSeverity.SUCCESS,
+                'Success',
+                'Plan de plaque mis à jour avec succés'
+              );
+              if (this.plaqueInfos) this.resetPlateValue(this.plaqueInfos);
+              this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
+            },
+            error: () => {
+              this.isSubmittingPlatePlan = false;
+              this.notificationService.displayNotification(
+                NotificationSeverity.ERROR,
+                'Erreur',
+                'Une erreur est survenue, veuillez réessayer'
+              );
+            },
+          });
+
+      } else {
+        this.errorMsgValidatingPlate = 'Le plan de plaque soumis ne respecte pas les régles de validation du type de test choisi: ' + this.plaqueInfos.test_details?.name + '. Veullez corriger afin de pouvoir sauvegarder le plan de plaque';
+        this.notificationService.displayNotification(NotificationSeverity.ERROR, 'Validation du plan de plaque', 'Echec validation du plan de plaque')
+      }
     }
   }
 

@@ -18,7 +18,7 @@ import { PlateTypeService, ApplicationRoutingService } from '@ddsi-labs-apps/ser
     DropdownModule,
     FormsModule,
     ButtonModule,
-    InputTextModule,
+    InputTextModule
   ],
   templateUrl: './plate-type-list.component.html',
   styleUrls: ['./plate-type-list.component.scss'],
@@ -58,7 +58,8 @@ export class PlateTypeListComponent implements OnInit {
     this.filter.nativeElement.value = '';
   }
 
-  addNewPlateType() {
-    this.appRouting.goToAddPlateTypePage();
+  addNewPlateType(id?: string) {
+    this.appRouting.goToAddPlateTypePage(id);
   }
+
 }

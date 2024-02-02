@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of, tap } from 'rxjs';
-import { PlateModel } from '@ddsi-labs-apps/models';
-import { FORMAT } from '@ddsi-labs-apps/enums';
+import { PlateModel, PlateTypeTestModel } from '@ddsi-labs-apps/models';
+import { CONTROLS, FORMAT } from '@ddsi-labs-apps/enums';
 import { AppRunningConfigService } from '../app-running-config/app-running-config.service';
 
 const platesEndpoint = `api/v1/plates/`;
@@ -37,7 +37,7 @@ export class PlatePlanService {
   }
 
   getPlatesTestList() {
-    return this.http.get<{name: string, description: string}[]>(`${this.baseUrl}/${platesTestEndpoint}`);
+    return this.http.get<PlateTypeTestModel[]>(`${this.baseUrl}/${platesTestEndpoint}`);
   }
 
   uploadRoboAnalysisResult(id: any, file: File) {
@@ -50,11 +50,18 @@ export class PlatePlanService {
     return this.http.patch(`${this.baseUrl}/${platesEndpoint}${data.id}`, data);
   }
 
+  getPlateTypeDetailsById(id: string | null) {
+    if (id) {
+      return this.http.get(`${this.baseUrl}/${platesTestEndpoint}${id}`);
+    }
+    return of();
+  }
+
   getPlateDetailsById(id: string | null) {
     if (id) {
       return this.http.get(`${this.baseUrl}/${platesEndpoint}${id}`);
     }
-    return of();
+    return of({});
   }
 
   deletePlate(data: PlateModel) {
@@ -120,5 +127,16 @@ export class PlatePlanService {
     const formData = new FormData();
     formData.append('plate_file', file);
     return this.http.post(`${this.baseUrl}/${platesEndpoint}${idPlate}/import/`, formData)
+  }
+
+  checkPlatePlanValidity(plate: PlateModel): boolean {
+    let isValid = false;
+    const number_pos = plate.controls?.filter((elt) => elt.location_name === CONTROLS.POS).length;
+    const number_neg = plate.controls?.filter((elt) => elt.location_name === CONTROLS.NEG).length;
+    const number_whites = plate.controls?.filter((elt) => elt.location_name === CONTROLS.WHITE).length;
+    if(plate.test_details?.number_of_negatives === number_neg && plate.test_details?.number_of_positives === number_pos && plate.test_details?.number_of_whites === number_whites) {
+      isValid = true;
+    }
+    return isValid;
   }
 }

@@ -64,27 +64,27 @@
                 <div>
                   <span class="p-float-label mt-4">
                     <input
-                      id="rowLength"
+                      id="number_rows"
                       pInputText
                       [min]="2"
                       [max]="20"
                       type="number"
                       placeholder="Number of rows"
-                      formControlName="rowLength"
+                      formControlName="number_rows"
                     />
-                    <label htmlFor="rowLength">Number of rows</label>
+                    <label htmlFor="number_rows">Number of rows</label>
                   </span>
                   <ng-container
                     *ngIf="
-                      createPlateTypeForm.get('rowLength')?.dirty ||
-                      createPlateTypeForm.get('rowLength')?.touched
+                      createPlateTypeForm.get('number_rows')?.dirty ||
+                      createPlateTypeForm.get('number_rows')?.touched
                     "
                   >
                     <small
                       class="text-error"
                       *ngIf="
-                        createPlateTypeForm.controls['rowLength'].errors &&
-                        createPlateTypeForm.controls['rowLength'].errors[
+                        createPlateTypeForm.controls['number_rows'].errors &&
+                        createPlateTypeForm.controls['number_rows'].errors[
                           'required'
                         ]
                       "
@@ -129,25 +129,25 @@
                 <div>
                   <span class="p-float-label mt-4">
                     <input
-                      id="colLength"
+                      id="number_cols"
                       pInputText
                       type="number"
                       placeholder="Number of cols"
-                      formControlName="colLength"
+                      formControlName="number_cols"
                     />
-                    <label htmlFor="colLength">Number of col</label>
+                    <label htmlFor="number_cols">Number of col</label>
                   </span>
                   <ng-container
                     *ngIf="
-                      createPlateTypeForm.get('colLength')?.dirty ||
-                      createPlateTypeForm.get('colLength')?.touched
+                      createPlateTypeForm.get('number_cols')?.dirty ||
+                      createPlateTypeForm.get('number_cols')?.touched
                     "
                   >
                     <small
                       class="text-error"
                       *ngIf="
-                        createPlateTypeForm.controls['colLength'].errors &&
-                        createPlateTypeForm.controls['colLength'].errors[
+                        createPlateTypeForm.controls['number_cols'].errors &&
+                        createPlateTypeForm.controls['number_cols'].errors[
                           'required'
                         ]
                       "
@@ -155,8 +155,8 @@
                     <small
                       class="text-error"
                       *ngIf="
-                        createPlateTypeForm.controls['colLength'].errors &&
-                        createPlateTypeForm.controls['colLength'].errors[
+                        createPlateTypeForm.controls['number_cols'].errors &&
+                        createPlateTypeForm.controls['number_cols'].errors[
                           'min'
                         ]
                       "
@@ -225,13 +225,13 @@
               >Preview</span
             >
             <div class="p-3">
-              <ddsi-labs-apps-plate-plan-preview-block [disableMenu]="true"  [rowLabelType]="createPlateTypeForm.get('rowLabelType')?.value" [rowLength]="createPlateTypeForm.get('rowLength')?.value" [colLabelType]="createPlateTypeForm.get('colLabelType')?.value" [colLength]="createPlateTypeForm.get('colLength')?.value"></ddsi-labs-apps-plate-plan-preview-block>
+              <ddsi-labs-apps-plate-plan-preview-block [disableMenu]="true"  [rowLabelType]="createPlateTypeForm.get('rowLabelType')?.value" [rowLength]="createPlateTypeForm.get('number_rows')?.value" [colLabelType]="createPlateTypeForm.get('colLabelType')?.value" [colLength]="createPlateTypeForm.get('number_cols')?.value"></ddsi-labs-apps-plate-plan-preview-block>
                 <ng-container *ngIf="!createPlateTypeForm.disabled">
                   <span
                     *ngIf="
                       (!createPlateTypeForm.disabled &&
-                        !createPlateTypeForm.get('rowLength')?.valid) ||
-                      !createPlateTypeForm.get('colLength')?.valid
+                        !createPlateTypeForm.get('number_rows')?.valid) ||
+                      !createPlateTypeForm.get('number_cols')?.valid
                     "
                   >
                     Please choose valid value for the plate

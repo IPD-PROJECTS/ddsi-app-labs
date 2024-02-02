@@ -1,5 +1,6 @@
 import { signal } from "@angular/core";
 import _ from "lodash";
+import { PlateTypeTestModel } from "./plate-type-test.model";
 
 export interface PlateModel {
   id?: number;
@@ -9,6 +10,7 @@ export interface PlateModel {
   plate_type?: number;
   created_by?: string;
   test?: number;
+  test_details?: PlateTypeTestModel;
   controls?: any[];
   patients?: any[];
   excel_spectro_file?: any;

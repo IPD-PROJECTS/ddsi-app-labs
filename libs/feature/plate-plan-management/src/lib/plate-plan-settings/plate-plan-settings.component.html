@@ -250,6 +250,9 @@
               ></button>
             </div>
           </div>
+          <small class="p-error" *ngIf="errorMsgValidatingPlate">
+            {{errorMsgValidatingPlate}}
+          </small>
           <ddsi-labs-apps-plate-plan-preview-block *ngIf="typePlateList"
             [plateDetails]="plaqueInfos"
             [disabled]="!plaqueInfos"
