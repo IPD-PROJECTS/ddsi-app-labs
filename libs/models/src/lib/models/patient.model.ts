@@ -7,4 +7,5 @@ export interface Patient {
     birth_date?: string;
     created_at?: string;
     updated_at?: string;
+    location_name?: string;
 }

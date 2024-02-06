@@ -28,8 +28,9 @@ export class ApplicationRoutingService {
     this.router.navigate(['/apps/plates/plate-plan/list']);
   }
 
-  goToAddPlateTypePage() {
-    this.router.navigate(['/apps/plates/create-plate-type']);
+  goToAddPlateTypePage(id?: string) {
+    const path = id ? ['/apps/plates/edit-plate-type', id] : ['/apps/plates/create-plate-type']
+    this.router.navigate(path);
   }
 
   goToAddPatientPage() {

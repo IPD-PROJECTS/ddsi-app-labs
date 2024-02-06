@@ -24,7 +24,7 @@ import {
   NotificationSeverity,
   Plate_Settings_Step,
 } from '@ddsi-labs-apps/enums';
-import { PlateModel, PlateTypeModel, plateDetailsSignal } from '@ddsi-labs-apps/models';
+import { PlateModel, PlateRequestModel, PlateTypeModel, PlateTypeTestModel, plateDetailsSignal } from '@ddsi-labs-apps/models';
 import { ActivatedRoute } from '@angular/router';
 import { PlatePlanPreviewBlockComponent } from '@ddsi-labs-apps/common-util';
 import {
@@ -125,7 +125,6 @@ export class PlatePlanSettingsComponent implements OnDestroy {
   currentStepIndex = 0;
   plaqueInfos?: PlateModel;
   plaqueInitializedInfos?: PlateModel;
-  idPlate?: number;
   isSubmittingPlatePlan = false;
   hasPlateDetailsChanged = false;
   displayedGraphic = false;
@@ -138,11 +137,14 @@ export class PlatePlanSettingsComponent implements OnDestroy {
   data: any;
 
   options: any;
-  listPlateTests: {id?: number, name: string, description: string}[] = [];
+  listPlateTests: PlateTypeTestModel[] = [];
   typePlateList: PlateTypeModel[] = [];
   selectedPlateType?: PlateTypeModel;
   closePlateUpdate = false;
   @ViewChild('plateDiagram') plateDiagramDiv!: ElementRef<HTMLDivElement>;
+  errorMsgValidatingPlate?: string;
+  errorInitPlate?:  Record<string, string[]>;
+  errorProcessingPlate?: string;
   constructor(
     private dialogService: DialogService,
     private notificationService: NotificationService,
@@ -220,7 +222,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
 
   initializeForm() {
     this.plateFormGroup = this.fb.group({
-      id: [this.plaqueInfos?.id],
+      id: [this.plaqueInfos?.id || undefined],
       description: [this.plaqueInfos?.description, [Validators.required]],
       test: [this.plaqueInfos?.test, [Validators.required]],
       plate_type: [{ value: this.plaqueInfos?.plate_type, disabled: this.plaqueInfos?.plate_type}, [Validators.required]]
@@ -259,12 +261,16 @@ export class PlatePlanSettingsComponent implements OnDestroy {
     this.plateFormGroup.markAllAsTouched();
     if (this.plateFormGroup.valid) {
       this.isSubmittingInitalization = true;
-      const value: PlateModel = this.plateFormGroup.value;
+      const value: PlateModel = this.plateFormGroup.getRawValue();
+      this.errorInitPlate = undefined;
       if (!value.id) {
-        this.plateService.createPlate(value).subscribe({
-          next: (resp: PlateModel) => {
+        const payload: PlateRequestModel = {...value, test: value.test?.id}
+        this.plateService.createPlate(payload).subscribe({
+          next: () => {
             this.isSubmittingInitalization = false;
-            this.resetPlateValue(resp);
+            console.log('value', value);
+            
+            this.resetPlateValue(value);
             this.notificationService.displayNotification(
               NotificationSeverity.SUCCESS,
               'Initialisation',
@@ -274,14 +280,25 @@ export class PlatePlanSettingsComponent implements OnDestroy {
           },
           error: (err: any) => {
             this.isSubmittingInitalization = false;
+            this.notificationService.displayNotification(
+              NotificationSeverity.ERROR,
+              'Erreur',
+              'Une erreur est survenue'
+            );
+            this.errorInitPlate = err?.error;
           },
         });
       } else {
-        this.plateService.updatePlate(value).subscribe({
+        console.log('this.plateFormGroup.value', this.plateFormGroup);
+        
+        const payload: PlateRequestModel = {...value, test: value.test?.id}
+        this.plateService.updatePlate(payload).subscribe({
           next: (resp: PlateModel) => {
             this.currentStepIndex = 1;
             this.isSubmittingInitalization = false;
-            this.resetPlateValue(resp);
+            console.log('value', value);
+            
+            this.resetPlateValue(value);
             this.notificationService.displayNotification(
               NotificationSeverity.SUCCESS,
               'Mise à jour',
@@ -290,7 +307,12 @@ export class PlatePlanSettingsComponent implements OnDestroy {
           },
           error: (err: any) => {
             this.isSubmittingInitalization = false;
-            console.log('err', err);
+            this.notificationService.displayNotification(
+              NotificationSeverity.ERROR,
+              'Erreur',
+              'Une erreur est survenue'
+            );
+            this.errorInitPlate = err?.error;
           },
         });
       }
@@ -303,29 +325,37 @@ export class PlatePlanSettingsComponent implements OnDestroy {
 
   savePlatePlan() {
     if (this.plaqueInfos?.id) {
-      this.isSubmittingPlatePlan = true;
-      this.plateService
-        .fillPlateWithItems(this.plaqueInfos?.id, this.plaqueInfos)
-        .subscribe({
-          next: () => {
-            this.isSubmittingPlatePlan = false;
-            this.notificationService.displayNotification(
-              NotificationSeverity.SUCCESS,
-              'Success',
-              'Plan de plaque mis à jour avec succés'
-            );
-            if (this.plaqueInfos) this.resetPlateValue(this.plaqueInfos);
-            this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
-          },
-          error: () => {
-            this.isSubmittingPlatePlan = false;
-            this.notificationService.displayNotification(
-              NotificationSeverity.ERROR,
-              'Erreur',
-              'Une erreur est survenue, veuillez réessayer'
-            );
-          },
-        });
+      const isPlatePlanValid = this.plateService.checkPlatePlanValidity(this.plaqueInfos);      
+      if(isPlatePlanValid) {
+        this.errorMsgValidatingPlate = undefined;
+        this.isSubmittingPlatePlan = true;
+        this.plateService
+          .fillPlateWithItems(this.plaqueInfos?.id, this.plaqueInfos)
+          .subscribe({
+            next: () => {
+              this.isSubmittingPlatePlan = false;
+              this.notificationService.displayNotification(
+                NotificationSeverity.SUCCESS,
+                'Success',
+                'Plan de plaque mis à jour avec succés'
+              );
+              if (this.plaqueInfos) this.resetPlateValue(this.plaqueInfos);
+              this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
+            },
+            error: () => {
+              this.isSubmittingPlatePlan = false;
+              this.notificationService.displayNotification(
+                NotificationSeverity.ERROR,
+                'Erreur',
+                'Une erreur est survenue, veuillez réessayer'
+              );
+            },
+          });
+
+      } else {
+        this.errorMsgValidatingPlate = 'Le plan de plaque soumis ne respecte pas les régles de validation du type de test choisi: ' + this.plaqueInfos.test?.name + '. Veullez corriger afin de pouvoir sauvegarder le plan de plaque';
+        this.notificationService.displayNotification(NotificationSeverity.ERROR, 'Validation du plan de plaque', 'Echec validation du plan de plaque')
+      }
     }
   }
 
@@ -400,6 +430,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
 
   getRobotAnalysisResultByType(type: FORMAT) {
     if (this.plaqueInfos?.id) {
+      this.errorProcessingPlate = undefined;
       switch (type) {
         case FORMAT.ZIP:
         case FORMAT.PNG:
@@ -416,13 +447,14 @@ export class PlatePlanSettingsComponent implements OnDestroy {
                   'Terminé'
                 );
               },
-              error: () => {
+              error: (err) => {
                 this.displayingGraphic = false;
                 this.notificationService.displayNotification(
                   NotificationSeverity.ERROR,
                   'Error',
                   "Une erreur s'est produite, veuillez réessayer"
                 );
+                this.errorProcessingPlate = err?.error;
               },
             });
           break;
@@ -447,13 +479,14 @@ export class PlatePlanSettingsComponent implements OnDestroy {
                   });
                 });
               },
-              error: () => {
+              error: (err) => {
                 this.displayingGraphic = false;
                 this.notificationService.displayNotification(
                   NotificationSeverity.ERROR,
                   'Erreur',
                   "Une erreur s'est produite, veuillez réessayer"
                 );
+                this.errorProcessingPlate = err?.error?.detail;
               },
             });
           break;

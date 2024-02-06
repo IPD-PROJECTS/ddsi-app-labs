@@ -6,6 +6,9 @@ import { RouterModule } from '@angular/router';
 import { ApplicationRoutingService, AuthenticationService, LayoutService } from '@ddsi-labs-apps/services';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { TooltipModule } from 'primeng/tooltip';
+
 @Component({
   selector: 'ddsi-labs-apps-login',
   standalone: true,
@@ -16,13 +19,16 @@ import { InputTextModule } from 'primeng/inputtext';
     RouterModule,
     ButtonModule,
     InputTextModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PasswordModule,
+    TooltipModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
   formGroup: FormGroup = new FormGroup({});
+  INPUT_TYPE : 'text' | 'password' = 'password';
   isLoading = false;
   hasError = false;
   errorMsg?: string;
@@ -54,6 +60,14 @@ export class LoginComponent {
           this.errorMsg = 'Une erreur est survenue lors de votre authentication. <br /> Veuillez réessayer'
         }
       })
+    }
+  }
+
+  switchVisibility(): void {
+    if(this.INPUT_TYPE === 'text') {
+      this.INPUT_TYPE = 'password'
+    } else {
+      this.INPUT_TYPE = 'text'
     }
   }
 }

@@ -17,6 +17,7 @@ export class ImportPlateAnalysisResultComponent {
   PLATE_PLAN_FILE_MAX_SIZE = PLATE_PLAN_FILE_MAX_SIZE;
   uploadingFile = false;
   hasErrorUploading = false;
+  errorMsg?: string;
   constructor(private platePlanService: PlatePlanService, private conf: DynamicDialogConfig, private dialogRef: DynamicDialogRef){}
 
   onFileSelected(event: any) {
@@ -25,16 +26,18 @@ export class ImportPlateAnalysisResultComponent {
     if(file && plateInfos.id) {
       this.hasErrorUploading = false;
       this.uploadingFile = true;
+      this.errorMsg = undefined;
       this.platePlanService.uploadRoboAnalysisResult(plateInfos.id, file).subscribe({
-          next:(res: PlateModel) => {
+          next: () => {
             this.hasErrorUploading = false;
             this.uploadingFile = false;
-
-            this.dialogRef.close({success: true, data: res});
+            plateInfos.excel_spectro_file = true;
+            this.dialogRef.close({success: true, data: plateInfos});
           },
-          error: () => {
+          error: (err: any) => {
             this.uploadingFile = false;
             this.hasErrorUploading = true;
+            this.errorMsg = err?.error;
           }
       })
     }

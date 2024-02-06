@@ -15,6 +15,10 @@ export class PlateTypeService {
     return this.http.get<PlateTypeModel[]>(`${this.baseUrl}/${plateTypesEndpoint}`);
   }
 
+  getPlateTypeById(id?: any) {
+    return this.http.get<PlateTypeModel>(`${this.baseUrl}/${plateTypesEndpoint}${id}`);
+  }
+
 
   updatePlateType(data: PlateTypeModel) {
     return this.http.put(`${this.baseUrl}/${plateTypesEndpoint}/${data.id}`, data);
@@ -24,6 +28,7 @@ export class PlateTypeService {
     return this.http.delete(`${this.baseUrl}/${plateTypesEndpoint}/${data.id}`);
   }
   createPlateType(data: PlateTypeModel) {
+    // if(data.id) return this.http.patch(`${this.baseUrl}/${plateTypesEndpoint}`, data);
     return this.http.post(`${this.baseUrl}/${plateTypesEndpoint}`, data);
   }
 }
