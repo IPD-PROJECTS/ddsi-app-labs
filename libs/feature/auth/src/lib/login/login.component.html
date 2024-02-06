@@ -92,7 +92,7 @@
             >Ce champs est requis</small
           >
         </ng-container>
-        <span class="p-input-icon-left w-full mb-2">
+        <span class="p-input-icon-left p-input-icon-right w-full mb-2">
           <i class="pi pi-lock"></i>
           <input
             id="password"
@@ -100,8 +100,11 @@
             formControlName="password"
             pInputText
             class="w-full"
+            [type]="INPUT_TYPE"
             placeholder="Mot de passe"
           />
+          <i *ngIf="INPUT_TYPE === 'password'"  (click)="switchVisibility()" class="pi pi-eye cursor-pointer" [pTooltip]="'Afficher le mot de passe'"></i>
+          <i *ngIf="INPUT_TYPE === 'text'" (click)="switchVisibility()" class="pi pi-eye-slash cursor-pointer" [pTooltip]="'Cacher le mot de passe'"></i>
         </span>
         <ng-container
           *ngIf="

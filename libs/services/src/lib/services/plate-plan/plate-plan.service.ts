@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of, tap } from 'rxjs';
-import { PlateModel, PlateTypeTestModel } from '@ddsi-labs-apps/models';
+import { PlateModel, PlateRequestModel, PlateTypeTestModel } from '@ddsi-labs-apps/models';
 import { CONTROLS, FORMAT } from '@ddsi-labs-apps/enums';
 import { AppRunningConfigService } from '../app-running-config/app-running-config.service';
 
@@ -46,7 +46,7 @@ export class PlatePlanService {
     return this.http.patch(`${this.baseUrl}/${platesEndpoint}${id}`, formData);
   }
 
-  updatePlate(data: PlateModel) {
+  updatePlate(data: PlateRequestModel) {
     return this.http.patch(`${this.baseUrl}/${platesEndpoint}${data.id}`, data);
   }
 
@@ -68,7 +68,7 @@ export class PlatePlanService {
     return this.http.delete(`${this.baseUrl}/${platesEndpoint}${data.id}`);
   }
 
-  createPlate(data: PlateModel) {
+  createPlate(data: PlateRequestModel) {
     return this.http.post(`${this.baseUrl}/${platesEndpoint}`, data);
   }
 
@@ -131,10 +131,10 @@ export class PlatePlanService {
 
   checkPlatePlanValidity(plate: PlateModel): boolean {
     let isValid = false;
-    const number_pos = plate.controls?.filter((elt) => elt.location_name === CONTROLS.POS).length;
-    const number_neg = plate.controls?.filter((elt) => elt.location_name === CONTROLS.NEG).length;
-    const number_whites = plate.controls?.filter((elt) => elt.location_name === CONTROLS.WHITE).length;
-    if(plate.test_details?.number_of_negatives === number_neg && plate.test_details?.number_of_positives === number_pos && plate.test_details?.number_of_whites === number_whites) {
+    const number_pos = plate.controls?.filter((elt) => elt.control_name === CONTROLS.POS).length;
+    const number_neg = plate.controls?.filter((elt) => elt.control_name === CONTROLS.NEG).length;
+    const number_whites = plate.controls?.filter((elt) => elt.control_name === CONTROLS.WHITE).length;
+    if(plate.test?.number_of_negatives === number_neg && plate.test?.number_of_positives === number_pos && plate.test?.number_of_whites === number_whites) {
       isValid = true;
     }
     return isValid;

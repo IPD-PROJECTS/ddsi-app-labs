@@ -53,7 +53,7 @@ export class PatientAddComponent {
   uploadingPatients = false;
   hasError = false;
   errorMsg?: string;
-  error?: {[key: string]: string[]};
+  error?: Record<string, string[]>;
   @ViewChild('fileUploader') fileUploader!: FileUpload;
   currentIndex = 0;
   tabIndex = 0;
