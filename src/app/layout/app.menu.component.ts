@@ -53,28 +53,29 @@ export class AppMenuComponent implements OnInit {
           }
         ],
       },
-      {
-        label: 'Espace Echantillons à Analyser',
-        icon: 'fa-solid fa-vial',
-        items: [
-          {
-            label: 'Dashboard',
-            icon: 'pi pi-fw pi-home',
-            routerLink: ['/apps/labs-samples'],
-          },
-          {
-            label: 'Gestion des Echantillons',
-            icon: 'fa-solid fa-list-check',
-            routerLink: ['/apps/labs-samples/list'],
+      // {
+      //   label: 'Espace Echantillons à Analyser',
+      //   icon: 'fa-solid fa-vial',
+      //   disabled: true,
+      //   items: [
+      //     {
+      //       label: 'Dashboard',
+      //       icon: 'pi pi-fw pi-home',
+      //       routerLink: ['/apps/labs-samples'],
+      //     },
+      //     {
+      //       label: 'Gestion des Echantillons',
+      //       icon: 'fa-solid fa-list-check',
+      //       routerLink: ['/apps/labs-samples/list'],
 
-          },
-          {
-            label: 'Gestion des Utilisateurs',
-            icon: 'fa-solid fa-user-nurse',
-            // routerLink:[ '/apps/labs-samples']
-          }
-        ],
-      },
+      //     },
+      //     {
+      //       label: 'Gestion des Utilisateurs',
+      //       icon: 'fa-solid fa-user-nurse',
+      //       // routerLink:[ '/apps/labs-samples']
+      //     }
+      //   ],
+      // },
 
     ];
   }

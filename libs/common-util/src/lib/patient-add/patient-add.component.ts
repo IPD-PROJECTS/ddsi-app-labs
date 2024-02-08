@@ -144,7 +144,8 @@ export class PatientAddComponent {
         this.uploadingPatients = false;
         this.hasError = true;
         this.errorMsg = err?.error['error'];
-        this.displayNotificationMsg(false, 'Failed', 'Error during import, please try again')
+        this.displayNotificationMsg(false, 'Failed', 'Error during import, please try again');
+        this.fileUploader.clear();
 
       }
     })

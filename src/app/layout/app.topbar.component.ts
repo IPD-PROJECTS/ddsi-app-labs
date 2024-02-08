@@ -5,10 +5,11 @@ import { AppMenuComponent } from './app.menu.component';
 import { InputTextModule } from "primeng/inputtext";
 import { AppBreadcrumbComponent } from './app.breadcrumb.component';
 import { AvatarModule } from 'primeng/avatar';
+import { ButtonModule } from 'primeng/button';
 @Component({
     selector: 'app-topbar',
     standalone: true,
-    imports: [CommonModule, AppMenuComponent, AppBreadcrumbComponent, InputTextModule, AvatarModule],
+    imports: [CommonModule, AppMenuComponent, AppBreadcrumbComponent, InputTextModule, AvatarModule, ButtonModule],
     templateUrl: './app.topbar.component.html'
 })
 export class AppTopbarComponent {
