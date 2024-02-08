@@ -165,6 +165,8 @@ export class PlatePlanSettingsComponent implements OnDestroy {
           this.goToStep(Plate_Settings_Step.IMPORT_RESULT);
           if (this.plaqueInfos.excel_spectro_file) {
             this.getRobotAnalysisResultByType(FORMAT.JSON);
+          } else {
+            this.notificationService.displayNotification(NotificationSeverity.INFO, 'Fichier du résultat du robot', "Aucun fichier de resultat d'analyse n'a été uploadé pour ce plan de plaque pour l'instant")
           }
         }
         plateDetailsSignal.set(this.plaqueInfos);
