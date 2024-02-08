@@ -222,7 +222,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
 
   initializeForm() {
     this.plateFormGroup = this.fb.group({
-      id: [this.plaqueInfos?.id || undefined],
+      id: [this.plaqueInfos?.id],
       description: [this.plaqueInfos?.description, [Validators.required]],
       test: [this.plaqueInfos?.test, [Validators.required]],
       plate_type: [{ value: this.plaqueInfos?.plate_type, disabled: this.plaqueInfos?.plate_type}, [Validators.required]]
@@ -268,8 +268,6 @@ export class PlatePlanSettingsComponent implements OnDestroy {
         this.plateService.createPlate(payload).subscribe({
           next: () => {
             this.isSubmittingInitalization = false;
-            console.log('value', value);
-            
             this.resetPlateValue(value);
             this.notificationService.displayNotification(
               NotificationSeverity.SUCCESS,
@@ -288,16 +286,12 @@ export class PlatePlanSettingsComponent implements OnDestroy {
             this.errorInitPlate = err?.error;
           },
         });
-      } else {
-        console.log('this.plateFormGroup.value', this.plateFormGroup);
-        
+      } else {        
         const payload: PlateRequestModel = {...value, test: value.test?.id}
         this.plateService.updatePlate(payload).subscribe({
-          next: (resp: PlateModel) => {
+          next: () => {
             this.currentStepIndex = 1;
-            this.isSubmittingInitalization = false;
-            console.log('value', value);
-            
+            this.isSubmittingInitalization = false;            
             this.resetPlateValue(value);
             this.notificationService.displayNotification(
               NotificationSeverity.SUCCESS,
