@@ -268,9 +268,9 @@ export class PlatePlanSettingsComponent implements OnDestroy {
       if (!value.id) {
         const payload: PlateRequestModel = {...value, test: value.test?.id}
         this.plateService.createPlate(payload).subscribe({
-          next: () => {
-            this.isSubmittingInitalization = false;
-            this.resetPlateValue(value);
+          next: (res: PlateModel) => {
+            this.isSubmittingInitalization = false;            
+            this.resetPlateValue({...value, id: res.id});
             this.notificationService.displayNotification(
               NotificationSeverity.SUCCESS,
               'Initialisation',
@@ -320,6 +320,8 @@ export class PlatePlanSettingsComponent implements OnDestroy {
   }
 
   savePlatePlan() {
+    console.log('savePlatePlan', this.plaqueInfos);
+    
     if (this.plaqueInfos?.id) {
       const isPlatePlanValid = this.plateService.checkPlatePlanValidity(this.plaqueInfos);      
       if(isPlatePlanValid) {
