@@ -222,12 +222,33 @@
           <div
             class="flex flex-wrap justify-content-between align-items-center"
           >
-            <span>
-              Plate:
-              {{
+          <div class="flex flex-column">
+
+            <div class="my-2">
+              Plaque:
+              <span class="font-bold">
+                {{
                 plateFormGroup.get('description')?.value || 'Nom de la plaque'
               }}
+              </span>
+            </div>
+            <div class="block my-2">
+              Type de test choisi:
+              <span class="font-bold">
+              {{
+                plaqueInfos?.test?.name ? plaqueInfos?.test?.name : ''
+              }}
+              </span>
+            </div>
+            <span class="my-2">
+              Validation:
+              <span class="font-semibold">
+             {{
+                plaqueInfos?.test?.name ? 'Nombre de NEG : ' + plaqueInfos?.test?.number_of_negatives + '. Nombre de POS ' + plaqueInfos?.test?.number_of_positives + '. Nombre de BLANC: '+ plaqueInfos?.test?.number_of_whites : ''
+              }}
+              </span>
             </span>
+          </div>
             <div class="flex flex-wrap gap-2 align-items-center">
               <div class="flex flex-column gap-2">
                 <button
@@ -308,7 +329,11 @@
               ></button>
             </div>
           </div>
-          <div
+          
+        </div>
+      </div>
+    </div>
+    <div
             *ngIf="displayedGraphic"
             class="card"
             id="plateDiagram"
@@ -316,8 +341,5 @@
           >
             <p-chart type="line" [data]="data" [options]="options"></p-chart>
           </div>
-        </div>
-      </div>
-    </div>
   </div>
 </div>

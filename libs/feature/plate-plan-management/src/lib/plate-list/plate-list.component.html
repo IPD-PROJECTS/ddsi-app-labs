@@ -64,11 +64,11 @@
               </div>
             </th>
 
-            <!-- <th pResizableColumn style="min-width: 12rem">
+            <th pResizableColumn style="min-width: 12rem">
               <div class="flex justify-content-between align-items-center">
-                {{ PLATE_PLAN_LABEL.created_by }}
+                {{ PLATE_PLAN_LABEL.test }}
               </div>
-            </th> -->
+            </th>
             <th pResizableColumn style="min-width: 12rem">
               <div class="flex justify-content-between align-items-center">
                 {{ PLATE_PLAN_LABEL.created_at }}
@@ -110,9 +110,9 @@
               ></p-badge>
             </td>
 
-            <!-- <td>
-              {{ item[PLATE_ATTRIBUTE.created_by] }}
-            </td> -->
+            <td>
+              {{ item[PLATE_ATTRIBUTE.test]?.name }}
+            </td>
             <td>
               {{ item[PLATE_ATTRIBUTE.created_at] | date : 'dd-MM-yyyy' }}
             </td>
