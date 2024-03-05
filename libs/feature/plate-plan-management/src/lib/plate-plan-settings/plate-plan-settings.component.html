@@ -255,7 +255,7 @@
                   pButton
                   pRipple
                   class="p-button-secondary border-round"
-                  [disabled]="plaqueInfos?.excel_spectro_file"
+                  [disabled]="plaqueInfos && plaqueInfos.excel_spectro_file  || !plaqueInfos"
                   label="Uploader un fichier de plan de plaque"
                   icon="pi pi-upload"
                   (click)="opentModalImportPlatePlan()"
