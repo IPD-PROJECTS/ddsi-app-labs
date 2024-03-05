@@ -93,25 +93,25 @@ export class PlatePlanSettingsComponent implements OnDestroy {
       ],
     },
     {
-      label: 'Downloads',
+      label: 'Téléchargements',
       icon: PrimeIcons.DOWNLOAD,
       items: [
         {
-          label: 'Result in ZIP Format',
+          label: 'Résultats sous format ZIP',
           icon: PrimeIcons.FILE,
           command: () => {
             this.getRobotAnalysisResultByType(FORMAT.ZIP);
           },
         },
         {
-          label: 'Result in PNG Format',
+          label: 'Résultats sous format PNG',
           icon: PrimeIcons.IMAGE,
           command: () => {
             this.getRobotAnalysisResultByType(FORMAT.PNG);
           },
         },
         {
-          label: 'Result in EXCEL Format',
+          label: 'Résultats sous format EXCEL',
           icon: PrimeIcons.FILE_EXCEL,
           command: () => {
             this.getRobotAnalysisResultByType(FORMAT.EXCEL);
@@ -178,7 +178,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
     effect(() => {
       if (plateDetailsSignal()) {
         this.plaqueInfos = { ...plateDetailsSignal() };
-        this.hasPlateDetailsChanged = this.checkIfPlateHasChanged();
+        this.hasPlateDetailsChanged = this.checkIfPlateHasChanged();        
       }
     });
   }
@@ -384,7 +384,7 @@ export class PlatePlanSettingsComponent implements OnDestroy {
       },
       header: `Import d'un plan de plaque`,
       autoZIndex: true,
-      width: '445px',
+      width: '50%',
     });
     ref.onClose.subscribe({
       next: (resp: { success: boolean; data: PlateModel }) => {
