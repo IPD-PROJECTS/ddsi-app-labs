@@ -41,4 +41,18 @@ export class ApplicationRoutingService {
     const path = id ? ['/apps/plates/plate-plan/edit', id] : ['/apps/plates/plate-plan/create']
     this.router.navigate(path);
   }
+
+
+  // SampleLabManagement
+
+  goToRegisterSamplePage(id?: number) {
+    const path = id ? ['/apps/labs-samples/edit', id] : ['/apps/labs-samples/create']
+    this.router.navigate(path);
+  }
+
+
+  goToSampleListPage() {
+    const path = ['/apps/labs-samples/list'];
+    this.router.navigate(path);
+  }
 }

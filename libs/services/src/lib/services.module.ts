@@ -13,6 +13,9 @@ export * from '../lib/services/layout/app.layout.service'
 export * from '../lib/services/authentication/authentication.service'
 export * from '../lib/services/plate-stats/plate-stats.service'
 
+export * from '../lib/services/sample-management-services/sample-management/sample-management.service'
+
+
 export * from '../lib/interceptor/auth/auth.interceptor'
 export * from '../lib/interceptor/error/error.interceptor'
 
