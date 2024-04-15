@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build --skip-nx-cache --verbose",
-    "test": "nx test"
+    "test": "nx test",
+    "reset" : "nx reset"
   },
   "private": true,
   "dependencies": {
