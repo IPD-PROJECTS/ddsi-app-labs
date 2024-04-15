@@ -12,7 +12,7 @@ RUN npm install
 
 COPY . ./
 
-RUN npm run build --skip-nx-cache --verbose
+RUN nx reset && npm run build --skip-nx-cache --verbose
 
 # Stage: Copy project dist folder to nginx server
 
