@@ -1,0 +1,112 @@
+<p-table #dt1 [value]="customers"  sortMode="single" selectionMode="single" dataKey="id" rowGroupMode="subheader" groupRowsBy="id" [tableStyle]="{ 'min-width': '70rem' }">
+  <ng-template pTemplate="caption">
+    <div class="flex justify-content-between flex-wrap align-items-top gap-2">
+      <div class="flex gap-3 flex-column">
+        <span class="p-input-icon-left mb-2">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            #filter
+            (input)="onGlobalFilter(dt1, $event)"
+            placeholder="Recherche"
+            class="w-full"
+          />
+        </span>
+        <div>
+          <span class="block mb-2">
+            Filtre rapide:
+          </span>
+          <div>
+            <span class="block mb-2 font-normal">
+              Status
+            </span>
+            <p-selectButton [options]="items" [(ngModel)]="selectedStatus" optionLabel="label" optionValue="value"></p-selectButton>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-column">
+          <p-button label="Receptionner un echantillon" (onClick)="goToRegisterSamplePage()"></p-button>
+        <div>
+
+        </div>
+
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 20%">Identifiant</th>
+      <th style="width: 20%">Date enregistrement</th>
+      <th style="width: 10%">Dernière modification par</th>
+      <th style="width: 5%">Status</th>
+      <th style="width: 20%">Date</th>
+      <th style="width: 25%">Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="groupheader" let-customer let-rowIndex="rowIndex" let-expanded="expanded">
+    <tr [pRowToggler]="customer">
+      <td>
+        <div class="flex align-items-center">
+          <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-plain mr-2"
+            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+            <span class="font-bold ml-2">{{ customer.id }}</span>
+        </div>
+        
+      </td>
+      <td>
+        {{ customer.date }}
+      </td>
+      <td>
+        {{ customer.updated_by }}
+      </td>
+      <td>
+        <p-tag [value]="customer.status" [severity]="getSeverity(customer.status)"></p-tag>
+      </td>
+      <td>
+        <span class="font-bold ml-2">{{ customer.date }}</span>
+      </td>
+      <td>
+        <div class="flex gap-3 flex-wrap justify-content-end">
+          <p-button label="Faire un test" [text]="true" [raised]="true"></p-button>
+          <p-button label="Voir détails" [raised]="true"></p-button>
+
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="groupfooter" let-customer>
+    <tr class="p-rowgroup-footer">
+      <td colspan="5" style="text-align: right">Total Tests</td>
+      <td>{{ customer?.tests.length }}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="rowexpansion" let-rowData let-customer>
+    <tr *ngFor="let item of customer.tests">
+      <td>
+        {{ item.id }}
+      </td>
+      <td>
+        <span class="ml-1 vertical-align-middle">{{
+          item.date
+          }}</span>
+      </td>
+      <td>
+        {{ item.updated_by }}
+      </td>
+      <td>
+        <p-tag [value]="item.status" [severity]="getSeverity(item.status)"></p-tag>
+      </td>
+      <td>
+        {{ item.date }}
+      </td>
+      <td>
+        <div class="flex gap-3 flex-wrap justify-content-end">
+          <!-- <p-button label="Faire un test" [text]="true" [raised]="true"></p-button> -->
+          <p-button label="Voir détails" [raised]="true"></p-button>
+
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

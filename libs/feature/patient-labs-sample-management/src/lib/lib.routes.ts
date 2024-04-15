@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
-import { PatientsLabsSampleListComponent } from './patients-labs-sample-list/patients-labs-sample-list.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { LabsSampleManagementComponent } from './labs-sample-management/labs-sample-management.component';
+import { RegisterLabSampleComponent } from './register-lab-sample/register-lab-sample.component';
 
 export const patientLabsSampleManagementRoutes: Route[] = [
   {
@@ -10,7 +11,12 @@ export const patientLabsSampleManagementRoutes: Route[] = [
   },
   {
     path: 'list',
-    data: { breadcrumb: 'Liste des patients avec les détails des échantillons' },
-    component: PatientsLabsSampleListComponent,
+    data: { breadcrumb: 'Liste des échantillons' },
+    component: LabsSampleManagementComponent,
+  },
+  {
+    path: 'create',
+    data: { breadcrumb: 'Formulaire de reception' },
+    component: RegisterLabSampleComponent,
   },
 ];
