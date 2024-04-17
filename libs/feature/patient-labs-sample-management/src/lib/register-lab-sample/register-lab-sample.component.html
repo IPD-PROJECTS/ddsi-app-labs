@@ -1,12 +1,64 @@
 <div class="col-12">
+  <button
+    pButton
+    pRipple
+    class="p-button-primary p-button-outlined border-round mb-3"
+    label="Retour"
+    (click)="goBack()"
+    icon="pi pi-fw pi-arrow-left"
+  ></button>
   <div class="card">
-    <button
-      pButton
-      pRipple
-      class="p-button-primary p-button-outlined border-round mb-3"
-      label="Retour"
-      (click)="goBack()"
-      icon="pi pi-fw pi-arrow-left"
-    ></button>
+
+    <p-stepper [(activeStep)]="active" [linear]="!hasCompleteForms">
+      <p-stepperPanel>
+        <ng-template pTemplate="header" let-onClick="onClick" let-index="index">
+          <p-button *ngIf="index > active" icon="pi pi-user" [rounded]="true" [text]="true" (onClick)="onClick.emit()"></p-button>
+          <p-button *ngIf="index <= active" icon="pi pi-user" [rounded]="true" (onClick)="onClick.emit()"></p-button>
+          <span class="block ml-2" [ngClass]="{'font-bold': index <= active}">
+            Informations Patients
+          </span>
+      </ng-template>
+          <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
+            <div class="flex py-3 justify-content-end">
+                <p-button label="Suivant" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()" /></div>
+              <ddsi-labs-apps-patient-infos-registration-lab-sample></ddsi-labs-apps-patient-infos-registration-lab-sample>
+                </ng-template>
+      </p-stepperPanel>
+      <p-stepperPanel>
+        <ng-template pTemplate="header" let-onClick="onClick" let-index="index">
+          <p-button *ngIf="index > active" icon="fa-solid fa-vial" [rounded]="true" [text]="true" (onClick)="onClick.emit()"></p-button>
+          <p-button *ngIf="index <= active" icon="fa-solid fa-vial" [rounded]="true" (onClick)="onClick.emit()"></p-button>
+          <span class="block ml-2" [ngClass]="{'font-bold': index <= active}">
+            Informations Echantillons
+          </span>
+      </ng-template>
+          <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback" let-index="index">
+            <div class="flex py-3 justify-content-between">
+                <p-button label="Précedent" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
+                <p-button label="Suivant" icon="pi pi-arrow-right" iconPos="right" (onClick)="onNext(nextCallback)" /></div>
+            <ddsi-labs-apps-sample-infos-registration-lab-sample></ddsi-labs-apps-sample-infos-registration-lab-sample>
+              </ng-template>
+      </p-stepperPanel>
+      <p-stepperPanel header="Confirmation">
+        <ng-template pTemplate="header" let-onClick="onClick" let-index="index">
+          <p-button *ngIf="index > active" icon="fa-regular fa-rectangle-list" [rounded]="true" [text]="true" (onClick)="onClick.emit()"></p-button>
+          <p-button *ngIf="index <= active" icon="fa-regular fa-rectangle-list" [rounded]="true" (onClick)="onClick.emit()"></p-button>
+          <span class="block ml-2" [ngClass]="{'font-bold': index <= active}">
+            Recapitulatif
+          </span>
+      </ng-template>
+          <ng-template pTemplate="content" let-prevCallback="prevCallback" let-index="index">
+            <div class="flex py-3 justify-content-between">
+                <p-button label="Précedent" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
+                <p-button label="Je valide" icon="pi pi-save" severity="success" />
+             </div>
+              <div class="flex flex-column">
+                <span>
+                  Recapitulatif
+                </span>
+              </div>
+                </ng-template>
+      </p-stepperPanel>
+  </p-stepper>
   </div>
 </div>

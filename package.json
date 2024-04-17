@@ -5,8 +5,7 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build --verbose",
-    "test": "nx test",
-    "reset" : "nx reset"
+    "test": "nx test"
   },
   "private": true,
   "dependencies": {
@@ -21,8 +20,8 @@
     "@nx/angular": "17.3.0",
     "chart.js": "^4.4.0",
     "primeflex": "^3.3.1",
-    "primeicons": "^6.0.1",
-    "primeng": "^17.4.0",
+    "primeicons": "7.0.0",
+    "primeng": "17.13.0",
     "rxjs": "~7.8.0",
     "secure-ls": "^1.2.6",
     "tslib": "^2.3.0",
@@ -68,3 +67,4 @@
     "typescript": "5.3.3"
   }
 }
+

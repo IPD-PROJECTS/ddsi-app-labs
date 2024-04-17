@@ -119,7 +119,6 @@ export class LayoutComponent implements OnDestroy {
   get containerClass() {
     return {
       'layout-light': this.layoutService.config.colorScheme === 'light',
-      'layout-dim': this.layoutService.config.colorScheme === 'dim',
       'layout-dark': this.layoutService.config.colorScheme === 'dark',
       'layout-colorscheme-menu':
         this.layoutService.config.menuTheme === 'colorScheme',
