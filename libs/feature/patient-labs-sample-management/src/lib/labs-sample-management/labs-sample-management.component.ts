@@ -9,6 +9,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { MenuItem } from 'primeng/api';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
+import { DropdownModule } from 'primeng/dropdown';
 export interface Country {
   name?: string;
   code?: string;
@@ -30,8 +31,9 @@ export interface Customer {
   representative?: Representative;
   verified?: boolean;
   balance?: number;
+  updated_by: string;
+  tests: {id: string, name: string, date: string, status: string, updated_by: string}[];
 }
-
 @Component({
   selector: 'ddsi-labs-apps-labs-sample-management',
   standalone: true,
@@ -43,7 +45,8 @@ export interface Customer {
     InputTextModule,
     SplitButtonModule,
     SelectButtonModule,
-    FormsModule
+    FormsModule,
+    DropdownModule
   ],
   templateUrl: './labs-sample-management.component.html',
   styleUrl: './labs-sample-management.component.scss',
@@ -62,10 +65,8 @@ export class LabsSampleManagementComponent implements OnInit {
       icon: 'pi pi-times',
       value: 'rejected'
     },
-    { label: 'Pending', icon: 'pi pi-pause', value: 'pending' },
-    { label: 'Non Spécifié', icon: 'pi pi-undo', value: 'all' },
+    { label: 'Pending', icon: 'pi pi-pause', value: 'pending' }
   ];
-  selectedStatus = 'all';
 
   constructor(private customerService: SampleManagementService, private appRouting: ApplicationRoutingService) {}
 
