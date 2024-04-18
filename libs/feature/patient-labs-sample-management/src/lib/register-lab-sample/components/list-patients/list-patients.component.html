@@ -1,7 +1,6 @@
 <div class="search-patient">
     <div class="flex justify-content-between align-items-center mb-3">
         <h5>Liste des patients</h5>
-        <p-button label="Ajouter un nouveau patient" icon="pi pi-add" />
     </div>
     <p-table
       [resizableColumns]="true"
@@ -34,7 +33,7 @@
               class="w-full"
             />
           </span>
-         
+          <p-button label="Ajouter un nouveau patient" icon="pi pi-add" />
         </div>
       </ng-template>
       <ng-template pTemplate="header" let-columns>

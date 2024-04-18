@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
-import { PatientAddComponent } from '@ddsi-labs-apps/common-util';
+import { AddPatientDynamicFormComponent, PatientAddComponent } from '@ddsi-labs-apps/common-util';
 import { PATIENT_ATTRIBUTE, TableColumn, NotificationSeverity } from '@ddsi-labs-apps/enums';
 import { Patient } from '@ddsi-labs-apps/models';
 import { NotificationService, PatientService } from '@ddsi-labs-apps/services';
@@ -24,7 +24,9 @@ import { InputTextModule } from 'primeng/inputtext';
     FormsModule,
     ButtonModule,
     InputTextModule,
-    DynamicDialogModule],
+    DynamicDialogModule,
+    AddPatientDynamicFormComponent
+  ],
     providers: [DialogService, NotificationService, ConfirmationService],
   templateUrl: './list-patients.component.html',
   styleUrl: './list-patients.component.scss',
