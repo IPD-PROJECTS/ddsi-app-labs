@@ -144,21 +144,21 @@ export class ListPatientsComponent {
     this.addPatient(editMode, item);
   }
 
-  opentModalImport() {
-    const ref = this.dialogService.open(PatientAddComponent, {
+  openAddPatientDynamicFormModal() {
+    const ref = this.dialogService.open(AddPatientDynamicFormComponent, {
       data: {
         tabIndex: 1,
       },
-      header: `Importer une liste de patients`,
+      header: `Formulaire du Patient`,
       autoZIndex: true,
-      width: '445px',
+      width: '100%',
+      height: '100%',
+      maximizable: true,
+      modal: true
     });
     ref.onClose.subscribe({
       next: (data: { success: boolean }) => {
-        if (data?.success) {
-          this.table.reset();
-          this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `Creation`, 'Opération effectuée avec succés');
-        }
+        
       },
     });
   }

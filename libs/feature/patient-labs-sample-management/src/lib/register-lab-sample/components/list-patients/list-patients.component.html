@@ -1,49 +1,29 @@
 <div class="search-patient">
-    <div class="flex justify-content-between align-items-center mb-3">
-        <h5>Liste des patients</h5>
-    </div>
-    <p-table
-      [resizableColumns]="true"
-      [lazy]="true"
-      (onLazyLoad)="fetchListPatient($event)"
-      #dt1
-      [filterDelay]="500"
-      [value]="listPatient"
-      dataKey="id"
-      [columns]="cols"
-      [rows]="5"
-      [loading]="loading"
-      [rowHover]="true"
-      [totalRecords]="totalRecords"
-      styleClass="p-datatable-gridlines"
-      [paginator]="true"
-      responsiveLayout="scroll"
-      [rowsPerPageOptions]="[5 ,10, 20, 50]"
-    >
-      <ng-template pTemplate="caption">
-        <div class="flex justify-content-between flex-wrap align-items-center">
-          <span class="p-input-icon-left mb-2">
-            <i class="pi pi-search"></i>
-            <input
-              pInputText
-              type="text"
-              #filter
-              (input)="onGlobalFilter(dt1, $event)"
-              placeholder="Recherche"
-              class="w-full"
-            />
-          </span>
-          <p-button label="Ajouter un nouveau patient" icon="pi pi-add" />
-        </div>
-      </ng-template>
-      <ng-template pTemplate="header" let-columns>
-        <tr>
-          <th pResizableColumn *ngFor="let col of columns">
-            <div class="flex justify-content-between align-items-center">
-              {{col.header}}
-            </div>
-          </th>
-          <!-- <th pResizableColumn>
+  <div class="flex justify-content-between align-items-center mb-3">
+    <h5>Liste des patients</h5>
+  </div>
+  <p-table [resizableColumns]="true" [lazy]="true" (onLazyLoad)="fetchListPatient($event)" #dt1 [filterDelay]="500"
+    [value]="listPatient" dataKey="id" [columns]="cols" [rows]="5" [loading]="loading" [rowHover]="true"
+    [totalRecords]="totalRecords" styleClass="p-datatable-gridlines" [paginator]="true" responsiveLayout="scroll"
+    [rowsPerPageOptions]="[5 ,10, 20, 50]">
+    <ng-template pTemplate="caption">
+      <div class="flex justify-content-between flex-wrap align-items-center">
+        <span class="p-input-icon-left mb-2">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Recherche"
+            class="w-full" />
+        </span>
+        <p-button label="Ajouter un nouveau patient" (onClick)="openAddPatientDynamicFormModal()" icon="pi pi-add" />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th pResizableColumn *ngFor="let col of columns">
+          <div class="flex justify-content-between align-items-center">
+            {{col.header}}
+          </div>
+        </th>
+        <!-- <th pResizableColumn>
             <div class="flex justify-content-between align-items-center">
               ID
             </div>
@@ -65,44 +45,44 @@
               Birthdate
             </div>
           </th> -->
-          <th pResizableColumn>
-            <div class="flex justify-content-between align-items-center">
-              Actions
-            </div>
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-patient let-columns="columns">
-        <tr>
-          <td *ngFor="let col of columns">
-            {{col.field === 'birth_date' ? (patient[col.field] | date : 'dd/MM/yyyy') : patient[col.field]}}
-          </td>
-          <td >
-            <div class='flex gap-2'>
-                <button pButton pRipple type="button" icon="fa-regular fa-pen-to-square"
-                        class="p-button-rounded z-3 ml-auto sm:ml-0" label="Mettre à jour"></button>
-                        <p-confirmPopup defaultFocus="reject" ></p-confirmPopup>
-                        <button pButton pRipple type="button" icon="fa-solid fa-check"
-                        class="p-button-rounded z-3 ml-auto sm:ml-0" label="Selectionner"></button>
-                        <!-- <button pButton class="p-button-secondary p-button-outlined" type="button" (click)="menu.toggle($event)" icon="pi pi-cog"></button> -->
-              </div>
-          </td>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="summary">
-        <div class="flex align-items-center justify-content-between">
-            Il y'a {{ totalRecords }} éléments au total.
-        </div>
+        <th pResizableColumn>
+          <div class="flex justify-content-between align-items-center">
+            Actions
+          </div>
+        </th>
+      </tr>
     </ng-template>
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td colspan="8">Aucun patient trouvé.</td>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="loadingbody">
-        <tr>
-          <td colspan="8">Chargement de la liste. Patientez s'il vous plait.</td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
+    <ng-template pTemplate="body" let-patient let-columns="columns">
+      <tr>
+        <td *ngFor="let col of columns">
+          {{col.field === 'birth_date' ? (patient[col.field] | date : 'dd/MM/yyyy') : patient[col.field]}}
+        </td>
+        <td>
+          <div class='flex gap-2'>
+            <button pButton pRipple type="button" icon="fa-regular fa-pen-to-square"
+              class="p-button-rounded z-3 ml-auto sm:ml-0" label="Mettre à jour"></button>
+            <p-confirmPopup defaultFocus="reject"></p-confirmPopup>
+            <button pButton pRipple type="button" icon="fa-solid fa-check" class="p-button-rounded z-3 ml-auto sm:ml-0"
+              label="Selectionner"></button>
+            <!-- <button pButton class="p-button-secondary p-button-outlined" type="button" (click)="menu.toggle($event)" icon="pi pi-cog"></button> -->
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        Il y'a {{ totalRecords }} éléments au total.
+      </div>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="8">Aucun patient trouvé.</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="loadingbody">
+      <tr>
+        <td colspan="8">Chargement de la liste. Patientez s'il vous plait.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
