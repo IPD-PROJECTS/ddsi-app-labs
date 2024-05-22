@@ -1,0 +1,126 @@
+<div>
+    <div class="flex justify-content-end">
+        <p-button label="Enregistrer" icon="pi pi-save" />
+
+    </div>
+
+    <div class="patient-form w-10 mx-auto mt-3">
+        <div class="form-section mb-3">
+            <div class="flex justify-content-between align-items-center">
+                <span class="font-semibold text-2xl">
+                    Informations d'identification
+                </span>
+                <p-button [outlined]="true" label="Ajouter un nouveau champ de saisie" icon="pi pi-save" />
+            </div>
+            <div class="info">
+                <p-messages severity="info">
+                    <ng-template pTemplate>
+                        <i class="pi pi-info-circle text-2xl"></i>
+                        <div class="ml-2">Informations relatives a cette section</div>
+                    </ng-template>
+                </p-messages>
+            </div>
+            <div class="form-content formgrid grid">
+                <div class="field flex flex-column gap-2 col">
+                    <label htmlfor="firstname" class="font-medium text-900">Prenom</label>
+                    <input id="firstname" type="text" pInputText />
+                </div>
+                <div class="field flex flex-column gap-2 col">
+                    <label htmlfor="lastname" class="font-medium text-900">Nom</label>
+                    <input id="lastname" type="text" pInputText />
+                </div>
+                <div class="field flex flex-column gap-2 col">
+                    <label htmlfor="lastname" class="font-medium text-900">Adresse</label>
+                    <input id="adresse" type="text" pInputText />
+                </div>
+                <div class="field flex flex-column gap-2 col">
+                    <label htmlfor="sexe" class="font-medium text-900">Sexe</label>
+                    <p-dropdown id="sexe" styleClass="w-full" [options]="listGenres" [showClear]="true"
+                        placeholder="Choisir le sexe"></p-dropdown>
+                </div>
+                <div class="field flex flex-column gap-2 col">
+                    <label htmlfor="lastname" class="font-medium text-900">Nom</label>
+                    <input id="lastname" type="text" pInputText />
+                </div>
+            </div>
+        </div>
+        <div class="form-section mb-3">
+            <div class="flex justify-content-between align-items-center">
+                <span class="font-semibold text-2xl">
+                    Informations Cliniques
+                </span>
+                <p-button [outlined]="true" label="Ajouter un nouveau champ de saisie" icon="pi pi-save" />
+            </div>
+            <div class="info">
+                <p-messages severity="info">
+                    <ng-template pTemplate>
+                        <i class="pi pi-info-circle text-2xl"></i>
+                        <div class="ml-2">Informations relatives a cette section</div>
+                    </ng-template>
+                </p-messages>
+            </div>
+            <div class="form-content formgrid grid">
+                <div class="field flex flex-column gap-2 col">
+                    <label htmlfor="firstname" class="font-medium text-900">Prenom</label>
+                    <input id="firstname" type="text" pInputText />
+                </div>
+                <div class="field flex flex-column gap-2 col">
+                    <label htmlfor="lastname" class="font-medium text-900">Nom</label>
+                    <input id="lastname" type="text" pInputText />
+                </div>
+                <div class="field flex flex-column gap-2 col">
+                    <label htmlfor="lastname" class="font-medium text-900">Adresse</label>
+                    <input id="adresse" type="text" pInputText />
+                </div>
+                <div class="field flex flex-column gap-2 col">
+                    <label htmlfor="sexe" class="font-medium text-900">Sexe</label>
+                    <p-dropdown id="sexe" styleClass="w-full" [options]="listGenres" [showClear]="true"
+                        placeholder="Choisir le sexe"></p-dropdown>
+                </div>
+                <div class="field flex flex-column gap-2 col">
+                    <label htmlfor="lastname" class="font-medium text-900">Nom</label>
+                    <input id="lastname" type="text" pInputText />
+                </div>
+            </div>
+        </div>
+        <div class="form-section mb-3">
+            <div class="flex justify-content-between align-items-center">
+                <span class="font-semibold text-2xl">
+                    Informations Epydemiologiques
+                </span>
+                <p-button [outlined]="true" label="Ajouter un nouveau champ de saisie" icon="pi pi-save" />
+            </div>
+            <div class="info">
+                <p-messages severity="info">
+                    <ng-template pTemplate>
+                        <i class="pi pi-info-circle text-2xl"></i>
+                        <div class="ml-2">Informations relatives a cette section</div>
+                    </ng-template>
+                </p-messages>
+            </div>
+            <div class="form-content formgrid grid">
+                <div class="field flex flex-column gap-2 col">
+                    <label htmlfor="firstname" class="font-medium text-900">Prenom</label>
+                    <input id="firstname" type="text" pInputText />
+                </div>
+                <div class="field flex flex-column gap-2 col">
+                    <label htmlfor="lastname" class="font-medium text-900">Nom</label>
+                    <input id="lastname" type="text" pInputText />
+                </div>
+                <div class="field flex flex-column gap-2 col">
+                    <label htmlfor="lastname" class="font-medium text-900">Adresse</label>
+                    <input id="adresse" type="text" pInputText />
+                </div>
+                <div class="field flex flex-column gap-2 col">
+                    <label htmlfor="sexe" class="font-medium text-900">Sexe</label>
+                    <p-dropdown id="sexe" styleClass="w-full" [options]="listGenres" [showClear]="true"
+                        placeholder="Choisir le sexe"></p-dropdown>
+                </div>
+                <div class="field flex flex-column gap-2 col">
+                    <label htmlfor="lastname" class="font-medium text-900">Nom</label>
+                    <input id="lastname" type="text" pInputText />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

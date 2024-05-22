@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
-import { PatientAddComponent } from '@ddsi-labs-apps/common-util';
+import { AddPatientDynamicFormComponent, PatientAddComponent } from '@ddsi-labs-apps/common-util';
 import { PATIENT_ATTRIBUTE, TableColumn, NotificationSeverity } from '@ddsi-labs-apps/enums';
 import { Patient } from '@ddsi-labs-apps/models';
 import { NotificationService, PatientService } from '@ddsi-labs-apps/services';
@@ -24,7 +24,9 @@ import { InputTextModule } from 'primeng/inputtext';
     FormsModule,
     ButtonModule,
     InputTextModule,
-    DynamicDialogModule],
+    DynamicDialogModule,
+    AddPatientDynamicFormComponent
+  ],
     providers: [DialogService, NotificationService, ConfirmationService],
   templateUrl: './list-patients.component.html',
   styleUrl: './list-patients.component.scss',
@@ -142,21 +144,21 @@ export class ListPatientsComponent {
     this.addPatient(editMode, item);
   }
 
-  opentModalImport() {
-    const ref = this.dialogService.open(PatientAddComponent, {
+  openAddPatientDynamicFormModal() {
+    const ref = this.dialogService.open(AddPatientDynamicFormComponent, {
       data: {
         tabIndex: 1,
       },
-      header: `Importer une liste de patients`,
+      header: `Formulaire du Patient`,
       autoZIndex: true,
-      width: '445px',
+      width: '100%',
+      height: '100%',
+      maximizable: true,
+      modal: true
     });
     ref.onClose.subscribe({
       next: (data: { success: boolean }) => {
-        if (data?.success) {
-          this.table.reset();
-          this.notificationService.displayNotification(NotificationSeverity.SUCCESS, `Creation`, 'Opération effectuée avec succés');
-        }
+        
       },
     });
   }
