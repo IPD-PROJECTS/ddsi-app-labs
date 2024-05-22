@@ -55,4 +55,9 @@ export class ApplicationRoutingService {
     const path = ['/apps/labs-samples/list'];
     this.router.navigate(path);
   }
+
+  goToSampleDetailsPage(id: string) {
+    const path = ['/apps/labs-samples/details/'+id];    
+    this.router.navigate(path);
+  }
 }

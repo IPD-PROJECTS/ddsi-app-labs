@@ -118,4 +118,8 @@ export class LabsSampleManagementComponent implements OnInit {
   goToRegisterSamplePage() {
     this.appRouting.goToRegisterSamplePage();
   }
+
+  seeSampleDetailsPage(id: string) {
+    this.appRouting.goToSampleDetailsPage(id);
+  }
 }

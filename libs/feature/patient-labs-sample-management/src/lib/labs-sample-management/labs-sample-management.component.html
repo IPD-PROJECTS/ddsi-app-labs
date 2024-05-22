@@ -66,7 +66,7 @@
       <td>
         <div class="flex gap-3 flex-wrap justify-content-end">
           <p-button label="Faire un test" [text]="true" [raised]="true"></p-button>
-          <p-button label="Voir détails" [raised]="true"></p-button>
+          <p-button label="Voir détails" [raised]="true" (onClick)="seeSampleDetailsPage(customer.id)"></p-button>
         </div>
       </td>
     </tr>

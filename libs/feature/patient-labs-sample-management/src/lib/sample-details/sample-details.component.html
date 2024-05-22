@@ -1,0 +1,33 @@
+<div class="col-12">
+  <button
+    pButton
+    pRipple
+    class="p-button-primary p-button-outlined border-round mb-3"
+    label="Retour"
+    (click)="goBack()"
+    icon="pi pi-fw pi-arrow-left"
+  ></button>
+  <div class="card">
+    <div class="flex justify-content-between">
+      <span class="text-700">
+        Détails sur l'échantillon
+        <span class="font-bold">
+          {{ idSample }}
+        </span>
+      </span>
+      <p-selectButton
+        [options]="stateOptions"
+        [(ngModel)]="value"
+        optionLabel="label"
+        optionValue="value"
+      />
+    </div>
+    <div class="pageContent">
+      @if (value === 'sample') {
+      <ddsi-labs-apps-sample-details-content></ddsi-labs-apps-sample-details-content>
+      } @else {
+      <ddsi-labs-apps-patient-details-content></ddsi-labs-apps-patient-details-content>
+      }
+    </div>
+  </div>
+</div>
