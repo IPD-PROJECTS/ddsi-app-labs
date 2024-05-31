@@ -8,8 +8,8 @@
     icon="pi pi-fw pi-arrow-left"
   ></button>
   <div class="card">
-    <div class="flex justify-content-between">
-      <span class="text-700">
+    <div class="flex flex-wrap justify-content-between">
+      <span class="text-700 md:col-3 col-12">
         Détails sur l'échantillon
         <span class="font-bold">
           {{ idSample }}
@@ -20,6 +20,7 @@
         [(ngModel)]="value"
         optionLabel="label"
         optionValue="value"
+        styleClass="col-12"
       />
     </div>
     <div class="pageContent">

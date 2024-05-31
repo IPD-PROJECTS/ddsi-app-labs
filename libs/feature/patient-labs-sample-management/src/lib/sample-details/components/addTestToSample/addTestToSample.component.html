@@ -1,0 +1,140 @@
+<div class="container pt-3">
+  <div class="btn flex justify-content-end mb-3">
+    <p-button
+      label="Ajouter une analyse"
+      icon="pi pi-plus"
+      iconPos="right"
+      (onClick)="addNewAnalyse()"
+    />
+  </div>
+  <div class="analyse-form">
+    <form [formGroup]="form" (ngSubmit)="confirmSelection()">
+      <div formArrayName="forms">
+        @for (item of listAnalysisForm.controls; track $index) {
+        <p-divider [align]="'center'">
+          <b> Analyse {{ $index + 1 }}</b>
+        </p-divider>
+        <div [formGroupName]="$index">
+          <div class="p-formgrid grid item">
+            <div class="field md:col-6 col-12">
+              <label htmlFor="email2">Sélectionner un type de test</label>
+              <p-dropdown
+                [options]="listeTypeTest"
+                appendTo="body"
+                [filter]="true"
+                filterBy="label"
+                [showClear]="true"
+                styleClass="w-full"
+                placeholder="Selectionner un type de test"
+                formControlName="typeTest"
+              >
+              </p-dropdown>
+              @if (listAnalysisForm.controls[$index].get('typeTest')?.dirty ||
+              listAnalysisForm.controls[$index].get('typeTest')?.touched) {
+
+              <small
+                class="p-error mb-2"
+                *ngIf="
+                  listAnalysisForm.controls[$index].get('typeTest')?.errors &&
+                  (listAnalysisForm.controls[$index].get('typeTest')?.errors)![
+                    'required'
+                  ]
+                "
+                >Ce champs est requis</small
+              >
+              }
+            </div>
+
+            <div class="field md:col-6 col-12">
+              <label htmlFor="email2">Maladie à tester</label>
+              <p-dropdown
+                [options]="listePathogene"
+                appendTo="body"
+                [filter]="true"
+                filterBy="label"
+                [showClear]="true"
+                styleClass="w-full"
+                placeholder="Selectionner un type de test"
+                formControlName="diseaseToTest"
+              >
+              </p-dropdown>
+              @if (listAnalysisForm.controls[$index].get('diseaseToTest')?.dirty
+              ||
+              listAnalysisForm.controls[$index].get('diseaseToTest')?.touched) {
+
+              <small
+                class="p-error mb-2"
+                *ngIf="
+                  listAnalysisForm.controls[$index].get('diseaseToTest')
+                    ?.errors &&
+                  (listAnalysisForm.controls[$index].get('diseaseToTest')
+                    ?.errors)!['required']
+                "
+                >Ce champs est requis</small
+              >
+              }
+            </div>
+            <div class="field col-12">
+              <p-toggleButton
+                onLabel="Saisie de résultat"
+                offLabel="Pas encore de résultat"
+                onIcon="pi pi-check"
+                offIcon="pi pi-times"
+                formControlName="hasResult"
+              ></p-toggleButton>
+            </div>
+            @if (listAnalysisForm.controls[$index].get('hasResult')?.value) {
+            <div class="field col-12">
+              <label htmlFor="name2">Date et heure du résultat</label>
+              <p-calendar
+                appendTo="body"
+                styleClass="w-full"
+                [showTime]="true"
+                formControlName="dateResult"
+              />
+            </div>
+            <div class="field col-12">
+              <label htmlFor="name2">Résultat</label>
+              <p-selectButton
+                [options]="resultOptionsType"
+                optionLabel="label"
+                optionValue="value"
+                styleClass="w-full"
+                formControlName="resultValue"
+              />
+            </div>
+            <div class="field col-12">
+              <label htmlFor="email2">Commentaires</label>
+              <textarea
+                rows="3"
+                cols="20"
+                pInputTextarea
+                style="width: 100%"
+                [autoResize]="true"
+                formControlName="comments"
+              ></textarea>
+            </div>
+            }
+          </div>
+          <div class="form-btns flex align-items-center justify-content-end">
+            <p-button
+              label="Supprimer cet analyse"
+              icon="pi pi-trash"
+              iconPos="right"
+              severity="danger"
+              (onClick)="removeAnalysis($index)"
+            />
+          </div>
+        </div>
+        }
+      </div>
+      <p-button
+        label="Je valide"
+        icon="pi pi-check"
+        iconPos="right"
+        severity="success"
+        type="submit"
+      />
+    </form>
+  </div>
+</div>

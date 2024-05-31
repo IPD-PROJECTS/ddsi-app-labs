@@ -1,21 +1,127 @@
-<div class="content flex gap-3 mt-4">
-
-    <div class="section-details-left w-9 border-round">
-                
-    </div>
-    <div class="section-details-right flex flex-column gap-3 w-3">
-        <div class="flex flex-column justify-content-between overflow-y-auto card">
-            <div class="header mb-3 flex justify-content-between align-items-center">
-                <span class="text-700 font-bold">
-                    Echantillons
-                </span>
-                <p-button icon="pi pi-plus" [rounded]="true" />
-            </div>
-            <div>
-                Aucun echantillon n'a été trouvé
-            </div>
+<div class="content flex md:flex-row flex-column gap-3 mt-4">
+  <div class="section-details-left md:w-9 border-round">
+    <div class="p-fluid">
+      <div class="p-formgrid grid">
+        <div class="field md:col-4 col-12">
+          <label htmlFor="name2">ID du patient</label>
+          <input pInputText id="name2" readonly disabled type="text" />
         </div>
-       
-        
+        <div class="field md:col-4 col-12">
+          <label htmlFor="email2">Numéro EPID</label>
+          <input pInputText id="email2" type="text" />
+        </div>
+      </div>
     </div>
+    <div class="p-fluid">
+      <p-tabView>
+        <p-tabPanel header="Informations générales du patient">
+          <div class="p-formgrid grid">
+            <span class="col-12 text-700 underline my-3">
+              Identité du patient
+            </span>
+            <div class="field md:col-6 col-12">
+              <label htmlFor="name2">Prénom</label>
+              <input pInputText id="name2" type="text" />
+            </div>
+            <div class="field md:col-3 col-12">
+              <label htmlFor="email2">Nom</label>
+              <input pInputText id="email2" type="text" />
+            </div>
+            <div class="field md:col-3 col-12">
+              <label htmlFor="email2">Sexe</label>
+              <p-dropdown
+                [options]="listeSexes"
+                [(ngModel)]="selectedType"
+                [checkmark]="true"
+                [showClear]="true"
+                placeholder="Sélectionner le sexe"
+              />
+            </div>
+            <div class="field md:col-4 col-12">
+              <label htmlFor="name2">Date de naissance</label>
+              <p-calendar [(ngModel)]="date" />
+            </div>
+            <div class="field md:col-3 col-12">
+              <label htmlFor="email2">Lieu de naissance</label>
+              <input pInputText id="email2" type="text" />
+            </div>
+          </div>
+          <div class="p-formgrid grid">
+            <span class="col-12 text-700 underline my-3">
+              Adresse du patient
+            </span>
+            <div class="field md:col-5 col-12">
+              <label htmlFor="email2">Adresse complète actuelle</label>
+              <input pInputText id="email2" type="text" />
+            </div>
+            <div class="field md:col-4 col-12">
+              <label htmlFor="email2">District Sanitaire</label>
+              <p-autoComplete
+                [(ngModel)]="selectedDistrict"
+                [suggestions]="filteredListDistrict"
+                (completeMethod)="filter($event)"
+                field="label"
+                [dropdown]="true"
+                [showClear]="true"
+              />
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Symptômes Identifiés">
+          <div class="p-formgrid grid">
+            <div class="field col-8">
+              <label htmlFor="email2">Symptômes identifiés</label>
+              <p-multiSelect
+                [options]="listSymptomes"
+                [group]="true"
+                [(ngModel)]="selectedSymptomes"
+                placeholder="Selectionner les symptômes"
+                scrollHeight="250px"
+                display="chip"
+                [maxSelectedLabels]="100"
+                (onChange)="setSelectedSymptomes($event)"
+              ></p-multiSelect>
+            </div>
+            <div class="field col-12">
+              <label htmlFor="email2"
+                >Détails sur les symptômes identifiés</label
+              >
+              <div class="p-formgrid grid">
+                @for (item of selectedSymptomes; track $index) {
+                <div class="field md:col-4 col-12">
+                  <label htmlFor="email2" class="font-normal">
+                    {{ item }}
+                  </label>
+                  <p-dropdown
+                    [options]="listAnswerSymptomes"
+                    [(ngModel)]="symptomesDetails[$index].fieldValue"
+                    [checkmark]="true"
+                    [showClear]="true"
+                    placeholder="Choisir"
+                  />
+                </div>
+                }
+              </div>
+            </div>
+            <div class="field col-6">
+              <label htmlFor="email2">Commentaires</label>
+              <textarea rows="3" cols="20" pInputTextarea></textarea>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Statut vaccinal">
+          <p>At vero eos et accusamus et iusto odio dignissimos...</p>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+  <div class="section-details-right flex flex-column gap-3 md:w-3">
+    <div class="flex flex-column justify-content-between overflow-y-auto card">
+      <div class="header mb-3 flex justify-content-between align-items-center">
+        <span class="text-700 font-bold"> Echantillons </span>
+        <p-button icon="pi pi-plus" [rounded]="true" />
+      </div>
+      <div>Aucun echantillon n'a été trouvé</div>
+    </div>
+  </div>
 </div>
