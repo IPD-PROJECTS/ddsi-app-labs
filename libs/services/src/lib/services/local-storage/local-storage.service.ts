@@ -6,7 +6,8 @@ const ls = new SecureLS({encodingType: 'aes'});
 export const STORAGE_KEYS = {
   AUTH_INFOS : 'auth',
   USERNAME: 'username',
-  APP_LAYOUT_CONFIG: 'app_layout_config'
+  APP_LAYOUT_CONFIG: 'app_layout_config',
+  SAMPLES: 'walip_samples'
 }
 
 @Injectable({

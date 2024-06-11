@@ -1,9 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { LocalStorageService, STORAGE_KEYS } from '../../local-storage/local-storage.service';
+import { Sample } from '@ddsi-labs-apps/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SampleManagementService {
+  private lStorage = inject(LocalStorageService);
   getMockData() {
     return [
       {
@@ -108,5 +111,40 @@ export class SampleManagementService {
 
   getCustomersMedium() {
     return Promise.resolve(this.getMockData().slice(0, 50));
+  }
+
+  getListSample(): Sample[] {
+    return this.lStorage.getFromLocalStorage(STORAGE_KEYS.SAMPLES) as Sample[] || []
+  }
+  updateSampleList(newList: Sample[]) {
+    this.lStorage.saveToLocalStorage(STORAGE_KEYS.SAMPLES, newList)
+  }
+  getSampleById(id: string): Sample | undefined {
+    const list =  this.getListSample();
+    return list.find((elt) => elt.id === id )
+  }
+
+  saveSample(sample: Sample) {
+    const listSampleSaved = this.getListSample();
+    if(!sample.id) sample.id = new Date().getTime().toString();
+    listSampleSaved.push(sample);
+    this.lStorage.saveToLocalStorage(STORAGE_KEYS.SAMPLES, listSampleSaved);
+  }
+
+  updateSample(sample: Sample) {
+    const listSamples = this.getListSample();
+    const index = listSamples.findIndex((elt) => elt.id === sample.id);
+    if(index !== -1) {
+      listSamples[index] = sample;
+      this.updateSampleList(listSamples)
+    }
+
+  }
+
+  deleteById(id: string) {
+    const list = this.getListSample();
+    const index = list.findIndex((elt) => elt.id === id);
+    list.splice(index, 1);
+    this.updateSampleList(list);
   }
 }

@@ -10,6 +10,7 @@ import { MenuItem } from 'primeng/api';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
+import { Sample } from '@ddsi-labs-apps/models';
 export interface Country {
   name?: string;
   code?: string;
@@ -67,13 +68,11 @@ export class LabsSampleManagementComponent implements OnInit {
     },
     { label: 'Pending', icon: 'pi pi-pause', value: 'pending' }
   ];
-
-  constructor(private customerService: SampleManagementService, private appRouting: ApplicationRoutingService) {}
+  listSamples: Sample[] = [];
+  constructor(private sampleMgt: SampleManagementService, private appRouting: ApplicationRoutingService) {}
 
   ngOnInit() {
-    this.customerService.getCustomersMedium().then((data) => {
-      this.customers = data;
-    });
+   this.listSamples =  this.sampleMgt.getListSample();
   }
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
@@ -121,5 +120,10 @@ export class LabsSampleManagementComponent implements OnInit {
 
   seeSampleDetailsPage(id: string) {
     this.appRouting.goToSampleDetailsPage(id);
+  }
+
+  deleteSample(id: string) {
+    this.sampleMgt.deleteById(id);
+    this.listSamples =  this.sampleMgt.getListSample();
   }
 }

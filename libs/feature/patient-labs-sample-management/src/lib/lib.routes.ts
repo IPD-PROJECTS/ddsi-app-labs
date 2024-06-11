@@ -18,7 +18,7 @@ export const patientLabsSampleManagementRoutes: Route[] = [
   {
     path: 'create',
     data: { breadcrumb: 'Formulaire de reception' },
-    component: RegisterLabSampleComponent,
+    component: SampleDetailsComponent,
   },
   {
     path: 'details/:id',

@@ -10,6 +10,8 @@ export * from '../lib/models/appConfig.model'
 export * from '../lib/models/authentication.model'
 export * from '../lib/models/stats.model'
 export * from '../lib/models/plate-type-test.model'
+export * from '../lib/models/sample.model'
+export * from '../lib/models/sample-analysis.model'
 @NgModule({
   imports: [CommonModule],
 })

@@ -9,15 +9,9 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DividerModule } from 'primeng/divider';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AnalysisType } from '@ddsi-labs-apps/models';
 export type resultType = 'Positif' | 'Negatif' | 'Undeterminate' | undefined;
-export interface AnalysisType {
-  typeTest: string | undefined;
-  diseaseToTest: string | undefined;
-  hasResult: boolean;
-  dateResult?: string;
-  resultValue?: string;
-  comments?: string;
-}
+
 @Component({
   selector: 'ddsi-labs-apps-add-test-to-sample',
   standalone: true,
@@ -116,12 +110,16 @@ export class AddTestToSampleComponent {
 
   addNewAnalysisFormGroup(): FormGroup {
     return this.fb.group({
+      id: [new Date().getTime()],
       typeTest:[undefined, [Validators.required]],
       diseaseToTest:[undefined, [Validators.required]],
       hasResult: [false],
+      status: ['En attente'],
       dateResult:[undefined],
       resultValue: [undefined],
-      comments: [undefined]
+      comments: [undefined],
+      registrationDate: [new Date()],
+      registeredBy: ['Technicien Labo Viro'],
     })
   }
 
