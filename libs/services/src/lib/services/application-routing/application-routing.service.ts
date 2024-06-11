@@ -45,8 +45,8 @@ export class ApplicationRoutingService {
 
   // SampleLabManagement
 
-  goToRegisterSamplePage(id?: number) {
-    const path = id ? ['/apps/labs-samples/edit', id] : ['/apps/labs-samples/create']
+  goToRegisterSamplePage() {
+    const path = ['/apps/labs-samples/create']
     this.router.navigate(path);
   }
 

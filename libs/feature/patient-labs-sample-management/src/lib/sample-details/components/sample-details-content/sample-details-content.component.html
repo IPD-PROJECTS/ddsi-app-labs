@@ -1,7 +1,8 @@
 <div class="content flex md:flex-row flex-column gap-3 mt-4">
   <div class="sample-details-left md:w-9 border-round">
-    <div class="p-fluid">
-      <div class="flex justify-content-end align-items-center">
+    <form [formGroup]="sampleDetailsForm" (ngSubmit)="saveInfos()">
+      <div class="p-fluid">
+        <!-- <div class="flex justify-content-end align-items-center">
         Status :
         <p-button
           label="Pas encore reçu"
@@ -9,135 +10,171 @@
           [raised]="true"
           severity="success"
         />
-      </div>
-      <div class="p-formgrid grid">
-        <div class="field md:col-4 col-12">
-          <label htmlFor="name2">ID</label>
-          <input pInputText id="name2" readonly disabled type="text" />
-        </div>
-        <div class="field md:col-4 col-12">
-          <label htmlFor="email2">Identifiant Labo</label>
-          <input pInputText id="email2" type="text" />
-        </div>
-      </div>
-    </div>
-    <div class="p-fluid">
-      <div class="p-formgrid grid">
-        <div class="field md:col-4 col-12">
-          <label htmlFor="name2">Date de collecte</label>
-          <p-calendar [(ngModel)]="date" />
-        </div>
-        <div class="field md:col-4 col-12">
-          <label htmlFor="name2">Heure de collecte</label>
-          <p-calendar [(ngModel)]="date" [timeOnly]="true" />
-        </div>
-        <div class="field md:col-4 col-12">
-          <label htmlFor="email2">Raison du prélévement</label>
-          <p-dropdown
-            [options]="motifsPrelevements"
-            [(ngModel)]="selectedMotif"
-            [checkmark]="true"
-            [showClear]="true"
-            placeholder="Choisir un motif"
-          />
-        </div>
-        <div class="field md:col-4 col-12">
-          <label htmlFor="email2">Type de l'échantillon</label>
-          <p-dropdown
-            [options]="typesPrelevements"
-            [(ngModel)]="selectedType"
-            [checkmark]="true"
-            [showClear]="true"
-            placeholder="Choisir un type"
-          />
-        </div>
-        <div class="field md:col-4 col-12">
-          <label htmlFor="name2">Date et heure d'envoie</label>
-          <p-calendar [(ngModel)]="date" [showTime]="true" />
-        </div>
-        <div class="field col-12">
-          <label htmlFor="email2">Commentaires</label>
-          <textarea
-            rows="3"
-            cols="20"
-            pInputTextarea
-            [autoResize]="true"
-          ></textarea>
-        </div>
-        <div class="field md:col-4 col-12">
-          <label htmlFor="email2">Rapporté par</label>
-          <span> Infirmier Sarr 0911 </span>
+      </div> -->
+        <div class="p-formgrid grid">
+          <div class="field md:col-4 col-12">
+            <label htmlFor="name2">ID</label>
+            <input pInputText id="name2" readonly formControlName="id" type="text" />
+          </div>
+          <div formGroupName="laboDetails" class="field md:col-4 col-12">
+            <label htmlFor="email2">Identifiant Labo</label>
+            <input pInputText formControlName="identifiantLabo" id="email2" type="text" />
+          </div>
         </div>
       </div>
-    </div>
+      <div class="p-fluid">
+        <div class="p-formgrid grid">
+            <div formGroupName="sampleOrigine" class="field md:col-4 col-12">
+              <label htmlFor="name2">Date de collecte</label>
+              <p-calendar formControlName="dateCollect" />
+            </div>
+            <div formGroupName="sampleOrigine" class="field md:col-4 col-12">
+              <label htmlFor="name2">Heure de collecte</label>
+              <p-calendar formControlName="hourCollect"  [timeOnly]="true" />
+            </div>
+          <div class="field md:col-4 col-12">
+            <label htmlFor="email2">Raison du prélévement</label>
+            <p-dropdown
+              [options]="motifsPrelevements"
+              formControlName="sampleContext"
+              [checkmark]="true"
+              [showClear]="true"
+              placeholder="Choisir un motif"
+            />
+          </div>
+          <div class="field md:col-4 col-12">
+            <label htmlFor="email2">Type de l'échantillon</label>
+            <p-dropdown
+              [options]="typesPrelevements"
+              formControlName="sampleType"
+              [checkmark]="true"
+              [showClear]="true"
+              placeholder="Choisir un type"
+            />
+          </div>
+          <div formGroupName="sampleOrigine" class="field md:col-4 col-12">
+            <label htmlFor="name2">Date et heure d'envoie</label>
+            <p-calendar formControlName="sendDate" [showTime]="true" />
+          </div>
+          <div class="field col-12">
+            <label htmlFor="email2">Commentaires</label>
+            <textarea
+              rows="3"
+              cols="20"
+              pInputTextarea
+              [autoResize]="true"
+              formControlName="comments"
+            ></textarea>
+          </div>
+          <div class="field md:col-4 col-12">
+            <label htmlFor="email2">Rapporté par</label>
+            <span> Infirmier Sarr 0911 </span>
+          </div>
+        </div>
+      </div>
+      <div class="p-formgrid grid gap-3">
+        <button
+          pButton
+          pRipple
+          class="p-button-primary p-button-outlined border-round md:col-3 col-12"
+          label="Ignorer les modifications"
+          icon="pi pi-fw pi-times"
+          type="reset"
+        ></button>
+        <button
+          pButton
+          pRipple
+          class="p-button-success md:col-3 col-12"
+          label="Sauvegarder"
+          type="submit"
+          icon="pi pi-check"
+        ></button>
+      </div>
+    </form>
   </div>
   <div class="sample-details-right flex flex-column gap-3 md:w-3">
     <div class="flex flex-column justify-content-between overflow-y-auto card">
       <div class="header mb-3 flex justify-content-between align-items-center">
         <span class="text-700 font-bold"> Analyses </span>
-        <p-button (onClick)="addSampleAnalysisList()" [icon]="'pi pi-plus'" [rounded]="true" />
+        <p-button
+          (onClick)="addSampleAnalysisList()"
+          [icon]="'pi pi-plus'"
+          [rounded]="true"
+        />
       </div>
-      @for (item of listAnalyses; track item) {
-        <div>
-          <div class="mr-3">
-            Type de test: 
-            <span class="font-bold">
-              {{item.typeTest}}
-            </span>
-          </div>
-          <div>
-            Maladie à tester: 
-            <span class="font-bold">
-              {{item.diseaseToTest}}
-            </span>
-          </div>
-          <div>
-            Resultat: 
-            <span class="font-bold">
-              @if (item.hasResult) {
-                {{item.resultValue}}
-              } @else {
-                Aucun résultat renseigné
-              }
-            </span>
-          </div>
-          <div class="flex align-items-center gap-2 justify-content-end">
-            <span class="underline cursor-pointer" (click)="editSampleAnalysis(item, $index)">
-              Editer
-            </span>
-            <span class="underline cursor-pointer" (click)="confirm($event, item, $index)">
-              Supprimer
-            </span>
-            <p-confirmPopup #confirmPopupRef>
-              <ng-template pTemplate="headless" let-message let-test>
-                  <div class="border-round p-3">
-                      <span>{{ message.message }}</span>
-                      <div class="flex align-items-center gap-2 mt-3">
-                          <p-button (click)="accept()" label="OUI" size="small" />
-                          <p-button (click)="reject()" label="NON" [outlined]="true" size="small" />
-                      </div>
-                  </div>
-              </ng-template>
-          </p-confirmPopup>
-          </div>
+      @for (item of sampleDetailsForm.get('analyses')?.value; track item) {
+      <div>
+        <div class="mr-3">
+          Type de test:
+          <span class="font-bold">
+            {{ item.typeTest }}
+          </span>
         </div>
-        @if (listAnalyses.length - 1 !== $index) {
-          <p-divider [align]="'center'"/>
-        }
-      } @empty {
-        <div>Aucune Analyses à faire</div>
+        <div>
+          Maladie à tester:
+          <span class="font-bold">
+            {{ item.diseaseToTest }}
+          </span>
+        </div>
+        <div>
+          Resultat:
+          <span class="font-bold">
+            @if (item.hasResult) {
+            {{ item.resultValue }}
+            } @else { Aucun résultat renseigné }
+          </span>
+        </div>
+        <div class="flex align-items-center gap-2 justify-content-end">
+          <span
+            class="underline cursor-pointer"
+            (click)="editSampleAnalysis(item, $index)"
+          >
+            Editer
+          </span>
+          <span
+            class="underline cursor-pointer"
+            (click)="confirm($event, item, $index)"
+          >
+            Supprimer
+          </span>
+          <p-confirmPopup #confirmPopupRef>
+            <ng-template pTemplate="headless" let-message let-test>
+              <div class="border-round p-3">
+                <span>{{ message.message }}</span>
+                <div class="flex align-items-center gap-2 mt-3">
+                  <p-button (click)="accept()" label="OUI" size="small" />
+                  <p-button
+                    (click)="reject()"
+                    label="NON"
+                    [outlined]="true"
+                    size="small"
+                  />
+                </div>
+              </div>
+            </ng-template>
+          </p-confirmPopup>
+        </div>
+      </div>
+      @if (listAnalyses.length - 1 !== $index) {
+      <p-divider [align]="'center'" />
+      } } @empty {
+      <div>Aucune Analyses à faire</div>
       }
     </div>
     <div class="flex flex-column justify-content-between overflow-y-auto card">
       <div class="header mb-3 flex justify-content-between align-items-center">
         <span class="text-700 font-bold"> Reception </span>
-        <p-button (onClick)="setSampleRegistrationInfos()" icon="pi pi-plus" [rounded]="true" />
+        <p-button
+          (onClick)="setSampleRegistrationInfos()"
+          icon="pi pi-plus"
+          [rounded]="true"
+        />
       </div>
       <div>Pas encore receptionné</div>
     </div>
     <div class="flex flex-column justify-content-between overflow-y-auto card">
       <div class="header mb-3 flex justify-content-between align-items-center">
-        <span class="text-700 font-bold"> Affection </span>
+        <span class="text-700 font-bold"> Affectation </span>
         <p-button icon="pi pi-pencil" [rounded]="true" />
       </div>
       <div>Pas encore receptionné</div>

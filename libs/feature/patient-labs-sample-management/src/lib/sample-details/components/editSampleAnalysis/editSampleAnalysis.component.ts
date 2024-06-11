@@ -7,7 +7,8 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { AnalysisType, resultType } from '../addTestToSample/addTestToSample.component';
+import { resultType } from '../addTestToSample/addTestToSample.component';
+import { AnalysisType } from '@ddsi-labs-apps/models';
 
 @Component({
   selector: 'ddsi-labs-apps-edit-sample-analysis',

@@ -9,11 +9,24 @@
   ></button>
   <div class="card">
     <div class="flex flex-wrap justify-content-between">
-      <span class="text-700 md:col-3 col-12">
-        Détails sur l'échantillon
-        <span class="font-bold">
-          {{ idSample }}
+      <span
+        class="text-700 md:col-6 col-12 flex align-items-center gap-3 justify-content-between flex-wrap"
+      >
+        <span>
+          Détails sur l'échantillon
+          <span class="font-bold">
+            {{ idSample }}
+          </span>
         </span>
+        <div class="flex justify-content-end align-items-center">
+          Status :
+          <p-button
+            label="Pas encore reçu"
+            styleClass="ml-2 text-2xl"
+            [raised]="true"
+            severity="success"
+          />
+        </div>
       </span>
       <p-selectButton
         [options]="stateOptions"
@@ -25,9 +38,11 @@
     </div>
     <div class="pageContent">
       @if (value === 'sample') {
-      <ddsi-labs-apps-sample-details-content></ddsi-labs-apps-sample-details-content>
-      } @else {
+      <ddsi-labs-apps-sample-details-content [(sampleDetails)]="sampleDetails" (sampleDetailsChange)="saveToStorage($event)"></ddsi-labs-apps-sample-details-content>
+      } @else if(value === 'patient') {
       <ddsi-labs-apps-patient-details-content></ddsi-labs-apps-patient-details-content>
+      } @else if(value === 'case') {
+      <ddsi-labs-apps-case-details-content></ddsi-labs-apps-case-details-content>
       }
     </div>
   </div>
