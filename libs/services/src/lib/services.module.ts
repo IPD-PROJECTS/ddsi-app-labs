@@ -18,6 +18,7 @@ export * from '../lib/services/sample-management-services/sample-management/samp
 
 export * from '../lib/interceptor/auth/auth.interceptor'
 export * from '../lib/interceptor/error/error.interceptor'
+export * from '../lib/interceptor/timeOutRequest/time-out.interceptor'
 
 export * from '../lib/guard/authenticated/authenticated.guard'
 export * from '../lib/guard/login/already-logged-in.guard'

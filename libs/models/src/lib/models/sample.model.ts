@@ -1,3 +1,4 @@
+import { CaseDetails } from "./case-details.model"
 import { AnalysisType } from "./sample-analysis.model"
 
 export interface Sample {
@@ -11,5 +12,6 @@ export interface Sample {
     sampleContext: string,
     registeredBy: string,
     registrationDate: string,
-    analyses: AnalysisType[]
+    analyses: AnalysisType[],
+    caseDetails?: CaseDetails
   }

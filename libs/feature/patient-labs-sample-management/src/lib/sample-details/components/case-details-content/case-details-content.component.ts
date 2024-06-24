@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TabViewModule } from 'primeng/tabview';
+import { CaseDetails, Sample } from '@ddsi-labs-apps/models';
 
 @Component({
   selector: 'ddsi-labs-apps-case-details-content',
@@ -17,7 +18,7 @@ import { TabViewModule } from 'primeng/tabview';
   templateUrl: './case-details-content.component.html',
   styleUrl: './case-details-content.component.scss',
 })
-export class CaseDetailsContentComponent {
+export class CaseDetailsContentComponent implements OnInit {
   caseDetailsForm: FormGroup = new FormGroup({});
   date = new Date();
   listeSexes = [{label: 'Masculin', value: 'M'}, {label: 'Féminin', value: 'F'}];
@@ -206,29 +207,35 @@ export class CaseDetailsContentComponent {
   listAnswerSymptomes: string[] = ['Oui', 'Non', 'Inconnu'];
   filteredListDistrict: {label: string, code: string}[] = []
   filteredListAgentSurveillance: {label: string, code: string}[] = []
+  @Input() sampleDetails?: Sample;
+  @Output() sampleDetailsChange = new EventEmitter<Sample>();
   constructor(private fb: FormBuilder){
-    this.caseDetailsForm = fb.group({
-      id:[],
-      epidNumber:[],
-      registrationDate: [],
-      caseInfos: fb.group({
-        classification:[],
-        disease:[],
-        quarantaineStatus:[],
-        adresse:[],
-        healthDistrict:[],
-        surveillanceAgent:[{ label: 'Abdoulaye Gueye', code: 'ext_gueye' }]
+       
+  }
+  ngOnInit(): void {
+    console.log('sampleDetails on Case', this.sampleDetails);
+    this.caseDetailsForm = this.fb.group({
+      id:[this.sampleDetails?.caseDetails?.id],
+      epidNumber:[this.sampleDetails?.caseDetails?.epidNumber],
+      registrationDate: [this.sampleDetails?.caseDetails?.registrationDate ? new Date(this.sampleDetails?.caseDetails?.registrationDate) : undefined],
+      caseInfos: this.fb.group({
+        classification:[this.sampleDetails?.caseDetails?.caseInfos.classification],
+        disease:[this.sampleDetails?.caseDetails?.caseInfos.disease],
+        quarantaineStatus:[this.sampleDetails?.caseDetails?.caseInfos.quarantaineStatus],
+        adresse:[this.sampleDetails?.caseDetails?.caseInfos.adresse],
+        healthDistrict:[this.sampleDetails?.caseDetails?.caseInfos.healthDistrict],
+        surveillanceAgent:[this.sampleDetails?.caseDetails?.caseInfos.surveillanceAgent || { label: 'Abdoulaye Gueye', code: 'ext_gueye' }]
       }),
-      caseInvestigation: fb.group({
-        selectedSymptomes:[],
-        symptomesDetails:fb.array([]),
-        comments:[]
+      caseInvestigation: this.fb.group({
+        selectedSymptomes:[this.sampleDetails?.caseDetails?.caseInvestigation?.selectedSymptomes],
+        symptomesDetails: [this.sampleDetails?.caseDetails?.caseInvestigation?.symptomesDetails],
+        comments:[this.sampleDetails?.caseDetails?.caseInvestigation?.comments]
       }),
-      history: fb.group({
-        selectedMedicalIssues:[],
-        medicalIssuesDetails:fb.array([]),
+      history: this.fb.group({
+        selectedMedicalIssues:[this.sampleDetails?.caseDetails?.history?.selectedMedicalIssues],
+        medicalIssuesDetails:[this.sampleDetails?.caseDetails?.history?.medicalIssuesDetails],
       }),
-    })
+    }) 
   }
   filter(event: any) {
     const query = event?.query;
@@ -238,30 +245,40 @@ export class CaseDetailsContentComponent {
     const query = event?.query;
     this.filteredListAgentSurveillance = this.listSurveillanceAgent.filter((elt) => elt.label.toLowerCase().indexOf(query.toLowerCase()) >= 0);
   }
-  setSelectedSymptomes(event: any) {    
-    const list: string[] = event?.value;
+  setSelectedSymptomesDetails(event: any) {    
+    const list: string[] = this.caseDetailsForm.get('caseInvestigation')?.get('selectedSymptomes')?.value;
     const isAdding = !!event?.originalEvent;
+    console.log('list', list);
+    console.log('isAdding', isAdding);
+    console.log('isAdding', event);
+    
     if(isAdding) {
-      for (const item of list) {
-        this.symptomesDetails.push({fieldLabel: item, fieldValue: 'Oui'});
-      }
-    } else {
+        this.symptomesDetails = list.map((val) => {
+          return {fieldLabel: val, fieldValue: 'Oui'}
+        });
+      
+    } else {      
       this.symptomesDetails = this.symptomesDetails.filter((elt) => elt.fieldValue !== event?.itemValue)
-    }
-    this.caseDetailsForm.get('caseInvestigation')?.get('selectedSymptomes')?.patchValue(this.symptomesDetails);
+    }    
+    this.caseDetailsForm.get('caseInvestigation')?.get('symptomesDetails')?.patchValue(this.symptomesDetails);    
     this.caseDetailsForm.markAsDirty();
   }
   setListAntecedentsMedicaux(event: any) {    
-    const list: string[] = event?.value;
+    const list: string[] = this.caseDetailsForm.get('history')?.get('selectedMedicalIssues')?.value;
     const isAdding = !!event?.originalEvent;
+    console.log('isAddingisAdding', isAdding);
+    
     if(isAdding) {
-      for (const item of list) {
-        this.antecedentsMedicauxDetails.push({fieldLabel: item, fieldValue: 'Oui'})
-      }
+      this.antecedentsMedicauxDetails = list.map((item) => {
+        return {fieldLabel: item, fieldValue: 'Oui'}
+      })
+      
     } else {
       this.antecedentsMedicauxDetails = this.antecedentsMedicauxDetails.filter((elt) => elt.fieldValue !== event?.itemValue)
     }
-    this.caseDetailsForm.get('history')?.get('selectedMedicalIssues')?.patchValue(this.antecedentsMedicauxDetails);
+    console.log('this.antecedentsMedicauxDetailsthis.antecedentsMedicauxDetails', this.antecedentsMedicauxDetails);
+    
+    this.caseDetailsForm.get('history')?.get('medicalIssuesDetails')?.patchValue(this.antecedentsMedicauxDetails);
     this.caseDetailsForm.markAsDirty();
   }
 
@@ -269,8 +286,13 @@ export class CaseDetailsContentComponent {
     console.log('form', this.caseDetailsForm);
 
     if(this.caseDetailsForm.dirty) {
-      console.log('update');
-      
+      console.log('update', this.caseDetailsForm.value);
+      const caseDetails: CaseDetails = this.caseDetailsForm.getRawValue();
+      if(!caseDetails.id) caseDetails.id = new Date().getTime().toString();
+      if(this.sampleDetails) {
+        this.sampleDetails.caseDetails = caseDetails;
+        this.sampleDetailsChange.emit(this.sampleDetails)
+      }
     } else {
       console.log('not dirty');
       

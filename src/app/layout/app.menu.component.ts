@@ -30,12 +30,6 @@ export class AppMenuComponent implements OnInit {
             routerLink: ['/apps/plates'],
           },
           {
-            label: 'Gestion des Patients',
-            icon: 'fa-solid fa-user',
-            routerLink: ['/apps/plates/patients/list'],
-
-          },
-          {
             label: 'Gestion des Plaques',
             icon: 'fa-solid fa-magnifying-glass-chart',
             routerLink:[ '/apps/plates/plate-plan/list'],
@@ -44,17 +38,11 @@ export class AppMenuComponent implements OnInit {
             label: 'Gestion des types de plaques',
             icon: 'fa-solid fa-magnifying-glass-chart',
             routerLink:[ '/apps/plates/list-plate-type'],
-          },
-          {
-            label: 'Gestion des Utilisateurs',
-            icon: 'fa-solid fa-user-nurse',
-            target: '_blank',
-            url:`${this.baseUrl}/adm`
           }
         ],
       },
       {
-        label: 'Espace Echantillons',
+        label: 'Espace Prélèvements',
         icon: 'fa-solid fa-vial',
         items: [
           {
@@ -75,7 +63,29 @@ export class AppMenuComponent implements OnInit {
           }
         ],
       },
+      {
+        label: 'Espace Patients',
+        icon: 'fa-solid fa-hospital-user',
+        items: [
+          {
+            label: 'Dashboard',
+            icon: 'pi pi-home',
+            routerLink: ['/apps/patients'],
+          },
+          {
+            label: 'Gestion des Patients',
+            icon: 'fa-solid fa-user',
+            routerLink: ['/apps/patients/list'],
 
+          }
+        ],
+      },
+      {
+        label: 'Espace Administration',
+        icon: 'fa-solid fa-user-nurse',
+        target: '_blank',
+        url:`${this.baseUrl}/adm`
+      },
     ];
   }
 }

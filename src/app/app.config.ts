@@ -5,12 +5,13 @@ import {
 } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { AuthInterceptor, ErrorInterceptor } from '@ddsi-labs-apps/services';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
+import { AuthInterceptor, ErrorInterceptor, timeOutInterceptor } from '@ddsi-labs-apps/services';
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(appRoutes, withEnabledBlockingInitialNavigation()), importProvidersFrom([BrowserAnimationsModule]),
   provideHttpClient(
-    withInterceptorsFromDi()
+    withInterceptorsFromDi(),
+    withInterceptors([timeOutInterceptor])
   ),
   {
     provide: HTTP_INTERCEPTORS,

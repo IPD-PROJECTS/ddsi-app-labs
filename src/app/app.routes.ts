@@ -16,6 +16,9 @@ export const appRoutes: Route[] = [
                 path: 'plates', data: { breadcrumb: 'Plaques' } , loadChildren: () => import('@ddsi-labs-apps/plate-management').then(m => m.PlateManagementModule)
             },
             {
+                path: 'patients', data: { breadcrumb: 'Patients' } , loadChildren: () => import('@ddsi-labs-apps/patients-management').then(m => m.PatientsManagementModule)
+            },
+            {
                 path: 'labs-samples', data: {breadcrumb: 'Echantillons'}, loadChildren: () => import('@ddsi-labs-apps/patient-labs-sample-management').then(m => m.PatientLabsSampleManagementModule)
             }
         ],
