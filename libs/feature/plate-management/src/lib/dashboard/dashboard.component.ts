@@ -5,14 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { ChartModule } from 'primeng/chart';
 import { DropdownModule } from 'primeng/dropdown';
 import { Subscription } from 'rxjs';
-import { AppRunningConfigService, LayoutService, PlateStatsService } from '@ddsi-labs-apps/services';
+import { LayoutService, NotificationService, PlateStatsService } from '@ddsi-labs-apps/services';
 import { DashboardStatesModel } from '@ddsi-labs-apps/models';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { NotificationSeverity } from '@ddsi-labs-apps/enums';
 @Component({
   selector: 'ddsi-labs-apps-dashboard',
   standalone: true,
   imports: [CommonModule, KnobModule, FormsModule, ChartModule,DropdownModule, ProgressSpinnerModule],
-  providers:[AppRunningConfigService],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     dashboardStats?: DashboardStatesModel;
     loadingStats = false;
-    constructor(private layoutService: LayoutService, private appStats: PlateStatsService) {
+    constructor(private layoutService: LayoutService, private appStats: PlateStatsService, private notifService: NotificationService) {
       this.weeks = [{
         label: 'Semaine Passée',
         value: 0,
@@ -69,6 +69,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.knobValue = Math.ceil(((this.dashboardStats.results.plates_count - this.dashboardStats.results.plates_without_result_file) / this.dashboardStats.results.plates_count) * 100)
             },
             error: () => {
+                this.notifService.displayNotification(NotificationSeverity.ERROR, 'Erreur sur la requête', "Une erreur est survenue lors de la requête")
                 this.loadingStats = false;
             }
         })

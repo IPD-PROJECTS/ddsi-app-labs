@@ -12,6 +12,7 @@ export * from '../lib/models/stats.model'
 export * from '../lib/models/plate-type-test.model'
 export * from '../lib/models/sample.model'
 export * from '../lib/models/sample-analysis.model'
+export * from '../lib/models/case-details.model'
 @NgModule({
   imports: [CommonModule],
 })

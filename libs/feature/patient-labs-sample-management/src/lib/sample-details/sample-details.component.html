@@ -42,7 +42,7 @@
       } @else if(value === 'patient') {
       <ddsi-labs-apps-patient-details-content></ddsi-labs-apps-patient-details-content>
       } @else if(value === 'case') {
-      <ddsi-labs-apps-case-details-content></ddsi-labs-apps-case-details-content>
+      <ddsi-labs-apps-case-details-content [(sampleDetails)]="sampleDetails" (sampleDetailsChange)="saveToStorage($event)"></ddsi-labs-apps-case-details-content>
       }
     </div>
   </div>

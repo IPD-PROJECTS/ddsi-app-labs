@@ -21,7 +21,7 @@ export type selectionChoice = 'case' | 'patient' | 'sample';
   styleUrl: './sample-details.component.scss',
 })
 export class SampleDetailsComponent {
-  stateOptions: {label: string, value: selectionChoice}[] = [{ label: 'Echantillon', value: 'sample' }, { label: 'Case', value: 'case' }, { label: 'Patient', value: 'patient' }];
+  stateOptions: {label: string, value: selectionChoice}[] = [{ label: 'Echantillon', value: 'sample' }, { label: 'Cas', value: 'case' }, { label: 'Patient', value: 'patient' }];
 
   value: selectionChoice = 'sample';
   idSample: string | undefined;
@@ -41,6 +41,10 @@ export class SampleDetailsComponent {
       console.log('sampleDetails Parent', this.sampleDetails);
       
     }
+  }
+  check(event: Sample | undefined) {
+    console.log('eventevent', event);
+    
   }
 
   saveToStorage(event: Sample | undefined) {

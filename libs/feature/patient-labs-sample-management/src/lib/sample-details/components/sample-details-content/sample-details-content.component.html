@@ -68,7 +68,7 @@
           </div>
           <div class="field md:col-4 col-12">
             <label htmlFor="email2">Rapporté par</label>
-            <span> Infirmier Sarr 0911 </span>
+            <span> Sentinelle Agent </span>
           </div>
         </div>
       </div>
@@ -79,7 +79,6 @@
           class="p-button-primary p-button-outlined border-round md:col-3 col-12"
           label="Ignorer les modifications"
           icon="pi pi-fw pi-times"
-          type="reset"
         ></button>
         <button
           pButton
@@ -93,6 +92,17 @@
     </form>
   </div>
   <div class="sample-details-right flex flex-column gap-3 md:w-3">
+    <div class="flex flex-column justify-content-between overflow-y-auto card">
+      <div class="header mb-3 flex justify-content-between align-items-center">
+        <span class="text-700 font-bold"> Reception </span>
+        <p-button
+          (onClick)="setSampleRegistrationInfos()"
+          icon="pi pi-plus"
+          [rounded]="true"
+        />
+      </div>
+      <div>Pas encore receptionné</div>
+    </div>
     <div class="flex flex-column justify-content-between overflow-y-auto card">
       <div class="header mb-3 flex justify-content-between align-items-center">
         <span class="text-700 font-bold"> Analyses </span>
@@ -160,17 +170,6 @@
       } } @empty {
       <div>Aucune Analyses à faire</div>
       }
-    </div>
-    <div class="flex flex-column justify-content-between overflow-y-auto card">
-      <div class="header mb-3 flex justify-content-between align-items-center">
-        <span class="text-700 font-bold"> Reception </span>
-        <p-button
-          (onClick)="setSampleRegistrationInfos()"
-          icon="pi pi-plus"
-          [rounded]="true"
-        />
-      </div>
-      <div>Pas encore receptionné</div>
     </div>
     <div class="flex flex-column justify-content-between overflow-y-auto card">
       <div class="header mb-3 flex justify-content-between align-items-center">

@@ -1,210 +1,240 @@
 <div class="content flex md:flex-row flex-column gap-3 mt-4">
-    <div class="section-details-left md:w-9 border-round">
-      <form [formGroup]="caseDetailsForm" (ngSubmit)="onSubmit()">
-        <div class="p-fluid">
-          <div class="p-formgrid grid">
-            <div class="field md:col-4 col-12">
-              <label htmlFor="name2">ID du Cas</label>
-              <input pInputText id="name2" readonly formControlName="id" type="text" />
-            </div>
-            <div class="field md:col-4 col-12">
-              <label htmlFor="email2">Numéro EPID</label>
-              <input pInputText id="email2" formControlName="epidNumber" type="text" />
-            </div>
-            <div class="field md:col-4 col-12">
-              <label htmlFor="email2">Date d'enregistrement du Cas</label>
-              <p-calendar [showTime]="true" formControlName="registrationDate" />
+  <div class="section-details-left md:w-9 border-round">
+    <form [formGroup]="caseDetailsForm" (ngSubmit)="onSubmit()">
+      <div class="p-fluid">
+        <div class="p-formgrid grid">
+          @if (sampleDetails?.caseDetails?.registrationDate) {
+          <div class="field md:col-4 col-12">
+            <label htmlFor="name2">ID du Cas</label>
+            <input
+              pInputText
+              id="name2"
+              readonly
+              formControlName="id"
+              type="text"
+            />
+          </div>
+          }
+          <div class="field md:col-4 col-12">
+            <label htmlFor="email2">Numéro EPID</label>
+            <input
+              pInputText
+              id="email2"
+              formControlName="epidNumber"
+              type="text"
+            />
+          </div>
+          @if (sampleDetails?.caseDetails?.registrationDate) {
+          <div class="field md:col-4 col-12">
+            <label htmlFor="email2">Date d'enregistrement du Cas</label>
+            <div class="p-3">
+              {{
+                sampleDetails?.caseDetails?.registrationDate
+                  | date : 'dd/MM/YYYY à hh:mm'
+              }}
             </div>
           </div>
+          }
         </div>
-        <div class="p-fluid">
-          <p-tabView>
-            <p-tabPanel header="Informations générales sur le cas">
-              <div formGroupName="caseInfos" class="p-formgrid grid">
-                <div class="field md:col-6 col-12">
-                  <label htmlFor="name2">Classification</label>
-                  <p-dropdown
-                    [options]="caseStatuses"
-                    [checkmark]="true"
-                    [showClear]="true"
-                    formControlName="classification"
-                    placeholder="Choisir le statut du cas"
-                  />
-                </div>
-                <div class="field md:col-3 col-12">
-                  <label htmlFor="name2">Maladie</label>
-                  <p-dropdown
-                    [options]="listDiseases"
-                    formControlName="disease"
-                    [checkmark]="true"
-                    [showClear]="true"
-                    placeholder="Maladie"
-                  />
-                </div>
-                <div class="field md:col-3 col-12">
-                  <label htmlFor="name2">Quarantaine</label>
-                  <p-dropdown
-                    [options]="listQuarantaine"
-                    formControlName="quarantaineStatus"
-                    [checkmark]="true"
-                    [showClear]="true"
-                    placeholder="Quarantaine"
-                  />
-                </div>
-                
-              </div>
-              <div formGroupName="caseInfos" class="p-formgrid grid">
-                <span class="col-12 text-700 underline my-3">
-                  Localisation
-                </span>
-                <div class="field md:col-5 col-12">
-                  <label htmlFor="email2">Adresse complète</label>
-                  <input pInputText id="email2" formControlName="adresse" type="text" />
-                </div>
-                <div class="field md:col-4 col-12">
-                  <label htmlFor="email2">District Sanitaire</label>
-                  <p-autoComplete
-                    formControlName="healthDistrict"
-                    [suggestions]="filteredListDistrict"
-                    (completeMethod)="filter($event)"
-                    field="label"
-                    [dropdown]="true"
-                    [showClear]="true"
-                  />
-                </div>
-                <div class="field md:col-4 col-12">
-                  <label htmlFor="email2">Agent de surveillance</label>
-                  <p-autoComplete
-                    formControlName="surveillanceAgent"
-                    [suggestions]="filteredListAgentSurveillance"
-                    (completeMethod)="filterAgent($event)"
-                    field="label"
-                    [dropdown]="true"
-                    [showClear]="true"
-                  />
-                </div>
-              </div>
-            </p-tabPanel>
-            <p-tabPanel header="Investigations">
-              <div formGroupName="caseInvestigation" class="p-formgrid grid">
-                <div class="field col-8">
-                  <label htmlFor="email2">Symptômes identifiés</label>
-                  <p-multiSelect
-                    [options]="listSymptomes"
-                    [group]="true"
-                    formControlName="selectedSymptomes"
-                    placeholder="Selectionner les symptômes"
-                    scrollHeight="250px"
-                    display="chip"
-                    [maxSelectedLabels]="100"
-                    (onChange)="setSelectedSymptomes($event)"
-                  ></p-multiSelect>
-                </div>
-                @if (caseDetailsForm.get('caseInvestigation')?.get('selectedSymptomes')?.value?.length) {
-                    <div class="field col-12">
-                      <label htmlFor="email2"
-                        >Détails sur les symptômes identifiés</label
-                      >
-                      <div  class="p-formgrid grid">
-                        @for (item of caseDetailsForm.get('caseInvestigation')?.get('selectedSymptomes')?.value; track $index) {
-                        <div class="field md:col-4 col-12">
-                          <label htmlFor="email2" class="font-normal">
-                            {{ item }}
-                          </label>
-                          <p-dropdown
-                            [options]="listAnswerSymptomes"
-                            [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="caseDetailsForm.get('caseInvestigation')?.get('selectedSymptomes')?.value[$index].fieldValue"
-                            [checkmark]="true"
-                            [showClear]="true"
-                            placeholder="Choisir"
-                          />
-                        </div>
-                        }
-                      </div>
-                    </div>
-  
-                }
-                <div class="field col-6">
-                  <label htmlFor="email2">Commentaires</label>
-                  <textarea rows="3" cols="20" pInputTextarea></textarea>
-                </div>
-              </div>
-            </p-tabPanel>
-            <p-tabPanel header="Antécédents Médicaux">
-              <div formGroupName="history" class="p-formgrid grid">
-                  <div class="field col-8">
-                      <label htmlFor="email2">Antécédents Médicaux</label>
-                      <p-multiSelect
-                        [options]="listAntecedentsMedicaux"
-                        formControlName="selectedMedicalIssues"
-                        placeholder="Selectionner les antécedents médicaux"
-                        scrollHeight="250px"
-                        display="chip"
-                        [maxSelectedLabels]="100"
-                        (onChange)="setListAntecedentsMedicaux($event)"
-                      ></p-multiSelect>
-                    </div>
-                    @if (caseDetailsForm.get('history')?.get('selectedMedicalIssues')?.value?.length) {
-                      <div class="field col-12">
-                        <label htmlFor="email2"
-                          >Détails sur les antécédents médicaux</label
-                        >
-                        <div class="p-formgrid grid">
-                          @for (item of caseDetailsForm.get('history')?.get('selectedMedicalIssues')?.value; track $index) {
-                          <div class="field md:col-4 col-12">
-                            <label htmlFor="email2" class="font-normal">
-                              {{ item }}
-                            </label>
-                            <p-dropdown
-                              [options]="listAnswerSymptomes"
-                              [(ngModel)]="caseDetailsForm.get('history')?.get('selectedMedicalIssues')?.value[$index].fieldValue"
-                              [ngModelOptions]="{standalone: true}"
-                              [checkmark]="true"
-                              [showClear]="true"
-                              [filter]="true"
-                              placeholder="Choisir"
-                            />
-                          </div>
-                          }
-                        </div>
-                      </div>
-    
-                  }
-              </div>
-            </p-tabPanel>
-          </p-tabView>
-          
+        <div formGroupName="caseInfos" class="p-formgrid grid">
+          <div class="field md:col-6 col-12">
+            <label htmlFor="name2">Classification</label>
+            <p-dropdown
+              [options]="caseStatuses"
+              [checkmark]="true"
+              [showClear]="true"
+              formControlName="classification"
+              placeholder="Choisir le statut du cas"
+            />
+          </div>
+          <div class="field md:col-3 col-12">
+            <label htmlFor="name2">Maladie</label>
+            <p-dropdown
+              [options]="listDiseases"
+              formControlName="disease"
+              [checkmark]="true"
+              [showClear]="true"
+              placeholder="Maladie"
+            />
+          </div>
+          <div class="field md:col-3 col-12">
+            <label htmlFor="name2">Quarantaine</label>
+            <p-dropdown
+              [options]="listQuarantaine"
+              formControlName="quarantaineStatus"
+              [checkmark]="true"
+              [showClear]="true"
+              placeholder="Quarantaine"
+            />
+          </div>
         </div>
-        <div class="p-formgrid grid gap-3">
-          <button
-            pButton
-            pRipple
-            class="p-button-primary p-button-outlined border-round md:col-3 col-12"
-            label="Ignorer les modifications"
-            icon="pi pi-fw pi-times"
-            type="reset"
-          ></button>
-          <button
-            pButton
-            pRipple
-            class="p-button-success md:col-3 col-12"
-            label="Sauvegarder"
-            icon="pi pi-check"
-            type="submit"
-          ></button>
-        </div>
-
-      </form>
-    </div>
-    <div class="section-details-right flex flex-column gap-3 md:w-3">
-      <div class="flex flex-column justify-content-between overflow-y-auto card">
-        <div class="header mb-3 flex justify-content-between align-items-center">
-          <span class="text-700 font-bold"> Echantillons </span>
-          <p-button icon="pi pi-plus" [rounded]="true" />
-        </div>
-        <div>Aucun echantillon n'a été trouvé</div>
       </div>
+      <div class="p-fluid">
+        <p-tabView>
+          <p-tabPanel header="Localisation">
+            <div formGroupName="caseInfos" class="p-formgrid grid">
+              <div class="field md:col-5 col-12">
+                <label htmlFor="email2">Adresse complète</label>
+                <input
+                  pInputText
+                  id="email2"
+                  formControlName="adresse"
+                  type="text"
+                />
+              </div>
+              <div class="field md:col-4 col-12">
+                <label htmlFor="email2">District Sanitaire</label>
+                <p-autoComplete
+                  formControlName="healthDistrict"
+                  [suggestions]="filteredListDistrict"
+                  (completeMethod)="filter($event)"
+                  field="label"
+                  [dropdown]="true"
+                  [showClear]="true"
+                />
+              </div>
+              <div class="field md:col-4 col-12">
+                <label htmlFor="email2">Agent de surveillance</label>
+                <p-autoComplete
+                  formControlName="surveillanceAgent"
+                  [suggestions]="filteredListAgentSurveillance"
+                  (completeMethod)="filterAgent($event)"
+                  field="label"
+                  [dropdown]="true"
+                  [showClear]="true"
+                />
+              </div>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel header="Investigations">
+            <div formGroupName="caseInvestigation" class="p-formgrid grid">
+              <div class="field col-8">
+                <label htmlFor="email2">Symptômes identifiés</label>
+                <p-multiSelect
+                  [options]="listSymptomes"
+                  [group]="true"
+                  formControlName="selectedSymptomes"
+                  placeholder="Selectionner les symptômes"
+                  scrollHeight="250px"
+                  display="chip"
+                  [maxSelectedLabels]="100"
+                  (onChange)="setSelectedSymptomesDetails($event)"
+                ></p-multiSelect>
+              </div>
+              @if
+              (caseDetailsForm.get('caseInvestigation')?.get('selectedSymptomes')?.value?.length)
+              {
+              <div class="field col-12">
+                <label htmlFor="email2"
+                  >Détails sur les symptômes identifiés</label
+                >
+                <div class="p-formgrid grid">
+                  @for (item of
+                  caseDetailsForm.get('caseInvestigation')?.get('symptomesDetails')?.value;
+                  track $index) {
+                  <div class="field md:col-4 col-12">
+                    <label htmlFor="email2" class="font-normal">
+                      {{ item.fieldLabel }}
+                    </label>
+                    <p-dropdown
+                      [options]="listAnswerSymptomes"
+                      [ngModelOptions]="{ standalone: true }"
+                      [(ngModel)]="item.fieldValue"
+                      [checkmark]="true"
+                      [showClear]="true"
+                      placeholder="Choisir"
+                    />
+                  </div>
+                  }
+                </div>
+              </div>
+
+              }
+              <div class="field col-6">
+                <label htmlFor="email2">Commentaires</label>
+                <textarea
+                  rows="3"
+                  cols="20"
+                  formControlName="comments"
+                  pInputTextarea
+                ></textarea>
+              </div>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel header="Antécédents Médicaux">
+            <div formGroupName="history" class="p-formgrid grid">
+              <div class="field col-8">
+                <label htmlFor="email2">Antécédents Médicaux</label>
+                <p-multiSelect
+                  [options]="listAntecedentsMedicaux"
+                  formControlName="selectedMedicalIssues"
+                  placeholder="Selectionner les antécedents médicaux"
+                  scrollHeight="250px"
+                  display="chip"
+                  [maxSelectedLabels]="100"
+                  (onChange)="setListAntecedentsMedicaux($event)"
+                ></p-multiSelect>
+              </div>
+              @if
+              (caseDetailsForm.get('history')?.get('selectedMedicalIssues')?.value?.length)
+              {
+              <div class="field col-12">
+                <label htmlFor="email2"
+                  >Détails sur les antécédents médicaux</label
+                >
+                <div class="p-formgrid grid">
+                  @for (item of
+                  caseDetailsForm.get('history')?.get('medicalIssuesDetails')?.value;
+                  track $index) {
+                  <div class="field md:col-4 col-12">
+                    <label htmlFor="email2" class="font-normal">
+                      {{ item.fieldLabel }}
+                    </label>
+                    <p-dropdown
+                      [options]="listAnswerSymptomes"
+                      [(ngModel)]="item.fieldValue"
+                      [ngModelOptions]="{ standalone: true }"
+                      [checkmark]="true"
+                      [showClear]="true"
+                      [filter]="true"
+                      placeholder="Choisir"
+                    />
+                  </div>
+                  }
+                </div>
+              </div>
+
+              }
+            </div>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+      <div class="p-formgrid grid gap-3">
+        <button
+          pButton
+          pRipple
+          class="p-button-primary p-button-outlined border-round md:col-3 col-12"
+          label="Ignorer les modifications"
+          icon="pi pi-fw pi-times"
+        ></button>
+        <button
+          pButton
+          pRipple
+          class="p-button-success md:col-3 col-12"
+          label="Sauvegarder"
+          icon="pi pi-check"
+          type="submit"
+        ></button>
+      </div>
+    </form>
+  </div>
+  <div class="section-details-right flex flex-column gap-3 md:w-3">
+    <div class="flex flex-column justify-content-between overflow-y-auto card">
+      <div class="header mb-3 flex justify-content-between align-items-center">
+        <span class="text-700 font-bold"> Echantillons </span>
+        <p-button icon="pi pi-plus" [rounded]="true" />
+      </div>
+      <div>Aucun echantillon n'a été trouvé</div>
     </div>
   </div>
-  
+</div>
